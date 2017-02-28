@@ -1,0 +1,208 @@
+\newpage
+\section{Arboles}
+
+Un \emph{\'arbol} es un grafo conexo sin circuitos simples. Dado $G=(V,X)$ las siguientes afirmaciones son equivalentes:
+
+\begin{enumerate}
+\item $G$ es un \'arbol.
+\item $G$ es un grafo sin circuitos simples, pero si se le agrega una arista $e$ a $G$ tenemos un grafo con exactamente un circuito simple, y ese circuito contiene a $e$.
+\item Existe exactamente un camino simple entre todo par de nodos.
+\item $G$ es conexo, pero si se le quita una cualquier arista queda disconexo.
+\end{enumerate}
+
+Sea $G=(V,X)$ un grafo conexo y $e \in X$, $G-e$ es conexo si y s\'olo si $e$ pertenece a un circuito simple de $G$. Dentro de un \'arbol, definimos como \emph{hoja} a un nodo de grado 1. Todo \'arbol no trivial tiene al menos 2 hojas.
+
+\subsection{Propiedades de los \'arboles}
+
+\begin{itemize}
+\item Si $G$ un \'arbol, entonces $m=n-1$.
+\item Si $G = (V,X)$ con $c$ componentes conexas, entonces $m \geq n-c$.
+\item Si $G = (V,X)$ con $c$ componentes conexas y sin circuitos simples, entonces $m=n-c$.
+\end{itemize}
+
+\subsection{Arboles enraizados}
+
+En un \'arbol no dirigido podemos definir un nodo cualquiera como ra\'iz. El \emph{nivel} de un v\'ertice de un \'arbol es la distancia de ese v\'ertice a la raiz. La \emph{altura} $h$ de un \'arbol es la longitud desde la raiz hasta el v\'ertice m\'as lejano. 
+
+Un \'arbol se dice \emph{``$m$-ario''} (con $m \geq 2$) si todos sus v\'ertices salvo las hojas y la raiz tienen grado a lo sumo $m+1$ y la raiz a lo sumo $m$.
+
+Un \'arbol se dice \emph{``balanceado''} si todas sus hojas est\'an a nivel $h$ o $h-1$. Si todas est\'an a nivel $h$, se dice que es \emph{``balanceado completo''}.
+
+Los nodos \emph{``internos''} de un \'arbol son aquellos que no son hojas ni ra\'iz.
+
+\begin{itemize}
+\item Un \'arbol $m$-ario de altura $h$ tiene a lo sumo $m^h$ hojas. 
+\item Un \'arbol $m$-ario de altura $h \geq 1$ y balanceado completo tiene exactamente $m^h$ hojas.
+\item Un \'arbol $m$-ario con $l$ hojas tiene $h \geq \lceil log_{m}l \rceil$.
+\item Un \'arbol exactamente $m$-ario balanceado con $l$ hojas tiene $h = \lceil log_{m}l \rceil$.
+\end{itemize}
+
+\subsection{Recorrido de \'arboles}
+\subsubsection{DFS}
+
+\emph{``Depth First Search''} es un algoritmo de b\'usqueda en grafos. Lo que hace es arrancar desde un nodo $n$ cualquiera y fijarse si dicho nodo es el que estamos buscando. Si no lo es, marcarlo como visitado, pedir el listado de todos sus vecinos y llamarse recursivamente en cada uno de ellos, empezando por el m\'as chico hasta llegar al m\'as grande.
+\vspace{8px}
+
+\begin{center}
+\begin{minipage}{0.90\textwidth}
+\begin{lstlisting}[frame=lrtb]
+void DFS(Graph& g, int n, int m, bool* visited) {
+  cout << "DFS node: " << m << endl;
+  if(n == m) {
+    cout << "found!" << endl;
+    return;
+  }
+
+  visited[m] = true;
+  vector<int> neigh = g.getAdyacents(m);
+  for(int i = 0; i < neigh.size(); ++i) {
+    if(!visited[neigh[i]]) {
+      DFS(g, n, neigh[i], visited);
+    }
+  }
+}
+
+void DFS(Graph &g, int n) {
+  bool visited[g.n];
+  memset(visited, 0, sizeof(visited));
+  DFS(g, n, 0, visited);
+}
+\end{lstlisting}
+\end{minipage}
+\end{center}
+
+Es decir, cuando el algoritmo llega a una hoja, hace backtracking hasta el \'ultimo nodo revisado con hijos todav\'ia sin revisar. Es por eso que la complejidad temporal del mismo es $O(n)$. Tambi\'en se puede implementar de forma iterativa con una pila. Al igual que BFS, DFS s\'olo funciona en grafos conexos.
+
+\newpage
+\subsubsection{BFS}
+
+\emph{``Bradth First Search''} es muy similar a DFS pero, en lugar de realizar backtracking poniendo todos los vecinos de cada v\'ertice en un stack, pone a todos los vecinos de cada v\'ertice en una queue.
+\vspace{8px}
+
+\begin{center}
+\begin{minipage}{0.78\textwidth}
+\begin{lstlisting}[frame=lrtb]
+void BFS(Graph &g, int n) {
+  queue<int> q;
+  bool visited[g.n];
+  memset(visited, 0, sizeof(visited));
+  q.push(0);
+
+  while(!q.empty()) {
+    int t = q.front();
+    q.pop();
+
+    if(visited[t]) continue;
+    if(t == n) {
+      cout << "found!" << endl;
+      return;
+    }
+
+    visited[t] = 1;
+    vector<int> neigh = g.getAdyacents(t); 
+    for(int i = 0; i < neigh.size(); ++i) {
+      if(!visited[neigh[i]]) {
+        q.push(neigh[i]);
+      }
+    }
+  }
+
+}
+\end{lstlisting}
+\end{minipage}
+\end{center}
+
+Al igual que con DFS, BFS s\'olo tiene sentido en grafos conexos y tiene complejidad $O(n)$.
+
+\newpage
+\subsection{Arbol generador}
+
+Dado un grafo conexo $G$, un \emph{``\'arbol generador''} de $G$ es un subgrafo de $G$ que es un \'arbol y tiene el mismo conjunto de v\'ertices. Si los ejes del grafo tienen peso, entonces cada \'arbol generador va a tener una determinada \emph{``longitud''}, que se define como la suma de todos los pesos de sus ejes. Cuando dicha longitud es m\'inima, decimos que tenemos un \emph{``\'arbol generador m\'inimo''}.
+
+\raggedright
+  \bigskip
+  \begin{center}
+\begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm,
+   node_style/.style={circle},
+   edge_style/.style={draw=black},
+   edge_styly/.style={draw=green, ultra thick}]
+
+
+
+
+\node[vertex] (n2) at (3,4)  {B};
+\node[vertex] (n3) at (5,4)  {C};
+\node[vertex] (n4) at (7,4)  {D};
+
+\node[vertex] (n9) at (5,2)  {I};
+\node[vertex] (n1) at (1,2)  {A};
+\node[vertex] (n5) at (9,2)  {E};
+
+\node[vertex] (n6) at (7,0)  {F};
+\node[vertex] (n7) at (5,0)  {G};
+\node[vertex] (n8) at (3,0)  {H};
+    
+\draw[edge_styly]  (n1) edge node{4} (n2);
+\draw[edge_style]  (n1) edge node{8} (n8);
+\draw[edge_style]  (n2) edge node{12} (n8);
+\draw[edge_styly]  (n2) edge node{8} (n3);
+\draw[edge_style]  (n8) edge node{6} (n9);
+\draw[edge_styly]  (n8) edge node{1} (n7);
+\draw[edge_styly]  (n7) edge node{3} (n6);
+\draw[edge_style]  (n7) edge node{5} (n9);
+\draw[edge_styly]  (n9) edge node{3} (n3);
+\draw[edge_styly]  (n3) edge node{6} (n4);
+\draw[edge_styly]  (n3) edge node{4} (n6);
+\draw[edge_style]  (n4) edge node{13} (n6);
+\draw[edge_styly]  (n4) edge node{9} (n5);
+\draw[edge_style]  (n6) edge node{10} (n5);
+
+
+  %\draw(n1) -- (n2);
+  %\draw(n1) -- (n8);
+
+  %\draw(n2) -- (n8);
+  %\draw(n2) -- (n3);
+  
+  %\foreach \from/\to in {n1/n2,n1/n3,n1/n5,n2/n1,n2/n3,n2/n4,n2/n5,n2/n6,n3/n1,n3/n2,n3/n5,n3/n6,n4/n2,n4/n5,n4/n6,n5/n1,n5/n2,n5/n3,n5/n4,n5/n6,n6/n2,n6/n3,n6/n4,n6/n5}
+  %\draw (\from) -- (\to);
+
+  \end{tikzpicture}
+  \end{center}
+
+\newpage
+\subsubsection{Algoritmo de Kruskal}
+
+El algoritmo de Kruskal es un algoritmo greedy que lo que hace es ir seleccionando las aristas que van a conformar el AGM una por una, arrancando de la de menor peso y subiendo progresivamente.
+
+Para cada arista seleccionada, se fija si la misma forma un ciclo con las que ya seleccion\'o. Si no lo forma, la inserta en el AGM. El algoritmo termina cuando seleccionaron $n-1$ aristas. Si el grafo no es conexo, forma un \emph{``bosque generador m\'inimo''}. La complejidad del mismo es O(n log m), pero hay que cumplir un par de requisitos t\'ecnicos para alcanzarla:
+
+\begin{enumerate}
+\item En cada iteraci\'on del algoritmo necesitamos poder obtener el eje no todav\'ia insertado en el AGM en O(1). Esto se puede lograr f\'acilmente ordenando todos los $m$ ejes por peso ascendentemente usando alg\'un sort por comparaci\'on, lo cual se puede hacer en O(m log m).
+\item Tambi\'en necesitamos poder determinar si el eje que estamos mirando en la iteraci\'on actual forma un ciclo con los que ya insertamos en el AGM eficientemente. Esto se puede pensar en t\'erminos de conjuntos disjuntos, donde cada conjunto es un bosque conexo dentro de mi AGM. Una estructura de datos que nos permite implementar conjuntos disjuntos es el \emph{``union find''}.
+\end{enumerate}
+
+El union find es una estructura de datos que tiene dos operaciones, find(v) y union(v_1,v_2).
+
+
+\begin{algorithm}
+\caption{Algoritmo de Kruskal}
+\begin{algorithmic}[1]
+\State $AGM \gets \emptyset$
+\ForAll{$v \in V$}
+  \State makeDisjointSet($V$)
+\EndFor
+\State sortByWeightASC($E$)
+\ForAll{$(v_1, v_2)  \in E$}
+  \If {find($v_1$) \neq find($v_2$)}
+    \State $AGM \gets AGM \cup (v_1, v_2)$
+    \State union($v_1, v_2$)
+  \EndIf
+\EndFor
+\Return $AGM$
+\end{algorithmic}
+\end{algorithm}
+
+\newpage
+\subsubsection{Algoritmo de Primm}
+

@@ -1,0 +1,90 @@
+\nonstopmode
+\documentclass[10pt, a4paper]{article}
+%\usepackage[top=1.5cm]{geometry}
+\usepackage{blindtext}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{calc}
+\usepackage{multirow}
+\usepackage{hhline}
+\usepackage{ifthen}
+\usepackage[spanish]{babel}
+%\usepackage{indentfirst}
+\usepackage{fancyhdr}
+\usepackage{graphicx,import}
+\usepackage{latexsym}
+\usepackage{wrapfig,lipsum,booktabs}
+\usepackage{lastpage}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[colorlinks=true, linkcolor=blue]{hyperref}
+\def\inputGnumericTable{}
+\usepackage{calc}
+\usepackage[parfill]{parskip}
+\usepackage{listings}
+\usepackage{tikz}
+\lstset
+{
+    language=C++,
+    basicstyle=\ttfamily,
+    keywordstyle=\color{blue}\ttfamily,
+    stringstyle=\color{red}\ttfamily,
+    commentstyle=\color{green}\ttfamily,
+    morecomment=[l][\color{magenta}]{\#}
+}
+
+\tikzstyle{vertex}=
+[
+    auto=left,
+    circle,
+    draw=black,
+    minimum size=20pt,
+    inner sep=0pt
+]
+
+
+\sloppy
+
+\hypersetup
+{
+    pdfstartview=
+    {
+        FitH \hypercalcbp
+        {
+            \paperheight-\topmargin-1in-\headheight
+        }
+    },
+}
+\parskip=5pt
+
+\let\olditemize\itemize
+\def\itemize{\olditemize\itemsep=0pt}
+
+\title{Algoritmos y Estructuras de Datos III\\Resumen}
+\author{amildie}
+\date{\vspace{-5ex}}
+
+\begin{document}
+\renewcommand*\contentsname{\empty}
+
+\maketitle
+\tableofcontents
+
+\input{graphTests.tex}
+
+\input{temas/complej.tex}
+\input{temas/progDim.tex}
+\input{temas/grafos.tex}
+\input{temas/arboles.tex}
+\input{temas/caminMin.tex}
+\input{temas/eulHamil.tex}
+\input{temas/plan.tex}
+\input{temas/coloreo.tex}
+\input{temas/matching.tex}
+\input{temas/flujMax.tex}
+\input{temas/NP.tex}
+
+\end{document}
+

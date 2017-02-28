@@ -1,0 +1,67 @@
+\newpage
+\section{Grafos}
+
+Un \emph{``grafo''} $G = (V, X)$ es un par de conjuntos. $V$ es un conjunto de \emph{``v\'ertices''} y $X$ es un conjunto de \emph{``ejes''}, que a su vez son pares no ordenados de los elementos de $V$. Vamos a definir a $n = |V|$ y a $m = |X|$.
+
+Dados dos v\'ertices $v, w \in V$ se dice que $v$ y $w$ son \emph{``adyacentes''} si $\exists$  $e \in X$ tal que $e = (v, w)$. Un \emph{``multigrafo''} es un grafo en el que pueden haber varios ejes entre el mismo par de v\'ertices. Un \emph{``seudografo''} es un multigrafo donde pueden haber ejes que unan a un v\'ertice con si mismo.
+
+El \emph{``grado''} de un v\'ertice $v$ es la cantidad de ejes incidentes a \'el. Se nota con $d(v)$ y da lugar a la siguiente propiedad: 
+
+\begin{figure}[h]
+\[ \sum_{i=1}^{n} d(v_i) = 2m \]
+\caption{La suma de los grados de todos los v\'ertices de un grafo es igual a dos veces el n\'umero de aristas.}
+\end{figure}
+
+Un grafo se dice \emph{``completo''} si todos los v\'ertices son adyacentes entre si. Al grafo completo de $n$ v\'ertices se lo nota $K_n$.
+
+Dado un grafo $G$, se denomina como el grafo \emph{``complemento''} de $G$ al grafo $\overline{G}$ que tiene los mismos v\'ertices que $G$, pero donde dichos v\'ertices s\'olo son adyacentes en $\overline{G}$ si no lo son en $G$.
+
+\subsection{Caminos y distancia}
+
+Un \emph{``camino''} en un grafo es una sucesi\'on de ejes $e_1, e_2, ..., e_k$ tal que los extremos de $e_i$ coinciden con uno de $e_{i-1}$ y con uno de $e_{i+1}$, para todo $i \in \[2, ..., k-1 \]$.
+
+Cuando un camino no pasa dos veces por el mismo v\'ertice, se lo denomina \emph{``camino simple''}. Un \emph{``circuito''} es un camino que empieza y termina en el mismo v\'ertice. Cuando un circuito tiene 3 o m\'as v\'ertices se lo denomina \emph{``circuito simple''}.
+
+La \emph{``longitud''} de un camino es la cantidad de v\'ertices por los que pasa. La \emph{``distancia''} entre dos v\'ertices $v$ y $w$ de un grafo se define como la longitud del camino m\'as corto entre ambos, y se nota con  $d(v,w)$. Para todo v\'ertice $v$, $d(v,v) = 0$. Si no existe camino entre $v$ y $w$, se dice que la distancia entre ambos es infinita.
+
+Si un camino $P$ entre $v$ y $w$ tiene longitud $d(v, w)$ entonces $P$ es un camino simple. Es decir, la distancia m\'as corta entre dos v\'ertices no va a dar vueltas en ning\'un lado.
+
+Notar que si $P$ es un camino entre $u$ y $v$ de longitud $d(u,v)$ y tenemos los puntos $z$ y $w$ que est\'an adentro de $P$, entonces $P_{zw}$ es un camino entre $z$ y $w$ de longitud $d(z,w)$, donde $P_{zw}$ es el subcamino interno de $P$ entre $z$ y $w$.
+
+\subsection{Subgrafos y biparticidad}
+
+Dado un grafo $G = (V,X)$, un \emph{``subgrafo''} del mismo es un grafo $H = (V',X')$ que cumple que $V' \subseteq V$ y que $X' \subseteq X \cap (V' \times V')$. Si se cumple que para todo $u,v \in V', (u,v) \in X \Longleftrightarrow (u,v) \in X'$ entonces $H$ es un subgrafo \emph{``inducido''}. Es decir, para cada par de v\'ertices de $H$, se preservan los mismos ejes que ten\'ian en $G$.
+
+
+Un grafo se dice \emph{``conexo''} si existe un camino que conecta cada par de v\'ertices. Una \emph{``componente conexa''} de un grafo $G$ es un subgrafo conexo maximal de $G$.
+
+Un grafo $G = (X, V)$ se dice \emph{``bipartito''} si existe una partici\'on $V_1,V_2$ de $V$ tal que todos los ejes de $G$ tienen un extremo en $V_1$ y otro en $V_2$. Si todo v\'ertice de $V_1$ es adyacente a todo v\'ertice de $V_2$ entonces el $G$ es \emph{``bipartito completo''}. Un grafo es bipartito si y s\'olo si no tiene circuitos simples de longitud impar.
+
+\subsection{Isomorfismo}
+
+Dos grafos $G = (V,X)$ y $G' = (V',X')$ se dicen \emph{``isomorfos''} si existe una funci\'on biyectiva $f:V\rightarrow V'$ tal que para todo $v,w \in V$:
+
+\begin{figure}[h]
+\[ (v,w) \in X \Longleftrightarrow (f(v), f(w)) \in X' \]
+\end{figure}
+
+Si dos grafos son isomorfos, entonces:
+
+\begin{itemize}
+\item tienen el mismo n\'umero de v\'ertices
+\item tienen el mismo n\'umero de ejes
+\item tienen el mismo n\'umero de componentes conexas
+\item $\forall$ $k, 0 \leq k \leq n-1$, tienen el mismo n\'umero de v\'ertices de grado $k$
+\item $\forall$ $k, 1 \leq k \leq n-1$, tienen el mismo n\'umero de caminos simples de longitud $k$
+\end{itemize}
+
+No se conoce un algoritmo de tiempo polinomial para detectar si dos grafos son isomorfos, ni tampoco es NP-completo, pero en la pr\'actica hay maneras de resolverlo eficientemente.
+
+\newpage
+\subsection{Digrafos}
+
+Un \emph{``grafo orientado''} (o \emph{``digrafo''}) es un grafo $G=(V,X)$ en el cual los ejes de $X$ tienen una direcci\'on. Para cada v\'ertice $v$ se define a su \emph{``grado de entrada''} ($d_{in}(v)$) como a la cantidad de ejes en $X$ que llegan a $v$. Es decir, que lo tienen como segundo elemento. El \emph{``grado de salida''} es lo mismo, pero con las aristas que salen del mismo.
+
+Un \emph{``camino orientado''} es un digrafo es una sucesi\'on de ejes $e_1, e_2, ..., e_k$ ta que el primer elemento del par $e_i$ coincide con el segundo de $e_{i-1}$ y el segundo elemento de $e_i$ coincide con el primero de $e_{i+1}$, para todo $i = 2, ..., k-1$.
+
+Un \emph{``circuito orientado''} en un digrafo es un camino orientado que comienza y termina en el mismo v\'ertice. Un digrafo se dice \emph{``fuertemente conexo''} si para todo par de v\'ertices $v,w$ existe un camino orientado de $v$ a $w$ y otro de $w$ a $v$.

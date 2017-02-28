@@ -1,0 +1,27 @@
+\newpage
+\texttt{---- PRUEBA DE GRAFOS ----}
+
+\raggedright
+  \bigskip
+  \begin{center}
+  \begin{tikzpicture}
+  \node[vertex] (n1) at (1,1)  {1};
+  \node[vertex] (n2) at (0,0)  {2};
+  \node[vertex] (n3) at (2,0)  {3};
+  \node[vertex] (n4) at (-1,-1)  {4};
+  \node[vertex] (n5) at (1,-1)  {5};
+  %\node[vertex] (n2) at (4,3)  {1};
+  
+
+  \draw(n1) -- (n2);
+  \draw(n2) -- (n5);
+  \draw(n2) -- (n4);
+  \draw(n1) -- (n3);
+  
+  %\foreach \from/\to in {n1/n2,n1/n3,n1/n5,n2/n1,n2/n3,n2/n4,n2/n5,n2/n6,n3/n1,n3/n2,n3/n5,n3/n6,n4/n2,n4/n5,n4/n6,n5/n1,n5/n2,n5/n3,n5/n4,n5/n6,n6/n2,n6/n3,n6/n4,n6/n5}
+  %\draw (\from) -- (\to);
+
+  \end{tikzpicture}
+  \end{center}
+
+  \texttt{---- FIN PRUEBA DE GRAFOS ----}

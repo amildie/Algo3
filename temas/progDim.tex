@@ -1,0 +1,142 @@
+\newpage
+\section{Programaci\'on Din\'amica}
+
+\subsection{Subestructura Optima}
+
+La \emph{``subestructura \'optima''} es una propiedad que pueden exhibir algunos problemas. Se dice que un problema tiene subestructura \'optima si el mismo cumple que una soluci\'on \'optima del mismo puede ser construida a partir de soluciones \'optimas de sus subproblemas.
+
+Un ejemplo de esto es el problema del camino m\'as corto. Supongamos dos puntos $A$ y $B$, y un camino $w$ que es el m\'as corto entre ellos. Para cualquier par de puntos $A'$  y $B'$ dentro de $w$, el camino m\'as corto $w'$ entre ellos est\'a necesariamente contenido adentro de $w$.
+
+\subsection{Soluciones Sobrepuestas}
+
+Al igual que la subestructura \'optima, un problema tiene esta caracter\'istica cuando sub subproblemas comparten soluciones entre ellos. Un ejemplo cl\'asico de este fen\'omeno es el problema de calcular el $n$-\'esimo n\'umero de Fibonacci.
+
+La ecuaci\'on recursiva para calcularlo es $f(n) = f(n-1) + f(n-2)$. Supongamos entonces que queremos calcular $f(5)$. Voy a tener que calcular $f(4)$ y $f(3)$. Pero para calcular $f(4)$ voy a tener que calcular $f(3)$ y $f(2)$. Es decir, voy a tener que calcular $f(3)$ m\'as de una vez.
+
+Uno podr\'ia pensar que ser\'ia una buena idea cachear cada n\'umero de fibonacci calculado para no tener que recalcularlo m\'as de una vez. Esta t\'ecnica se llama \emph{``memoization''}\footnote{S\'i, \emph{memoization}, sin r.}.  
+
+\subsection{Programaci\'on Din\'amica}
+
+Cuando un problema exhibe tanto subestructura \'optima como soluciones sobrepuestas, es candidato a poseer un algoritmo para solucionarlo que emplee una t\'ecnica de desarrollo de algoritmos llamada \emph{``programaci\'on din\'amica''}.
+
+Si un problema puede ser solucionado combinando soluciones no sobrepuestas de sus subproblemas, esta estrategia se llama \emph{``divide \& conquer''}. Es por eso que mergesort, por ejemplo, no es un problema de programaci\'on din\'amica.
+
+\newpage
+\subsection{Ejemplos}
+
+\subsubsection{Subsecuencia continua de suma m\'axima}
+
+
+\noindent\fbox{%
+    \parbox{\textwidth}{%
+Dado un arreglo $A = \{-6, 2, -4, 1, 3, -1, 5, -1\}$, dicho arreglo tiene varias subsecuencias $s$ continuas, por ejemplo $s_1 = \{1, 3, -1\}$, $s_2 = \{-6\}$, $s_3 = \{-1, 5, -1\}$, etc. Cada una de estas subsecuencias tiene un valor $sum(s_i)$ que representa la suma de todos los elementos de la misma. Encontrar el valor de la subsecuencia de suma m\'axima.
+    }%
+}
+
+Notar que este problema s\'olo es interesante cuando hay tanto n\'umeros negativos como positivos en el arreglo; ya que si fuesen todos positivos, la soluci\'on es simplemente devolver $sum(A)$, y si fuesen todos negativos, la soluci\'on es devolver el elemento m\'as chico de $A$.
+
+Un ejemplo elemental de esto es, por ejemplo teniendo el arreglo $A = \{ 1, 2, 3, -100, 4, 5, 6\}$. Como la suma de cualquier secuencia continua que no tenga al $-100$ es bastante mayor a la suma de cualquier secuencia que lo tenga, es l\'ogico asumir que la soluci\'on no va a tener al $-100$. Hay dos secuencias continuas de que no lo tienen: $S_1 = \{ 1, 2, 3\}$ y $S_2 = \{ 4, 5, 6\}$. Ac\'a es trivial ver que $sum(S_2)$ es la respuesta al problema.
+
+Pero en el arreglo $A = \{-2, -3, 4, -1, -2, 1, 5, -3\}$ deja de ser tan evidente que el valor buscado es $7$, la suma de la subsecuencia $\{4, -1, -2, 1, 5\}$.
+
+Definimos el array $S$, donde $S_i$ representa a la suma m\'axima de todas las subsecuencias continuas de $A$ que tienen a $A_i$ como \'ultimo elemento. Es decir, $A_i$ tiene que estar, por lo que en cada paso nos interesa saber si vamos a preservar la suma que ven\'iamos armando desde antes o a arrancar con $A_i$ como el inicio de una una subsecuencia nueva. Es decir:
+
+\[
+S(i) = \left\{\begin{array}{lr}
+    A[i] & \text{si } i = 0\\
+    max\{S(i-1) + A[i], A[i] \} & \text{si } i > 0
+    \end{array}\right
+\]
+
+Entonces el problema se reduce a armar a $S$ mientras vamos buscando el m\'aximo:
+
+\begin{center}
+\begin{minipage}{0.78\textwidth}
+\begin{lstlisting}[frame=lrtb]
+int sum(int* a, unsigned int n) {
+  int max = numeric_limits<int>::min();
+  int s[n];
+  memset(s, -1, sizeof(s));
+  for(int i = 0; i < n; ++i) {
+    if (i == 0) {
+      s[i] = a[i];
+    } else {
+      s[i] = std::max(a[i], a[i] + s[i-1]);
+    }
+    if (s[i] > max) {
+      max = s[i];
+    }    
+  }
+  return max;
+}
+\end{lstlisting}
+\end{minipage}
+\end{center}
+
+
+
+\subsubsection{Subsecuencia no-continua estrictamente creciente m\'as larga}
+
+\noindent\fbox{%
+    \parbox{\textwidth}{%
+Dado un arreglo $A = \{3, 2, 6, 4, 5, 1\}$, encontrar una subsecuencia del mismo estrictamente creciente de longitud m\'axima.
+    }%
+}
+
+Por ejemplo, para el array del enunciado la respuesta es $A = \{2, 4, 5\}$.
+
+Similarmente al problema anterior, vamos a definir un vector de vectores $S$, donde $S_i$ es la subsecuencia de $A$ que termina en $A_i$. 
+
+\[
+S_i = \left\{\begin{array}{lr}
+    \{ A_i \} & \text{si } i = 0\\
+    max\{S_j \textnormal{ tal que } j < i \textnormal{ y } A_j < A_i\} + A_i & \text{si } i > 0
+    \end{array}\right
+\]
+
+%Es decir, para calcular la subsecuencia que va a estar en $S_i$, lo que hacemos es fijarnos en todas las subsecuencias que calculamos antes. De todas esas, buscamos las de longitudes m\'aximas. Y de esas, seleccionamos alguna que tenga como \'ultimo elemento a algo m\'as chico que $A_i$ y se lo appendeamos.
+
+\begin{center}
+\begin{minipage}{1.15\textwidth}
+\begin{lstlisting}[frame=lrtb]
+vector<int> lis(int* a, unsigned int n) {
+  std::vector< std::vector<int> > L(n);
+  L[0].push_back(a[0]);
+  vector<int> res;
+
+  for(int i = 1; i < n; ++i) {
+    int maxLength = numeric_limits<int>::min();
+    int maxIndex = 0;
+
+    for(int j = i-1; j >= 0; --j) {
+      if((int)L[j].size() > maxLength && L[j].back() < a[i]) {
+        maxLength = L[j].size();
+        maxIndex = j;
+      }
+    }
+    
+    std::vector<int> v;
+    if(maxLength != numeric_limits<int>::min()) {
+      v = L[maxIndex];      
+    }
+    v.push_back(a[i]);
+    L[i] = v;
+  }
+
+  unsigned int maxLength = numeric_limits<unsigned int>::min();
+  for(int i = 0; i < L.size(); ++i) {
+    if(L[i].size() > maxLength) {
+      res = L[i];
+      maxLength = L[i].size();
+    }
+  }
+
+  return res;
+}
+\end{lstlisting}
+\end{minipage}
+\end{center}
+
+
+\newpage
+\subsubsection{El problema de la mochila}
