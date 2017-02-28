@@ -173,17 +173,7 @@ Dado un grafo conexo $G$, un \emph{``\'arbol generador''} de $G$ es un subgrafo 
 \newpage
 \subsubsection{Algoritmo de Kruskal}
 
-El algoritmo de Kruskal es un algoritmo greedy que lo que hace es ir seleccionando las aristas que van a conformar el AGM una por una, arrancando de la de menor peso y subiendo progresivamente.
-
-Para cada arista seleccionada, se fija si la misma forma un ciclo con las que ya seleccion\'o. Si no lo forma, la inserta en el AGM. El algoritmo termina cuando seleccionaron $n-1$ aristas. Si el grafo no es conexo, forma un \emph{``bosque generador m\'inimo''}. La complejidad del mismo es O(n log m), pero hay que cumplir un par de requisitos t\'ecnicos para alcanzarla:
-
-\begin{enumerate}
-\item En cada iteraci\'on del algoritmo necesitamos poder obtener el eje no todav\'ia insertado en el AGM en O(1). Esto se puede lograr f\'acilmente ordenando todos los $m$ ejes por peso ascendentemente usando alg\'un sort por comparaci\'on, lo cual se puede hacer en O(m log m).
-\item Tambi\'en necesitamos poder determinar si el eje que estamos mirando en la iteraci\'on actual forma un ciclo con los que ya insertamos en el AGM eficientemente. Esto se puede pensar en t\'erminos de conjuntos disjuntos, donde cada conjunto es un bosque conexo dentro de mi AGM. Una estructura de datos que nos permite implementar conjuntos disjuntos es el \emph{``union find''}.
-\end{enumerate}
-
-El union find es una estructura de datos que tiene dos operaciones, find(v) y union(v_1,v_2).
-
+El algoritmo de Kruskal es un algoritmo greedy que lo que hace es ir seleccionando las aristas que van a conformar el AGM una por una, arrancando de la de menor peso y subiendo progresivamente. Si el grafo no es conexo, forma un \emph{``bosque generador m\'inimo''}.
 
 \begin{algorithm}
 \caption{Algoritmo de Kruskal}
@@ -203,6 +193,67 @@ El union find es una estructura de datos que tiene dos operaciones, find(v) y un
 \end{algorithmic}
 \end{algorithm}
 
-\newpage
-\subsubsection{Algoritmo de Primm}
+\subsubsection*{Explicaci\'on}
 
+\begin{enumerate}
+\item [1:] Empieza declarando un $AGM$ vac\'io. Este va a ser un conjunto de ejes, que es lo que va a devolver el algoritmo.
+\item [2: y 3:] Crea un conjunto disjunto para cada v\'ertice de $V$.
+\item [4:] Ordena ascendentemente a todos los ejes por peso.
+\item [5:] Empieza a iterar por todos los ejes $(v_1, v_2)$ de $E$
+  \begin{enumerate}
+  \item [6:] Para cada eje, se fija que $v_1$ y $v_2$ est\'en en diferentes conjuntos del disjoint set previamente creado.
+    \begin{enumerate}
+    \item [7:] Si no lo est\'an, agrega a $(v_1, v_2)$ al $AGM$.
+    \item [8:] Y los une adentro del disjoint set.
+    \end{enumerate}
+  \end{enumerate}
+\end{enumerate}
+
+\subsubsection*{Complejidad}
+
+En cada iteraci\'on del algoritmo (5:) necesitamos poder obtener el eje no todav\'ia insertado en el AGM en O(1). Esto se puede lograr f\'acilmente ordenando todos los $m$ ejes por peso ascendentemente usando alg\'un sort por comparaci\'on, lo cual se puede hacer en O(m log m) (4:).
+
+Los pasos 6: y 8: (find y union) se pueden hacer en O(log m). Como los estoy haciendo en cada iteraci\'on del algoritmo, y como voy a iterar n-1 veces, la complejidad del mismo termina siendo O(n (2 log m)) = O(n log m).
+
+\newpage
+\subsubsection{Algoritmo de Prim}
+
+Al igual que el algoritmo de Kruskal, el algoritmo de Prim nos permite encontrar un \'arbol generador m\'inimo para un grafo. Este es un pseudoc\'odigo del mismo:
+
+\begin{algorithm}
+\caption{Algoritmo de Prim}
+\begin{algorithmic}[1]
+\State $AGM \gets \emptyset$
+\State $V \gets \{ v \}$
+\While{$|V| \neq n$}
+  \State $(v_1, v_2) \gets$ buscarEje($V$)
+  \State $AGM \gets AGM \cup \{ (v_1, v_2) \}$
+  \State $V \gets V \cup \{ v_2 \}$
+\EndWhile
+\Return $AGM$
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection*{Explicaci\'on}
+
+A diferencia del anterior, el algoritmo de Pimm hace crecer al AGM desde un v\'ertice raiz arbitrario, y agrega un eje nuevo en cada iteraci\'on. El algoritmo termina cuando todos los v\'ertices est\'an en el AGM. El pseudoc\'odigo funciona de la siguiente manera:
+
+\begin{enumerate}
+\item [1:] Declaramos el AGM que vamos a devolver como vac\'io. Al igual que en el algorimto de Kruskal, el AGM devuelto es un conjunto de ejes.
+\item [2:] Creamos un conjunto $V$ de v\'ertices que s\'olo tiene a un v\'ertice arbitrario $v$, que puede ser cualquiera.
+\item [3:] Vamos a iterar hasta que $V$ tenga a todos los v\'ertices del grafo.
+\item [4:] Obtenemos un eje $(v_1, v_2)$ usando una funci\'on llamada buscarEje. El eje devuelto tiene que cumplir las siguientes propiedades:
+  \begin{itemize}
+  \item $v_1 \in V$
+  \item $v_2 \not \in V$
+  \item El peso de $(v_1, v_2)$ tiene que ser m\'inimo.
+  \end{itemize}
+\item [5:] Agregamos a $(v_1, v_2)$ a nuestro AGM.
+\item [6:] Agregamos a $v_2$ a $V$.
+\end{enumerate}
+
+\subsubsection*{Complejidad}
+
+L\'ogicamente toda la complejidad del algoritmo est\'a en la funci\'on buscarEje, la cual hace que el algoritmo sea greddy. La complejidad del mismo depende de las estructura utilizada para implementar la funci\'on buscarEje.
+
+Si utilizo una cola de prioridad implementada sobre un min-heap binario esta funci\'on cuesta O(log m). Como este paso se va a tener que realizar n veces ya que est\'a adentro del while, el costo total del algoritmo es de O(n log m).
