@@ -43,33 +43,34 @@ Los nodos \emph{``internos''} de un \'arbol son aquellos que no son hojas ni ra\
 \emph{``Depth First Search''} es un algoritmo de b\'usqueda en grafos. Lo que hace es arrancar desde un nodo $n$ cualquiera y fijarse si dicho nodo es el que estamos buscando. Si no lo es, marcarlo como visitado, pedir el listado de todos sus vecinos y llamarse recursivamente en cada uno de ellos, empezando por el m\'as chico hasta llegar al m\'as grande.
 \vspace{8px}
 
-\begin{center}
-\begin{minipage}{0.90\textwidth}
-\begin{lstlisting}[frame=lrtb]
-void DFS(Graph& g, int n, int m, bool* visited) {
-  cout << "DFS node: " << m << endl;
-  if(n == m) {
-    cout << "found!" << endl;
-    return;
-  }
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Function{DFS}{$G, v$}
+  \State checked $\gets \{0, 0, ..., 0\}$
+  \State \textbf{return} DFSr($G, v, 0, checked$)
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
-  visited[m] = true;
-  vector<int> neigh = g.getAdyacents(m);
-  for(int i = 0; i < neigh.size(); ++i) {
-    if(!visited[neigh[i]]) {
-      DFS(g, n, neigh[i], visited);
-    }
-  }
-}
 
-void DFS(Graph &g, int n) {
-  bool visited[g.n];
-  memset(visited, 0, sizeof(visited));
-  DFS(g, n, 0, visited);
-}
-\end{lstlisting}
-\end{minipage}
-\end{center}
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Function{DFSr}{$G, v, n, checked$}
+  \If{v = n}
+    \State \textbf{return} true
+  \EndIf
+  \State $checked_n \gets true$
+  \State $adyacen \gets getNeigh(n)$
+  \ForAll{$w \in adyacen$}
+    \If{$checked_w \neq true$}
+      \State DFSr($G, v, w, checked$)
+    \EndIf
+  \EndFor
+  \State \textbf{return} false
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 Es decir, cuando el algoritmo llega a una hoja, hace backtracking hasta el \'ultimo nodo revisado con hijos todav\'ia sin revisar. Es por eso que la complejidad temporal del mismo es $O(n)$. Tambi\'en se puede implementar de forma iterativa con una pila. Al igual que BFS, DFS s\'olo funciona en grafos conexos.
 
@@ -84,24 +85,24 @@ Es decir, cuando el algoritmo llega a una hoja, hace backtracking hasta el \'ult
 \begin{lstlisting}[frame=lrtb]
 void BFS(Graph &g, int n) {
   queue<int> q;
-  bool visited[g.n];
-  memset(visited, 0, sizeof(visited));
+  bool checked[g.n];
+  memset(checked, 0, sizeof(checked));
   q.push(0);
 
   while(!q.empty()) {
     int t = q.front();
     q.pop();
 
-    if(visited[t]) continue;
+    if(checked[t]) continue;
     if(t == n) {
       cout << "found!" << endl;
       return;
     }
 
-    visited[t] = 1;
+    checked[t] = 1;
     vector<int> neigh = g.getAdyacents(t); 
     for(int i = 0; i < neigh.size(); ++i) {
-      if(!visited[neigh[i]]) {
+      if(!checked[neigh[i]]) {
         q.push(neigh[i]);
       }
     }

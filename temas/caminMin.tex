@@ -1,7 +1,30 @@
 \newpage
 \section{Camino M\'inimo}
+
+Sea $G = (V, E)$ un grafo y $l: E \rightarrow {\rm I\!R}$ una funci\'on de peso para los ejes de $G$, definimos como el \emph{``peso''} de un camino $C$ entre dos nodos $v$ y $w$ como la suma de los pesos de los ejes del camino:
+
+\begin{equation}
+l(C) = \sum_{e \in C} l(e)
+\end{equation}
+
+Un \emph{``camino minimo''} $C^0$ entre $v$ y $w$ es un camino tal que $l(C^0) = min \{ l(C), \forall \textrm{$ C$ camino entre $v$ y $w$}  \}$. Esto significa que no necesariamente tiene que ser \'unico. Dado un grafo $G$, se pueden definir 3 variantes de problemas sobre caminos m\'inimos:
+
+\begin{enumerate}
+\item \textbf{Unico origen - \'unico destino}: determinar un camino m\'inimo entre dos v\'ertices $v$ y $w$.
+\item \textbf{Unico origen - m\'ultiples destinos}: determinar un camino m\'inimo desde un v\'ertice $v$ al resto de los v\'ertices de $G$
+\item \textbf{M\'ultiples or\'igenes - m\'ultiples destinos}: Determinar un camino m\'inimo entre todo par de v\'ertices de $G$.
+\end{enumerate}
+
+Si el grafo $G$ no contiene ciclos con peso negativo (o contiene alguno pero no es alcanzable desde $v$) entonces el problema sigue estando bien definido, aunque algunos caminos pueden tener longitud negativa. Sin embargo, si si $G$ tiene alg\'un ciclo con peso negativo alcanzable desde $v$, el concepto de camino m\'inimo deja de estar bien definido.
+
+Un camino m\'inimo no puede contener circuitos. Tambi\'en es importante notar que un camino m\'inimo exhibe la propiedad de subestructura \'optima, ya que dados dos puntos $v'$ y $w'$ que est\'an adentro del camino m\'inimo entre $v$ y $w$, el subcamino entre estos dos puntos tambi\'en es un camino m\'inimo entre ambos.
+
 \newpage
 \subsection{Algoritmo de Dijkstra}
+
+Dado $G = (V, E)$ y grafo, $l: E \rightarrow {\rm I\!R}$ una funci\'on que asigna a cada eje un cierto peso y $v$ un v\'ertice de $G$, calcular los caminos m\'inimos desde $v$ al resto de los v\'ertices. El algoritmo de Dijkstra asume que los pesos de los ejes son positivos.
+
+
 \newpage
 \subsection{Algoritmo de Ford}
 \newpage
