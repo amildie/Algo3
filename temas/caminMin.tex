@@ -26,15 +26,17 @@ Dado $G = (V, E)$ y grafo, $l: E \rightarrow {\rm I\!R}$ una funci\'on que asign
 
 \begin{algorithm}
 \begin{algorithmic}[1]
-\Function{Dijkstra}{$G = (V, X), s \in V$}
-  \State $Q \gets \emptyset$
-  \ForAll{$v \in V$}
+\Function{Dijkstra}{$G = (V, X)$}
+  \State $pq \gets \emptyset$
+  \State $dist[0] \gets 0$
+  \State $pq.add(<dist[0], 0>)$
+  \ForAll{$v \in V, v \neq 0$}
     \State $dist[v] \gets \infty$
     \State $prev[v] \gets -1$
-    \State $Q.add(v)$
+    \State $pq.add(<dist[v], v>)$
   \EndFor
-  \While{$!Q.empty()$}
-    \State $w \gets Q.popClosestTo(s)$
+  \While{$!pq.empty()$}
+    \State $w \gets pq.pop()$
     \ForAll{$u \in w.neigh()$}
       \State $alt \gets dist[u] + length(w, u)$
       \If{$alt < dist[u]$}
@@ -43,7 +45,7 @@ Dado $G = (V, E)$ y grafo, $l: E \rightarrow {\rm I\!R}$ una funci\'on que asign
       \EndIf
     \EndFor
   \EndWhile
-  \State \textbf{return} $dist, prev$
+  \State \textbf{return} $prev$
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
