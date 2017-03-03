@@ -24,6 +24,29 @@ Un camino m\'inimo no puede contener circuitos. Tambi\'en es importante notar qu
 
 Dado $G = (V, E)$ y grafo, $l: E \rightarrow {\rm I\!R}$ una funci\'on que asigna a cada eje un cierto peso y $v$ un v\'ertice de $G$, calcular los caminos m\'inimos desde $v$ al resto de los v\'ertices. El algoritmo de Dijkstra asume que los pesos de los ejes son positivos.
 
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Function{Dijkstra}{$G = (V, X), s \in V$}
+  \State $Q \gets \emptyset$
+  \ForAll{$v \in V$}
+    \State $dist[v] \gets \infty$
+    \State $prev[v] \gets -1$
+    \State $Q.add(v)$
+  \EndFor
+  \While{$!Q.empty()$}
+    \State $w \gets Q.popClosestTo(s)$
+    \ForAll{$u \in w.neigh()$}
+      \State $alt \gets dist[u] + length(w, u)$
+      \If{$alt < dist[u]$}
+        \State $dist[u] \gets alt$
+        \State $prev[u] \gets w$
+      \EndIf
+    \EndFor
+  \EndWhile
+  \State \textbf{return} $dist, prev$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 \newpage
 \subsection{Algoritmo de Ford}
