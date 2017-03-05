@@ -27,21 +27,22 @@ Dado $G = (V, E)$ y grafo, $l: E \rightarrow {\rm I\!R}$ una funci\'on que asign
 \begin{algorithm}
 \begin{algorithmic}[1]
 \Function{Dijkstra}{$G = (V, X)$}
-  \State $pq \gets \emptyset$
-  \State $dist[0] \gets 0$
-  \State $pq.add(<dist[0], 0>)$
-  \ForAll{$v \in V, v \neq 0$}
-    \State $dist[v] \gets \infty$
+  \State $prev[A] \gets -1$
+  \State $dist[A] \gets 0$
+  \State $pq.add(<dist[A], A>)$
+  \ForAll{$v \in V, v \neq A$}
     \State $prev[v] \gets -1$
+    \State $dist[v] \gets \infty$
     \State $pq.add(<dist[v], v>)$
   \EndFor
   \While{$!pq.empty()$}
-    \State $w \gets pq.pop()$
-    \ForAll{$u \in w.neigh()$}
-      \State $alt \gets dist[u] + length(w, u)$
+    \State $t \gets pq.pop()$
+    \ForAll{$u \in t.second.neigh()$}
+      \State $alt \gets dist[u] + length(t.first, u)$
       \If{$alt < dist[u]$}
-        \State $dist[u] \gets alt$
         \State $prev[u] \gets w$
+        \State $dist[u] \gets alt$
+        \State $pq.decreaseKey(<dist[u], u>)$
       \EndIf
     \EndFor
   \EndWhile
@@ -49,6 +50,38 @@ Dado $G = (V, E)$ y grafo, $l: E \rightarrow {\rm I\!R}$ una funci\'on que asign
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
+
+\subsubsection*{Explicaci\'on}
+
+Este algoritmo toma un grafo $G$ y devuelve un array de v\'ertices llamado $prev$, que consiste en los caminos m\'inimos en el grafo desde el v\'ertice $A$.
+
+\begin{enumerate}
+\item [2:] Seteamos al v\'ertice previo de $A$ como $-1$, ya que es el v\'ertice por el que comienzan todos los caminos m\'inimos.
+\item [3:] L\'ogicamente la distancia m\'inima de $A$ hacia $A$ es 0. Esto se asume porque $G$ no tiene ciclos negativos.
+\item [4:] Declaramos como $pq$ a una cola de prioridad. Ac\'a vamos a guardar tuplas $<d, w>$, donde $d$ es la distancia m\'inima desde el v\'ertice $A$ hasta el v\'ertice $w$. Hacemos esto para poder obtener el v\'ertice de menor distancia a $A$ en O(log n). Ac\'a hay informaci\'on redundante (las distancias m\'inimas ya se est\'an guardando en $dist$) pero es beneficiosa para la complejidad del algoritmo.
+\item [5 a 8:] Luego vamos a empezar a iterar todos los v\'ertices de $G$ seteando la informaci\'on necesaria para cada uno. Esto significa setear su v\'ertice previo en $-1$ y su distancia m\'inima hacia $A$ en infinito. Este proceso es O(n).
+\item [9:] Ahora comienza el ciclo principal del algoritmo. En cada iteraci\'on del while vamos a visitar el v\'ertice de menor distancia hacia $A$ que encontremos en $pq$. El algoritmo termina cuando $pq$ est\'a vac\'ia, es decir, visitamos a todos los v\'ertices. Vale destacar que el primer v\'ertice que visitamos es $A$.
+    \begin{enumerate}
+    \item [10:] Guardamos en una tupla $t$ al v\'ertice que sacamos de $pq$. Hay que tener en cuenta que en $t.first$ vamos a tener la distancia m\'inima del v\'ertice que est\'a en $t.second$ hasta $A$.
+    \item [11:] Vamos a iterar a todos los vecinos $u$ de $t.second$.
+        \begin{enumerate}
+        \item [12:] Definimos a la variable $alt$ como la suma de la distancia m\'inima de $u$ a $A$ m\'as la distancia de $u$ a $t.first$ (el v\'ertice que estamos visitando).
+        \item [13:] \¿Es esta nueva distancia menor a la distancia que ten\'iamos calculada antes?. Es decir, \¿si pasamos por $t.first$ para llegar desde $A$ a $u$, llegamos m\'as r\'apido que si no pasamos?. Si la respuesta es \textbf{s\'i}, entonces mejoramos la distancia previamente calculada para $u$ y tenemos que actualizar todo:
+            \begin{enumerate}
+            \item [14:] Entonces para llegar a $u$ vamos a querer pasar por $t.first$.
+            \item [15:] Actualizamos la distancia m\'inima de $A$ hasta $u$.
+            \item [16:] Hacemos lo mismo, pero en $pq$.
+            \end{enumerate}
+        \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection*{Complejidad}
+
+La complejidad del algoritmo est\'a dada por el ciclo principal del mismo que empieza en la l\'inea 9. Vamos a tener que iterar tantas veces como elementos haya en $pq$, donde inicialmente van a haber $n$ elementos.
+
+En cada iteraci\'on vamos a tener que obtener el v\'ertice m\'as cercano a $A$ (10:), lo cual puede hacerse en O(log n) usando una cola de prioridad basada en un min-heap.
+
 
 \newpage
 \subsection{Algoritmo de Ford}
