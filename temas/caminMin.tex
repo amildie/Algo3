@@ -26,7 +26,7 @@ Dado $G = (V, E)$ y grafo, $l: E \rightarrow {\rm I\!R}$ una funci\'on que asign
 
 \begin{algorithm}
 \begin{algorithmic}[1]
-\Function{Dijkstra}{$G = (V, X)$}
+\Function{Dijkstra}{$G = (V, E)$}
   \State $prev[A] \gets -1$
   \State $dist[A] \gets 0$
   \State $pq.add(<dist[A], A>)$
@@ -84,7 +84,58 @@ En cada iteraci\'on vamos a tener que obtener el v\'ertice m\'as cercano a $A$ (
 
 
 \newpage
-\subsection{Algoritmo de Ford}
+\subsection{Algoritmo de Bellman-Ford}
+
+Es un poco m\'as lento que el algoritmo de Dijkstra, pero admite ejes de pesos negativos. Al igual que el algoritmo de Dijkstra, utiliza el principio de relaxation para ir mejorando continuamente las aproximaciones a las mejores distancias de cada v\'ertice.
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Function{BellmanFord}{$G = (V, E)$}
+  \ForAll{$v \in V, v \neq A$}
+    \State $dist[v] \gets \infty$
+    \State $prev[v] \gets -1$
+  \EndFor
+  \State $dist[A] \gets 0$
+  \For{$i \gets 1 \textrm{ \textbf{hasta} } n-1$}
+    \ForAll{$(u, v) \textrm{ con peso } w \in E$}
+        \If{$dist[u] + w < dist[v]$}
+            \State $dist[v] \gets dist[u] + w$
+            \State $prev[v] \gets u$
+        \EndIf
+    \EndFor
+  \EndFor
+  \ForAll{$(u, v) \textrm{ con peso } w \in E$}  \Comment{\¿Hay ciclos negativos? \textbf{O(E)}}
+    \If{$dist[u] + w < dist[v]$}
+        \State \textbf{return} null
+    \EndIf
+  \EndFor
+  \State \textbf{return} $prev$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\subsection*{Analisis}
+
+\begin{enumerate}
+\item [\textbf{2 a 4:}] Seteamos, para todos los v\'ertices que no son $A$, la distancia m\'inima en $\infty$ y a su v\'ertice previo como $-1$.
+\item [\textbf{5:}] Seteamos la distancia m\'inima hacia $A$ (el v\'ertice inicial) en $0$.
+\item [\textbf{6:}] Comenzamos la iteraci\'on principal del algoritmo. Vamos a ciclar, como mucho $n-1$ veces.
+    \begin{enumerate}
+    \item [\textbf{7:}] Vamos a iterar por todos los ejes del grafo.
+        \begin{enumerate}
+        \item [\textbf{8:}] Para cada eje $(u, v)$, checkeamos si nos conviene pasar por $u$ para llegar hasta $v$.
+            \begin{enumerate}
+            \item [\textbf{9 y 10:}] Si este es el caso, actualizamos los valores.
+            \end{enumerate}
+        \end{enumerate}
+    \end{enumerate}
+\item [\textbf{11 a 13:}] Checkeamos si tenemos un ciclo negativo. Si este es el caso, el problema deja de estar bien definido y devolvemos $null$.
+\end{enumerate}
+
+\subsection*{Complejidad}
+
+En este caso es bastante evidente que la complejidad es O(n * m), ya que vamos a ciclar a lo sumo $n-1$ veces y, en cada uno de estos ciclos, vamos a relajar, como mucho, los $m$ ejes de $G$.
+
 \newpage
 \subsection{Algoritmo de Floyd}
 \newpage
