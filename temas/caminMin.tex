@@ -51,7 +51,7 @@ Dado $G = (V, E)$ y grafo, $l: E \rightarrow {\rm I\!R}$ una funci\'on que asign
 \end{algorithmic}
 \end{algorithm}
 
-\subsubsection*{Explicaci\'on}
+\subsubsection*{Analisis}
 
 Este algoritmo toma un grafo $G$ y devuelve un array de v\'ertices llamado $prev$, que consiste en los caminos m\'inimos en el grafo desde el v\'ertice $A$.
 
@@ -86,7 +86,9 @@ En cada iteraci\'on vamos a tener que obtener el v\'ertice m\'as cercano a $A$ (
 \newpage
 \subsection{Algoritmo de Bellman-Ford}
 
-Es un poco m\'as lento que el algoritmo de Dijkstra, pero admite ejes de pesos negativos. Al igual que el algoritmo de Dijkstra, utiliza el principio de relaxation para ir mejorando continuamente las aproximaciones a las mejores distancias de cada v\'ertice.
+Es un poco m\'as lento que el algoritmo de Dijkstra, pero admite ejes de pesos negativos. La idea general es similar a la del algoritmo de Dijkstra, pero un poco m\'as simple. 
+
+Mientras Dijkstra obtiene el v\'ertice no visitado de menor peso en cada iteraci\'on, Bellman-Ford simplemente relaja todos los ejes $n-1$ veces. En cada iteraci\'on el n\'umero de v\'ertices con caminos m\'inimos bien calculados se va incrementando, hasta que ya no se pueden mejorar.
 
 \begin{algorithm}
 \begin{algorithmic}[1]
@@ -114,7 +116,7 @@ Es un poco m\'as lento que el algoritmo de Dijkstra, pero admite ejes de pesos n
 \end{algorithmic}
 \end{algorithm}
 
-\subsection*{Analisis}
+\subsubsection*{Analisis}
 
 \begin{enumerate}
 \item [\textbf{2 a 4:}] Seteamos, para todos los v\'ertices que no son $A$, la distancia m\'inima en $\infty$ y a su v\'ertice previo como $-1$.
@@ -132,7 +134,7 @@ Es un poco m\'as lento que el algoritmo de Dijkstra, pero admite ejes de pesos n
 \item [\textbf{11 a 13:}] Checkeamos si tenemos un ciclo negativo. Si este es el caso, el problema deja de estar bien definido y devolvemos $null$.
 \end{enumerate}
 
-\subsection*{Complejidad}
+\subsubsection*{Complejidad}
 
 En este caso es bastante evidente que la complejidad es O(n * m), ya que vamos a ciclar a lo sumo $n-1$ veces y, en cada uno de estos ciclos, vamos a relajar, como mucho, los $m$ ejes de $G$.
 
