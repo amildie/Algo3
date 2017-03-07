@@ -20,7 +20,7 @@ Si el grafo $G$ no contiene ciclos con peso negativo (o contiene alguno pero no 
 Un camino m\'inimo no puede contener circuitos. Tambi\'en es importante notar que un camino m\'inimo exhibe la propiedad de subestructura \'optima, ya que dados dos puntos $v'$ y $w'$ que est\'an adentro del camino m\'inimo entre $v$ y $w$, el subcamino entre estos dos puntos tambi\'en es un camino m\'inimo entre ambos.
 
 \newpage
-\subsection{Algoritmo de Dijkstra}
+\subsection{Algoritmo de Dijkstra (1 a n)}
 
 Dado $G = (V, E)$ y grafo, $l: E \rightarrow {\rm I\!R}$ una funci\'on que asigna a cada eje un cierto peso y $v$ un v\'ertice de $G$, calcular los caminos m\'inimos desde $v$ al resto de los v\'ertices. El algoritmo de Dijkstra asume que los pesos de los ejes son positivos.
 
@@ -84,7 +84,7 @@ En cada iteraci\'on vamos a tener que obtener el v\'ertice m\'as cercano a $A$ (
 
 
 \newpage
-\subsection{Algoritmo de Bellman-Ford}
+\subsection{Algoritmo de Bellman-Ford (1 a n)}
 
 Es un poco m\'as lento que el algoritmo de Dijkstra, pero admite ejes de pesos negativos. La idea general es similar a la del algoritmo de Dijkstra, pero un poco m\'as simple. 
 
@@ -139,6 +139,35 @@ Mientras Dijkstra obtiene el v\'ertice no visitado de menor peso en cada iteraci
 En este caso es bastante evidente que la complejidad es O(n * m), ya que vamos a ciclar a lo sumo $n-1$ veces y, en cada uno de estos ciclos, vamos a relajar, como mucho, los $m$ ejes de $G$.
 
 \newpage
-\subsection{Algoritmo de Floyd}
+\subsection{Algoritmo de Floyd-Warshall (n a m)}
+
+El algoritmo de Floyd-Warshall compara todos los caminos posibles entre cada par de v\'ertices. Su tiempo de ejecuci\'on es $O(n^3)$.
+
+Consideremos un grafo $G = (V, E)$ donde los v\'ertices de $G$ est\'an numerados de $1$ a $n$. Consideremos luego la funci\'on $shortestPath(i, j, k)$ que devuelve el costo del camino m\'inimo de $i$ hasta $j$, pero usando a los v\'ertices $\{1, 2, ..., k\}$ como puntos intermedios del camino.
+
+Dada esa funci\'on, nuestro objetivo es el de calcular el costo del camino m\'inimo de cada $i$ hasta cada $j$ usando s\'olo los v\'ertices en $\{1, 2, ..., k+1\}$. Para cada par $i,j$, el camino m\'inimo debe ser, o:
+
+\begin{enumerate}
+\item Un camino que s\'olo usa los v\'ertices de $\{1, 2, ..., k\}$
+\item Un camino que va desde $1$ hasta $k+1$, y de $k+1$ hasta $j$
+\end{enumerate}
+
+Sabemos que el camino m\'inimo de $i$ a $j$ que \'unicamente usa los v\'ertices $\{1, 2, ..., k\}$ est\'a definido por $shortestPath(i, j, k)$, y es claro que si existiera un mejor camino de $i$ hacia $k+1$ hasta $j$, entonces la longitud de ese camino ser\'ia la concatenaci\'on del camino m\'inimo de $i$ a $k+1$ (pasando por $\{1, 2, ..., k\}$) y el camino m\'inimo desde $\{k+1\}$ a $j$ (pasando por $\{1, 2, ..., k\}$).
+
+Si $w(i, j)$ es el peso de eje entre los v\'ertices $i$ y $j$, podemos definir a $shortestPath(i, j, k)$ con la siguiente recursividad:
+
+
+\textbf{Caso base:}\\
+$shortestPath(i, j, 0) = w(i, j)$\\
+\textbf{Paso recursivo:}
+\[
+shortestPath(i, j, k+1) = min \left\{\begin{array}{lr}
+    shortestPath(i, j, k), \\
+    shortestPath(i, k+1, k) + shortestPath(k+1, j, k)
+    \end{array}\right\}
+\]
+
+
+
 \newpage
 \subsection{Algoritmo de Dantzig}
