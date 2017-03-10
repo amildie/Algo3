@@ -189,3 +189,27 @@ D[i][j] = min\{ D[i][j], D[i][k] + D[k][j]\}
 \newpage
 \subsection{Algoritmo de Dantzig}
 
+Al finalizar la iteraci\'on $k-1$, el algoritmo de Dantzig gener\'o una matriz $k x k$ de caminos m\'inimos en el subgrafo inducido por los v\'ertices $\{v_1, ..., v_k\}$. Asumimos que el grafo es orientado. El algoritmo detecta si hay circuitos de longitud negativa.
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Function{Dantzig}{$G = (V, E)$}
+  \ForAll{$k \textrm{ \textbf{from} } 1 \textrm{ \textbf{to} } n-1$}
+    \ForAll{$k \textrm{ \textbf{from} } 1 \textrm{ \textbf{to} } n-1$}
+      \State $L_{i,k+1} \gets min_{1 \leq j \leq k}\{ L_{i,j} + L_{j,k+1} \}$
+      \State $L_{k+1,i} \gets min_{1 \leq j \leq k}\{ L_{k+1,j} + L_{j,i} \}$
+    \EndFor
+    \State $t \gets min_{1 \leq j \leq k}\{ L_{k+1,i} + L_{i,k+1} \}$
+    \If{$t < 0$}
+      \State \textbf{return} null
+    \EndIf
+    \ForAll{$i \textrm{ \textbf{from} } 1 \textrm{ \textbf{to} } k$}
+      \ForAll{$j \textrm{ \textbf{from} } 1 \textrm{ \textbf{to} } k$}
+        \State $L_{i,j} \gets min\{L_{i,j}, L_{i,k+1} + L_{k+1, j}\}$
+      \EndFor
+    \EndFor
+  \EndFor
+  \State \textbf{return} $L$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
