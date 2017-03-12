@@ -1,2 +1,60 @@
 \newpage
 \section{Grafos Eulerianos y Hamiltonianos}
+
+\subsection{Grafos Eulerianos}
+
+Un circuito $C$ en un grafo $G$ es un \emph{``circuito euleriano''} si $C$ pasa por todos los ejes de $G$ una y s\'olo una vez. Un grafo es euleriano si tiene un circuito euleriano. Un grafo conexo es euleriano $\Leftrightarrow$ todos sus nodos son de grado par. Podemos encontrar un circuito euleriano utilizando el algoritmo de Hierholzer en $O(m)$: 
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Function{Hierholzer}{$G = (V, E)$}
+  \State $v \gets A$
+  \State $Z \gets construirCiclo(v)$
+  \While{$\exists\ e \in E, e \not\in Z$}
+    \State $w \gets encontrarEje()$
+    \State $D \gets construirCicloQueNoPasePor(Z, w)$
+    \State $Z \gets Z \cup D$
+  \EndWhile
+  \State \textbf{return} $Z$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection*{An\'alisis}
+
+\begin{enumerate}
+  \item [\textbf{2:}] Elegimos un nodo random de $G$. Puede ser $A$, o puede ser cualquier otro.
+  \item [\textbf{3:}] La funci\'on $construirCiclo(v)$ nos devuelve un ciclo euleriano que pasa por $v$.
+  \item [\textbf{4:}] Quiz\'as el ciclo construido en \textbf{3:} es un ciclo euleriano (por ejemplo, si el grafo es un pol\'igono). Si no lo es, entonces vamos a tener que iterar hasta que dejen de haber ejes que no est\'an en $Z$.
+  \begin{enumerate}
+    \item [\textbf{5:}] La funci\'on $encontrarEje()$ devuelve un eje $w$ tal que uno de los v\'ertices de $e$ est\'a en $Z$ y el otro no.
+    \item [\textbf{6:}] La funci\'on $construirCicloQueNoPasePor(Z, w)$ devuelve un ciclo $D$, cuyos ejes no est\'an en $Z$.
+    \item [\textbf{7:}] Ahora tenemos dos ciclos eulerianos que comparten como \'unico v\'ertice a $w$. Al unirlos, es trivial ver que todav\'ia voy a seguir teniendo un ciclo euleriano.
+  \end{enumerate}
+\end{enumerate}
+
+
+\newpage
+\subsection{Grafos Hamiltonianos}
+
+Un circuito en un grafo $G$ es un \emph{``circuito hamiltoniano''} si pasa por cada v\'ertice de $G$ s\'olo una vez. Un grafo es hamiltoniano cuando tiene dicho circuito. No se conocen caracterizaciones para grafos hamiltonianos ni tampoco un algoritmo polinomial para decidir si un grafo es hamiltoniano o no.
+
+\newenvironment{badidea}
+  {\par\leftskip=1cm}
+  {\par}
+
+\begin{badidea}
+\textbf{Teorema (condici\'on necesaria):} Sea $G$ un grafo conexo, si existe $W \subset V$ tal que $G - W$ tiene $c$ componentes conexas con $c > |W|$, entonces $G$ no es hamiltoniano.
+\end{badidea}
+
+\begin{badidea}
+\textbf{Teorema de Dirac (condici\'on suficiente):} Sea $G$ un grafo con $n \geq 3$ tal que para todo $v \in V$ se verifica que $d(v) \geq n/2$, entonces $G$ es hamiltoniano.
+\end{badidea}
+
+\subsubsection{The Travelling Salesman Problem}
+
+Dado un grafo completo $G = (V, E)$ con longitudes asignadas a sus ejes, queremos determinar un circuito hamiltoniano de longitud m\'inima. No se conocen algoritmos polinomiales para resolver este problema, pero existen varias heur\'isticas para atacarlo:
+
+\subsubsection*{Heur\'istica del vecino m\'as cercano}
+\subsubsection*{Heur\'istica de incerci\'on}
+\subsubsection*{Heur\'istica del \'arbol generador}
