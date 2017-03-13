@@ -56,5 +56,30 @@ Un circuito en un grafo $G$ es un \emph{``circuito hamiltoniano''} si pasa por c
 Dado un grafo completo $G = (V, E)$ con longitudes asignadas a sus ejes, queremos determinar un circuito hamiltoniano de longitud m\'inima. No se conocen algoritmos polinomiales para resolver este problema, pero existen varias heur\'isticas para atacarlo:
 
 \subsubsection*{Heur\'istica del vecino m\'as cercano}
+
+Esta heur\'istica greedy es bastante r\'apida, pero no siempre obtiene el circuito hamiltoniano de menor peso. B\'asicamente lo que hace es partir de un v\'ertice cualquiera e ir movi\'endose por el camino de menor peso que encuentre, y as\'i sucesivamente hasta haber recorrido todos los v\'ertices.
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Function{NNA}{$G = (V, E)$}
+  \State $v \gets getRandomNode()$
+  \State $orden[v] \gets 0$
+  \State $S \gets \{v\}$
+  \State $i \gets 0$
+  \While{$S \neq V$}
+    \State $i++$
+    \State $w \gets aristaMasBarata()$
+    \State $orden[w] \gets i$
+    \State $S \gets S \cup \{ w \}$
+    \State $v \gets w$
+  \EndWhile
+  \State \textbf{return} $orden$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+La funci\'on $aristaMasBarata()$ devuelve siempre una arista $(v,w)$ de peso m\'inimo, con $w \not\in S$. Este algoritmo puede no siempre devolver un ciclo, y si lo devuelve, puede no ser el de peso m\'inimo. Su complejidad es $O(n^2)$. Tambi\'en existe la posibilidad de correr este algoritmo una vez en cada v\'ertice, obteniendo un circuito hamiltoniano en cada ejecuci\'on, y qued\'andome con el de peso m\'inimo.
+
+\newpage
 \subsubsection*{Heur\'istica de incerci\'on}
 \subsubsection*{Heur\'istica del \'arbol generador}

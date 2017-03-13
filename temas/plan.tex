@@ -1,2 +1,71 @@
 \newpage
 \section{Planaridad}
+
+Una \emph{``representaci\'on planar''} de un grafo $G$ es un conjunto de puntos en el plano que se corresponden con los v\'ertices de $G$, unidos por curvas que se corresponden con los ejes de $G$, sin que estas se crucen entre s\'i. Si un grafo admite una representaci\'on planar, decimos que el mismo es planar.
+
+Dada una representaci\'on planar de un grafo, llamamos \emph{``regi\'on''} al conjunto de todos los puntos alcanzables desde un punto que no sea un v\'ertice o un eje, sin atravesar ning\'un v\'ertice o eje. Es por eso que toda representaci\'on planar de un grafo tiene exactamente una regi\'on de \'area infinita: la regi\'on exterior.
+
+La \emph{``frontera''} de una regi\'on es el circuito que rodea a la regi\'on, y el \emph{``grado''} de la regi\'on es el n\'umero de ejes que tiene su frontera.
+
+\begin{badidea}
+\textbf{Propiedad:} $K_5$ es el grafo no-planar con el menor n\'umero de v\'ertices, y $K_{33}$ el que tiene el menor n\'umero de ejes.
+\end{badidea}
+
+\begin{badidea}
+\textbf{Propiedad:} Si un grafo $G$ contiene sun subgrafo $G'$ no planar, entonces $G$ tampoco es planar.
+\end{badidea}
+
+\subsection{Subdivisiones y Homeomorfismo}
+
+Subdividir un eje $e = (v,w)$ de un grafo $G$ consiste en agregar un v\'ertice nuevo $u \not\in V$ a $G$ y reemplazar al eje $e$ por dos ejes $e' = (v, u)$ y $e'' = (u, w)$. Un grafo $G'$ es una subdivisi\'on de otro grafo $G$ si $G'$ se puede obtener mediante sucesivas operaciones de subdivisi\'on sobre $G$. Dos grafos $G$ y $H$ se dicen \emph{``homeomorfos''} si hay un isomorfismo entre una subdivisi\'on de $G$ y una de $H$.
+
+\begin{badidea}
+\textbf{Propiedad 1:} Si $G'$ es una subdivisi\'on de $G$, entonces $G$ es planar si y s\'olo si $G'$ es planar.
+\end{badidea}
+
+\begin{badidea}
+\textbf{Propiedad 2:} La planaridad es invariate bajo homeomorfismo.
+\end{badidea}
+
+\begin{badidea}
+\textbf{Propiedad 3:} Si un grafo $G$ tiene un subgrafo que es homeomorfo a un grafo no-planar, entonces $G$ es no-planar.
+\end{badidea}
+
+\subsubsection{Teorema de Kuratowski}
+
+Un grafo es planar si y s\'olo si no contiene ning\'un subgrafo homemomorfo a $K_5$ o a $K_{33}$.
+
+\subsection{Contracciones}
+
+La operaci\'on de \emph{``contracci\'on''} de un eje $e = (v, w)$ consiste en eliminar el eje del grafo y considerar sus extremos como un s\'olo v\'ertice $u \not\in V$, quedando como ejes incidentes a $u$ todos los ejes que eran incidentes a $v$ y a $w$.
+
+Un grafo $G'$ es una contracci\'on de otro grafo $G$ si se puede obtener a partir de $G$ por sucesivas operaciones de contracci\'on. Se dice que \emph{``$G$ es contraible a $G'$''}.
+
+\newpage
+\subsubsection{Teorema de Whitney}
+
+$G$ es planar si y s\'olo si no contiene ning\'un subgrafo contraible a $K_{5}$ o a $K_{33}$.
+
+\subsubsection{Teorema de Euler}
+
+Si $G$ es un grafo conexo planar entonces cualquier representaci\'on planar de $G$ determina $r = m - n + 2$ regiones en el plano.
+
+\begin{badidea}
+\textbf{Colorario 1:} Si $G$ es conexo y planar con $n \geq 3$, entonces $m \leq 3n - 6$.
+\end{badidea}
+
+\begin{badidea}
+\textbf{Colorario 2:} Si $G$ es conexo, planar y bipartito con $n \geq 3$, entonces $m \leq 2n - 4$.
+\end{badidea}
+
+\subsection{Algoritmo de Demoucron}
+
+El siguiente algoritmo encuentra una represetaci\'on planar si existe, y si $G$ es no planar lo reconoce correctamente. El tiempo de ejecuci\'on es de $O(n^2)$, pero existen algoritmos que pueden determinar planaridad en tiempo lineal. Dicho con otras palabras, el problema de decidir si un grafo es o no planar est\'a en $P$.
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Function{Demoucron}{$G = (V, E)$}
+  \State \textbf{return} $orden$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
