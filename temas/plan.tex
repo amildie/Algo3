@@ -60,7 +60,20 @@ Si $G$ es un grafo conexo planar entonces cualquier representaci\'on planar de $
 
 \subsection{Algoritmo de Demoucron}
 
-El siguiente algoritmo encuentra una represetaci\'on planar si existe, y si $G$ es no planar lo reconoce correctamente. El tiempo de ejecuci\'on es de $O(n^2)$, pero existen algoritmos que pueden determinar planaridad en tiempo lineal. Dicho con otras palabras, el problema de decidir si un grafo es o no planar est\'a en $P$.
+El siguiente algoritmo encuentra una represetaci\'on planar si existe, y si $G$ es no planar lo reconoce correctamente. El tiempo de ejecuci\'on es de $O(n^2)$, pero existen algoritmos que pueden determinar planaridad en tiempo lineal. Esto significa que el problema de decidir si un grafo es o no planar est\'a en $P$. Pero antes de exponer el algoritmo hay que hacer las siguientes definiciones:
+
+\begin{itemize}
+\item Una \textbf{\emph{``parte $p$ de $G$ relativa a $R$''}} puede ser alguna de las siguientes cosas:
+    \begin{itemize}
+    \item una componente conexa de $G - R$ junto con los ejes que la conectan a todos los nodos de $R$ (ejes colgantes).
+    \item un eje $e = (v, w)$ de $G - R$ con $v,w \in R$.
+    \end{itemize}
+\item Dada una parte $p$ de $G$ relativa a $R$, un \textbf{\emph{``nodo de contacto''}} es un nodo $R$ incidente a un eje colgante de $p$.
+\item Decimos que $R$ \textbf{\emph{``es extensible a una representaci\'on planar de $G$''}} si se puede obtener una representaci\'on planar de $G$ a partir de $R$.
+\item Una parte $p$ es \textbf{\empg{``dibujable en una regi\'on $f$ de $R$''}} si existe una extensi\'on planar de $R$ en la que $p$ queda en $f$.
+\item Una parte $p$ es \textbf{\empg{``potencialmente dibujable en una regi\'on $f$ de $R$''}} si todo nodo de contacto de $p$ pertenece a la frontera de $f$.
+\item Llamamos \textbf{$F(p)$} al conjunto de regiones de $R$ donde $p$ es potencialmente dibujable.
+\end{itemize}
 
 \begin{algorithm}
 \begin{algorithmic}[1]
