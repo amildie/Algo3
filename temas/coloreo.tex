@@ -1,2 +1,57 @@
 \newpage
 \section{Coloreo}
+
+Un \emph{``coloreo''} de los v\'ertices de un grafo $G = (V, E)$ es una asignaci\'on $f : V \rightarrow C$, tal que $f(v) \neq f(w)$ para todo $(v,w) \in E$. Para todo entero positivo $k$, un \emph{``$k$-coloreo''} de $G$ es un coloreo que usa exactamente $k$ colores.
+
+Un grafo se dice \emph{``$k$-coloreable''} si existe un $k$-coloreo de $G$. De esta manera definimos al n\'umero crom\'atico de $G$, $\chi(G)$, como el menor n\'umero de colores necesarios para colorear los v\'ertices de $G$. Un grafo se dice \emph{``$k$-crom\'atico''} si $\chi(G) = k$.
+
+Algunos ejemplos:
+
+\begin{itemize}
+\item $\chi(K_n) = n$
+\item Si $G$ es bipartito $\Rightarrow \chi(G) = 2$
+\item Si $C_{2k}$ es un circuito simple par $\Rightarrow \chi(C_{2k}) = 2$
+\item Si $C_{2k+1}$ es un circuito simple impar $\Rightarrow \chi(C_{2k+1}) = 3$
+\end{itemize}
+
+\textbf{Propiedad de la cota superior de $\chi(G)$}: Si $\Delta(G)$ es el grado m\'aximo de $G$, entonces $\chi(G) \leq \Delta(G) + 1$.
+
+\subsection{Teorema de Brooks}
+
+Sea $G$ un grafo conexo que no es un circuito impar ni un grafo completo, entonces $\chi(G) \leq \Delta(G)$.
+
+\subsection{Teorema de Heawood (1890)}
+
+Si $G$ es un grafo planar, entonces $\chi(G) \leq 5$.
+
+\subsection{Teorema de los Cuatro Colores (1976)}
+
+Si $G$ es un grafo planar, entonces $\chi(G) \leq 4$.
+
+\subsection{Algoritmos para coloreo de grafos}
+
+No se conocen algoritmos polinomiales para calcular $\chi(G)$ dado un grafo general $G$. Dado un grafo $G$ de $n$ v\'ertices y un entero $k$, el problema de determinar si existe un $k$-coloreo para $G$ es NP-completo, y su complejidad es $O(2^n * n)$. En particular, encontrar el n\'umero crom\'atico es $NP$-hard.
+
+\newpage
+\subsubsection{Algoritmo secuencial (S)}
+\subsubsection{Algoritmo secuencial (LFS)}
+\subsubsection{Algoritmo secuencial (SLS)}
+\subsubsection{Algoritmo secuencial con backtracking (exacto)}
+
+\subsection{Cotas inferiores para $\chi(G)$}
+
+Si $H$ es un subgrafo de $G$, entonces $\chi(H) \leq \chi(G)$.
+
+Una \emph{``clique''} es un subgrafo completo maximal de un grafo. El \emph{``n\'umero clique''} de un grafo es el m\'aximo n\'umero de v\'ertices de una clique de $G$, y se denota por $\omega(G)$. Para cualquier grafo $G$, $\chi(G) \geq \omega(G)$.
+
+\subsection{Grafos perfectos}
+
+Un grafo $G$ es \emph{``perfecto''} si $\chi(H) = \omega(H)$ para todo subgrafo inducido $H$ de $G$.
+
+\subsubsection{Teorema de los grafos perfectos}
+
+Un grafo es perfecto si y s\'olo si su complemento es perfecto.
+
+\subsubsection{Teorema de Grotschel, Lov\'asz y Schrijver}
+
+Existe un algoritmo polinomial para determinar $\chi(G)$ si $G$ es perfecto.
