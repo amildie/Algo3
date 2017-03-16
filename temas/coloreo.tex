@@ -34,9 +34,18 @@ No se conocen algoritmos polinomiales para calcular $\chi(G)$ dado un grafo gene
 
 \newpage
 \subsubsection{Algoritmo secuencial (S)}
+
+Dado un orden $v_1, v_2, ..., v_n$ de $V$, asignar en el paso $i$ el menor color posible a $v_i$. Es decir, el color m\'as chico que no est\'a siendo usado por los vecinos de $v_i$ (greedy). Puede devolver resultados bastante malos en algunos grafos.
+
 \subsubsection{Algoritmo secuencial (LFS)}
+
+Consiste en ordenar los v\'ertices por su grado de mayor a menor.
+
 \subsubsection{Algoritmo secuencial (SLS)}
+
 \subsubsection{Algoritmo secuencial con backtracking (exacto)}
+
+La idea es ir asignado colores uno por uno a los diferentes v\'ertices, arrancando desde el v\'ertice 0. Antes de asignar un color, miramos los colores de los vecinos de dicho v\'ertice. Si encontramos un color apropiado, se lo ponemos al v\'ertice en cuesti\'on. Si no es posible encontrar un color apropiado, volvemos hacia atr\'as y probamos con otro color en alg\'un v\'ertice anterior.
 
 \subsection{Cotas inferiores para $\chi(G)$}
 
@@ -55,3 +64,19 @@ Un grafo es perfecto si y s\'olo si su complemento es perfecto.
 \subsubsection{Teorema de Grotschel, Lov\'asz y Schrijver}
 
 Existe un algoritmo polinomial para determinar $\chi(G)$ si $G$ es perfecto.
+
+\subsubsection{Teorema Fuerte de los Grafos Perfectos}
+
+Un grafo es perfecto si y s\'olo si no tiene ciclos impares ni complementos de ciclos impares como subgrafos inducidos.
+
+
+\newpage
+\subsection{Coloreo de ejes}
+
+Un \emph{``coloreo de ejes''} de un grafo $G$ es una asignaci\'on de colores a los mismos en el cual dos ejes que tienen un v\'ertice en com\'un no pueden tener el mismo color.
+
+El \emph{``\'indice crom\'atico''} $\chi'(G)$ de un grafo $G$ es el menor n\'umero de colores con el que se pueden colorear los ejes de $G$.
+
+\subsubsection{Teorema de Vizing}
+
+Para todo grafo $G$ se cumple que $\Delta(G) \leq \chi'(G) \leq \Delta(G) + 1$
