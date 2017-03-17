@@ -1,2 +1,33 @@
 \newpage
 \section{Matchings y Conjuntos Independientes}
+
+Dado un grafo $G = (V, E)$ definimos:
+
+\begin{itemize}
+\item Un \emph{``matching''} es un conjunto $M \subseteq E$ de ejes de $G$ tal que para todo v\'ertice $v \in V$, $v$ es incidente \textbf{a lo sumo} de un eje $e \in E$.
+\item Un \emph{``conjunto independiente''} es un conjunto de $I \subseteq V$ tal que para todo eje $e \in E$, $e$ es incidente \textbf{a lo sumo} a un v\'ertice $v$ de $I$.
+\item Un \emph{``recubrimiento de los v\'ertices''} de $G$ es un conjunto $R_e$ de ejes tales que para todo $v \in V$, $v$ es incidente a \textbf{al menos} un eje $e \in R_e$
+\item Un \emph{``recubrimiento de los ejes''} de $G$ es un conjunto $R_v$ de v\'ertices tal que para todo $e \in E$, $e$ es incidente a \textbf{al menos} un v\'ertice $v \in R_v$.
+\end{itemize}
+
+$S \subseteq V$ es un conjunto independiente si y s\'olo si $V - S$ es un recubrimiento de ejes.
+
+\subsection{Matching m\'aximo}
+
+Un v\'ertice $v$ se dice \emph{``saturado''} por un matching $M$ si hay un eje de $M$ incidente a $v$. Dado un matching $M$ en $G$, un \emph{``camino alternado''} en $G$ con respecto a $M$, es un camino simple donde se alternan ejes que est\'an en $M$ con ejes que no lo est\'an.
+
+Dado un matching $M$ en $G$, un \emph{``camino de aumento''} en $G$ con respecto a $M$ es un camino alternado entre v\'ertices no saturados por $M$.
+
+Sean $M_0$ y $M_1$ dos matchings en $G$, y sea $G' = (V, E')$ con $E' = (M_0 - M_1) \cup (M_1 - M_0)$, entonces las componentes conexas de $G'$ son de alguno de los siguientes tipos:
+
+\begin{itemize}
+\item V\'ertice aislado
+\item Circuito simple con ejes alternadamente entre $M_0$ y $M_1$.
+\item Camino simple con ejes alternadamente entre $M_0$ y $M_1$.
+\end{itemize}
+
+\textbf{Teorema:} $M$ es un matching m\'aximo de $G$ si y s\'olo si no existe un camino de aumento en $G$ con respecto a $M$.
+
+\textbf{Teorema:} Dado un grafo $G$ sin v\'ertices aislados, si $M$ es un matching m\'aximo de $G$ y $R_e$ un recubrimiento m\'inimo de los v\'ertices de $G$, entonces $|M| + |R_e| = n$.
+
+\textbf{Teorema:} Dado un grafo $G$, si $I$ es un conjunto independiente m\'aximo de $G$ y $R_n$ un recubrimiento m\'inimo de los ejes de $G$, entonces $|I| + |R_n| = n$.
