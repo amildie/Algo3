@@ -1,2 +1,36 @@
 \newpage
-\section{Flujo M\'aximo}
+\section{Flujo en Redes}
+
+Una \emph{``red''} $N = (V, E)$ es un grafo orientado conexo que tiene dos nodos distinguidos: una \emph{``fuente''} $s$, con un grado de salida positivo y un \emph{``sumidero''} $t$ con un grado de entrada positivo.
+
+Una \emph{``funci\'on de capacidades en la red''} es una funci\'on $c : E \rightarrow {\rm I\!R^{\geq 0}}$
+
+Un \emph{``flujo factible''} en una red $N = (V, E)$ con funci\'on de capacidad $c$ es una funci\'on $f : E \rightarrow {\rm I\!R^{\geq 0}}$ que verifica:
+
+\begin{itemize}
+\item $0 \leq f(e) \leq c(e)$ para todo eje $e \in E$.
+\item La \emph{``Ley de conservaci\'on de Flujo''}:
+
+\[
+\sum_{e \in in(v)} f(e) = \sum_{e \in out(v)} f(e)
+\]
+
+para todo v\'ertice $v \in V - \{ s, t \}$, donde
+
+\[
+in(v) = \{ e \in E, e = (w \rightarrow v), w \in V \}
+\]
+\[
+out(v) = \{ e \in E, e = (v \rightarrow w), w \in V \}
+\]
+
+Es decir, la cantidad de flujo que entra a un v\'ertice es la misma que la que sale.
+
+\end{itemize}
+
+El \emph{``valor del flujo''} es $F = 3$
+
+\subsection{Cortes}
+\subsection{Camino de Aumento}
+\subsection{Algoritmo de Ford-Fulkerson}
+\subsection{Algoritmo de Edmonds-Karp}
