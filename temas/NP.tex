@@ -13,10 +13,50 @@ Veamos por ejemplo el problema $\Pi$ que consiste en: \emph{``dado un array $A$ 
 
 Es trivial darse cuenta que $P$ est\'a contenido en $NP$, pero la gran inc\'ognita en la teor\'ia de la complejidad es determinar si $P = NP$. Es decir, si para cada problema en $NP$ existe una soluci\'on polinomial.
 
-\subsection{La clase NP-Complete}
 
-NP-Complete es una subclase de NP, pero con la particularidad de que todos los problemas en NP pueden ser reducible en tiempo polinomial a cualquier problema de NP-Complete.
+\subsection{Reducciones Polinomiales}
+
+Una \emph{``reducci\'on polinomial''} de un problema de decisi\'on $\Pi_1$ a uno $\Pi_2$ es una funci\'on polinomial que transforma una instancia  $i_1$ de $\Pi_1$ en una instancia $i_2$ de $\Pi_2$, tal que $i_1$ tiene respuesta \emph{``s\'i''} en $\Pi_1$ si y s\'olo si $i_2$ tiene respuesta \emph{``s\'i''} en $\Pi_2$.
+
+El problema de decisi\'on $\Pi_1$ se reduce polinomialmente a otro problema de decisi\'on $\Pi_2$ ($\Pi_1 \leq_p \Pi_2$) si existe una transformaci\'on polinomial de $\Pi_1$ a $\Pi_2$.
+
+\subsection{La clase NP-Completo}
+
+\emph{``NP-Completo''} es una subclase de NP, pero con la particularidad de que todos los problemas en NP pueden ser reducibles en tiempo polinomial a cualquier problema de NP-Completo. Formalmente, un problema de decisi\'on $\Pi$ es NP-Completo si:
+
+\begin{itemize}
+\item $\Pi \in \textrm{NP}$
+\item $\forall\ \Pi' \in \textrm{NP}, \Pi' \leq_p \Pi$.
+\end{itemize} 
+
+Es importante notar que la operaci\'on de reducci\'on es transitiva. Si $\Pi$ es un problema de decisi\'on, podemos probar que $\Pi \in$ NP-Completo encontrando otro problema $\Pi'$ que ya sabemos que es NP-Completo y demostrando que:
+
+\begin{itemize}
+\item $\Pi \in \textrm{NP}$
+\item $\Pi' \leq_p \Pi$
+\end{itemize} 
+
+\subsection{El problema SAT}
+
+El problema SAT (\emph{``problema de satisfacibilidad booleana''}) consiste en, dada una f\'ormula booleana, decidir si existe una manera de reemplazarla con valores de verdadero o falso de manera que dicha f\'ormula devuelva verdadero.
+
+\subsubsection{Teorema de Cook}
+
+El Teorema de Cook dice que SAT es NP-Completo. Es decir, que todo problema en NP puede ser reducido en tiempo polinomial al problema de decidir si una f\'ormula booleana es satisfacible.
+
+Una consecuencia importante de este problema es que si existe un algoritmo de tiempo polinomial para resolver SAT, entonces existe un algoritmo polinomial para todos los problemas de NP, lo que demostrar\'ia que P = NP.
+
+
+\subsection{La clase NP-Intermedio}
+
+Esta es la clase de problemas de NP que no est\'an ni en P ni en NP-Completo. El Teorema de Ladner dice que, si P $\neq$ NP, entonces NP-I no es vac\'io. Es decir, P = NP si y s\'olo si NP-I es vac\'io.
+
+Hasta ahora no se conoce ning\'un problema de NP-I. De existir uno, implicar\'ia que P $\neq$ NP, lo cual no se sabe, pero se sospecha ampliamente. Un ejemplo de un problema que se sospecha que podr\'ia estar en NP-I es el de la factorizaci\'on de n\'umeros naturales.
 
 \subsection{La clase NP-Hard}
+
+Similarmente a la clase NP-Completo, un problema de decisi\'on $\Pi$ es \emph{``NP-hard''} si todo problema de NP se puede reducir polinomialmente a $\Pi$, \textbf{pero $\Pi$ no tiene que necesariamente estar en NP}.Es decir, la clase NP-Completo est\'a contenida dentro de la clase NP-Hard. 
+
+Todos los problemas NP-Completos son NP-Hard, pero no todos los problemas NP-Hard son NP-Completos, por ejemplo, el Halting Problem.
 
 
