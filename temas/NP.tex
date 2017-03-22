@@ -3,7 +3,11 @@
 
 Denominamos como \emph{``problema de decisi\'on''} a los problemas cuya respuesta es \emph{``s\'i''} o \emph{``no''}. El objetivo de esta teor\'ia es el de clasificar a este tipo de problemas seg\'un su complejidad.
 
-Un algoritmo \emph{``eficiente''} es un algoritmo de complejidad polinomial, y decimos que un problema est\'a \emph{``bien resuelto''} si se conocen algoritmos eficientes para resolverlo. Estos problemas pertenecen a la clase $P$. Por ejemplo, el problema $\Pi$ encontrar un v\'ertice $v$ en un grafo de $n$ v\'ertices puede resolverse en tiempo $O(n)$ usando DFS, por lo que $\Pi \in P$.
+\subsection{La clase P}
+
+La clase P es donde viven los problemas cuyas soluciones tienen complejidad \emph{``polinomial''}. Decimos que un algoritmo corre en tiempo polinomial si su complejidad es $O(n^k)$, donde $n$ denota el n\'umero de bits de entrada en el algoritmo.
+
+Un algoritmo \emph{``eficiente''} es un algoritmo de complejidad polinomial, y decimos que un problema est\'a \emph{``bien resuelto''} si se conocen algoritmos eficientes para resolverlo. Por ejemplo, el problema $\Pi$ encontrar un v\'ertice $v$ en un grafo de $n$ v\'ertices puede resolverse en tiempo $O(n)$ usando DFS, por lo que $\Pi \in P$.
 
 \subsection{La clase NP}
 
@@ -14,7 +18,7 @@ Veamos por ejemplo el problema $\Pi$ que consiste en: \emph{``dado un array $A$ 
 Es trivial darse cuenta que $P$ est\'a contenido en $NP$, pero la gran inc\'ognita en la teor\'ia de la complejidad es determinar si $P = NP$. Es decir, si para cada problema en $NP$ existe una soluci\'on polinomial.
 
 
-\subsection{Reducciones Polinomiales}
+\subsubsection{Reducciones Polinomiales}
 
 Una \emph{``reducci\'on polinomial''} de un problema de decisi\'on $\Pi_1$ a uno $\Pi_2$ es una funci\'on polinomial que transforma una instancia  $i_1$ de $\Pi_1$ en una instancia $i_2$ de $\Pi_2$, tal que $i_1$ tiene respuesta \emph{``s\'i''} en $\Pi_1$ si y s\'olo si $i_2$ tiene respuesta \emph{``s\'i''} en $\Pi_2$.
 
@@ -53,10 +57,17 @@ Esta es la clase de problemas de NP que no est\'an ni en P ni en NP-Completo. El
 
 Hasta ahora no se conoce ning\'un problema de NP-I. De existir uno, implicar\'ia que P $\neq$ NP, lo cual no se sabe, pero se sospecha ampliamente. Un ejemplo de un problema que se sospecha que podr\'ia estar en NP-I es el de la factorizaci\'on de n\'umeros naturales.
 
+\newpage
 \subsection{La clase NP-Hard}
 
 Similarmente a la clase NP-Completo, un problema de decisi\'on $\Pi$ es \emph{``NP-hard''} si todo problema de NP se puede reducir polinomialmente a $\Pi$, \textbf{pero $\Pi$ no tiene que necesariamente estar en NP}.Es decir, la clase NP-Completo est\'a contenida dentro de la clase NP-Hard. 
 
 Todos los problemas NP-Completos son NP-Hard, pero no todos los problemas NP-Hard son NP-Completos, por ejemplo, el Halting Problem.
 
+\subsection{Algoritmos Pseudopolinomiales}
 
+Decimos que un algoritmo corre en tiempo \emph{``pseudopolinomial''} si la complejidad del mismo es del orden polinomial en el valor num\'erico de la entrada, en lugar de la cantidad de bits necesaria para representarla.
+
+Un ejemplo de esto es el algoritmo que determina si un n\'umero cualquiera $n$ es o no primo, y para esto se fija si dicho n\'umero tiene alg\'un divisor en el intervalo $[2, .., n]$.
+
+Este algoritmo va a iterar $n$ veces, y en cada iteraci\'on va a calcular $n \textrm{ mod } i$. Si hacer la operaci\'on de m\'odulo costara $O(n^3)$, el algoritmo corre en $O(n^4)$.
