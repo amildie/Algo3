@@ -30,19 +30,19 @@ Dado $G = (V, E)$ y grafo, $l: E \rightarrow {\rm I\!R}$ una funci\'on que asign
   \State $prev[A] \gets -1$
   \State $dist[A] \gets 0$
   \State $pq.add(<dist[A], A>)$
-  \ForAll{$v \in V, v \neq A$}
+  \ForAll{$v \in V - \{ A \}$}
     \State $prev[v] \gets -1$
     \State $dist[v] \gets \infty$
     \State $pq.add(<dist[v], v>)$
   \EndFor
   \While{$!pq.empty()$}
     \State $t \gets pq.pop()$
-    \ForAll{$u \in t.second.neigh()$}
-      \State $alt \gets dist[u] + length(t.first, u)$
-      \If{$alt < dist[u]$}
-        \State $prev[u] \gets w$
-        \State $dist[u] \gets alt$
-        \State $pq.decreaseKey(<dist[u], u>)$
+    \ForAll{$w \in t.second.neigh()$}
+      \State $alt \gets dist[t.second] + length(t.second, w)$
+      \If{$alt < dist[w]$}
+        \State $prev[w] \gets t.second$
+        \State $dist[w] \gets alt$
+        \State $pq.decreaseKey(<dist[w], u>)$
       \EndIf
     \EndFor
   \EndWhile
@@ -63,13 +63,13 @@ Este algoritmo toma un grafo $G$ y devuelve un array de v\'ertices llamado $prev
 \item [9:] Ahora comienza el ciclo principal del algoritmo. En cada iteraci\'on del while vamos a visitar el v\'ertice de menor distancia hacia $A$ que encontremos en $pq$. El algoritmo termina cuando $pq$ est\'a vac\'ia, es decir, visitamos a todos los v\'ertices. Vale destacar que el primer v\'ertice que visitamos es $A$.
     \begin{enumerate}
     \item [10:] Guardamos en una tupla $t$ al v\'ertice que sacamos de $pq$. Hay que tener en cuenta que en $t.first$ vamos a tener la distancia m\'inima del v\'ertice que est\'a en $t.second$ hasta $A$.
-    \item [11:] Vamos a iterar a todos los vecinos $u$ de $t.second$.
+    \item [11:] Vamos a iterar a todos los vecinos $w$ de $t.second$.
         \begin{enumerate}
-        \item [12:] Definimos a la variable $alt$ como la suma de la distancia m\'inima de $u$ a $A$ m\'as la distancia de $u$ a $t.first$ (el v\'ertice que estamos visitando).
-        \item [13:] \¿Es esta nueva distancia menor a la distancia que ten\'iamos calculada antes?. Es decir, \¿si pasamos por $t.first$ para llegar desde $A$ a $u$, llegamos m\'as r\'apido que si no pasamos?. Si la respuesta es \textbf{s\'i}, entonces mejoramos la distancia previamente calculada para $u$ y tenemos que actualizar todo:
+        \item [12:] Definimos a la variable $alt$ como la longitud que tendr\'ia el camino hacia $w$ si pas\'aramos antes por $t.second$.
+        \item [13:] \¿Es esta nueva distancia menor a la distancia que ten\'iamos calculada antes?. Es decir, \¿si pasamos por $t.second$ para llegar desde $A$ a $w$, llegamos m\'as r\'apido que si no pasamos?. Si la respuesta es \textbf{s\'i}, entonces mejoramos la distancia previamente calculada para $w$ y tenemos que actualizar todo:
             \begin{enumerate}
-            \item [14:] Entonces para llegar a $u$ vamos a querer pasar por $t.first$.
-            \item [15:] Actualizamos la distancia m\'inima de $A$ hasta $u$.
+            \item [14:] Entonces para llegar a $w$ vamos a querer pasar por $t.second$.
+            \item [15:] Actualizamos la distancia m\'inima de $A$ hasta $w$.
             \item [16:] Hacemos lo mismo, pero en $pq$.
             \end{enumerate}
         \end{enumerate}
