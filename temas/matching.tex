@@ -4,10 +4,116 @@
 Dado un grafo $G = (V, E)$ definimos:
 
 \begin{itemize}
-\item Un \emph{``matching''} es un conjunto $M \subseteq E$ de ejes de $G$ tal que para todo v\'ertice $v \in V$, $v$ es incidente \textbf{a lo sumo} de un eje $e \in E$.
+\item Un \emph{``matching''} es un conjunto $M \subseteq E$ de ejes de $G$ tal que para todo v\'ertice $v \in V$, $v$ es incidente \textbf{a lo sumo} de un eje $e \in M$.
+
+\raggedright
+\bigskip
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm,
+  edge_red/.style={draw=red, ultra thick}]
+
+\node[vertex] (n1) at (-7,1)  {1};
+\node[vertex] (n2) at (-3,1)  {2};
+\node[vertex] (n3) at (-7,-1)  {3};
+\node[vertex] (n4) at (-3,-1)  {4};
+\node[vertex] (n5) at (-5,0)  {5};
+
+
+\draw[edge_red](n2) -- (n4);
+\draw(n1) -- (n3);
+\draw(n1) -- (n2);
+\draw[edge_red](n3) -- (n5);
+\draw(n3) -- (n4);
+\draw(n5) -- (n4);
+
+\end{tikzpicture}
+\end{center}
+\raggedright
+\bigskip
+
+
 \item Un \emph{``conjunto independiente''} es un conjunto de $I \subseteq V$ tal que para todo eje $e \in E$, $e$ es incidente \textbf{a lo sumo} a un v\'ertice $v$ de $I$.
-\item Un \emph{``recubrimiento de los v\'ertices''} de $G$ es un conjunto $R_e$ de ejes tales que para todo $v \in V$, $v$ es incidente a \textbf{al menos} un eje $e \in R_e$
+
+\raggedright
+\bigskip
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm,
+  vertex_red/.style={fill=red!35, circle}]
+
+\node[vertex_red] (n1) at (-7,1)  {1};
+\node[vertex] (n2) at (-3,1)  {2};
+\node[vertex] (n3) at (-7,-1)  {3};
+\node[vertex_red] (n4) at (-3,-1)  {4};
+\node[vertex] (n5) at (-5,0)  {5};
+
+
+\draw(n2) -- (n4);
+\draw(n1) -- (n3);
+\draw(n1) -- (n2);
+\draw(n3) -- (n5);
+\draw(n3) -- (n4);
+\draw(n5) -- (n4);
+
+\end{tikzpicture}
+\end{center}
+\raggedright
+\bigskip
+
+\item Un \emph{``recubrimiento de los v\'ertices''} de $G$ es un conjunto $R_e$ de ejes tales que para todo $v \in V$, $v$ es incidente a \textbf{al menos} un eje $e \in R_e$:
+
+\raggedright
+\bigskip
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm,
+  edge_red/.style={draw=red, ultra thick}]
+
+\node[vertex] (n1) at (-7,1)  {1};
+\node[vertex] (n2) at (-3,1)  {2};
+\node[vertex] (n3) at (-7,-1)  {3};
+\node[vertex] (n4) at (-3,-1)  {4};
+\node[vertex] (n5) at (-5,0)  {5};
+
+
+\draw(n2) -- (n4);
+\draw[edge_red](n1) -- (n3);
+\draw[edge_red](n1) -- (n2);
+\draw(n3) -- (n5);
+\draw(n3) -- (n4);
+\draw[edge_red](n5) -- (n4);
+
+\end{tikzpicture}
+\end{center}
+\raggedright
+\bigskip
+
 \item Un \emph{``recubrimiento de los ejes''} de $G$ es un conjunto $R_v$ de v\'ertices tal que para todo $e \in E$, $e$ es incidente a \textbf{al menos} un v\'ertice $v \in R_v$.
+
+\raggedright
+\bigskip
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm,
+  vertex_red/.style={fill=red!35, circle}]
+
+\node[vertex_red] (n1) at (-7,1)  {1};
+\node[vertex] (n2) at (-3,1)  {2};
+\node[vertex] (n3) at (-7,-1)  {3};
+\node[vertex_red] (n4) at (-3,-1)  {4};
+\node[vertex_red] (n5) at (-5,0)  {5};
+
+
+\draw(n2) -- (n4);
+\draw(n1) -- (n3);
+\draw(n1) -- (n2);
+\draw(n3) -- (n5);
+\draw(n3) -- (n4);
+\draw(n5) -- (n4);
+
+\end{tikzpicture}
+\end{center}
+\raggedright
+\bigskip
+
+
 \end{itemize}
 
 $S \subseteq V$ es un conjunto independiente si y s\'olo si $V - S$ es un recubrimiento de ejes.
