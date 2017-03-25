@@ -140,3 +140,49 @@ vector<int> lis(int* a, unsigned int n) {
 
 \newpage
 \subsubsection{El problema de la mochila}
+
+El \emph{``problema de la mochila''} es un problema c\'asico de optimizaci\'on combinatoria. Se trata de, dado un conjunto de items, cada uno con un determinado peso y valor, y una mochila que puede soportar hasta cierto peso, encontrar cuantas veces tengo que poner cada \'item para garantizar que la mochila contiene el m\'aximo valor posible.
+
+Este problema tiene diferentes variantes, pero cuando s\'olo tengo un \'item de cada peso, se lo conoce como el \emph{``0-1 knapsack problem''}, que se define formalmente como:
+
+\noindent\fbox{
+\parbox{\textwidth}{
+
+Dado un conjunto de $n$ items numerados de $1$ hasta $n$, cada uno con un peso $w_i$ y un valor $v_i$, y una m\'axima capacidad para la mochila $W$:
+\[
+\textrm{maximizar }\sum_{n=1}^{n} v_ix_i
+\textrm{ cumpliendo que } \sum_{n=1}^{n} v_ix_i \leq W \textrm{ y con } x_i \in \{0, 1\}
+\]
+
+}
+}
+
+La siguiente soluci\'on utilizar programaci\'on din\'amica y corre en tiempo pseudopolinomial. Asumimos que los pesos $w[1], w[2], ..., w[n]$ y el peso m\'aximo de la mochila $W$ son enteros positivos.
+
+Primero definimos una matriz $m[i, w]$ que representa el m\'aximo valor que podemos alcanzar usando hasta el \'item del \'indice $i$ teniendo un peso disponible de $w$. Claramente $m[0,w] = 0$, ya que el valor m\'aximo sin poner ning\'un \'item en la mochila es $0$.
+
+Luego definimos la din\'amica para calcular $m[i,w]$ de la siguiente manera:
+
+\[
+m[i,w] = \left\{\begin{array}{lr}
+    m[i-1, w] \textnormal{ si } w_i > w\\ 
+    max\{ m[i-1,w], m[i-1, w-w_i] + v_i\} \textnormal{ si } w_i \leq w
+    \end{array}\right
+\]
+
+Por ejemplo, si estamos viendo quinto elemento pueden pasar dos cosas:
+
+\begin{itemize}
+\item Que $w[5]$ sea m\'as grande que $w$. Esto significa que ya no nos queda espacio para meter a $w_5$, por lo que no lo metemos, dejando el valor de $m[5, w]$ igual al que ten\'iamos en $m[4,w]$.
+\item Que $w[5]$ sea menor o igual a $w$. Esto significa que todav\'ia tenemos espacio suficiente para meter al quinto elemento en la mochila.
+
+Pero que \emph{podamos} meter al quinto elemento no significa que \emph{debamos} hacerlo. Tenemos que elegir el m\'aximo entre \textbf{no} poner al quinto elemento ($m[i-1,w]$) y \textbf{s\'i} ponerlo ($m[i-1, w-w_5] + v_i$). 
+\end{itemize}
+
+Es decir, esta din\'amica va reduciendo continuamente la capacidad restante en la mochila llam\'andose recursivamente cada vez con menos espacio disponible, hasta que eventualmente se queda sin lugar.
+
+Para un peso m\'aximo $W$, el valor de la soluci\'on est\'a dado en $m[n,W]$.
+
+\newpage
+
+La siguiente es una implementaci\'on en C++ de la din\'amica anteriormente enunciada. Notar que los arrays son indexados desde $0$ en lugar de $1$.
