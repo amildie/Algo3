@@ -1,10 +1,10 @@
 \newpage
 \section{Matchings y Conjuntos Independientes}
 
-Dado un grafo $G = (V, E)$ definimos:
+Dado un grafo $G = (V, E)$ tenemos las siguientes definiciones:
 
 \begin{itemize}
-\item Un \emph{``matching''} es un conjunto $M \subseteq E$ de ejes de $G$ tal que para todo v\'ertice $v \in V$, $v$ es incidente \textbf{a lo sumo} de un eje $e \in M$.
+\item Un \emph{``matching''} es un conjunto $M \subseteq E$ de ejes de $G$ tal que para todo v\'ertice $v \in V$, $v$ es incidente \textbf{a lo sumo} de un eje $e \in M$. Se dice entonces que $v$ est\'a \emph{``saturado''} por $M$.
 
 \raggedright
 \bigskip
@@ -118,9 +118,77 @@ Dado un grafo $G = (V, E)$ definimos:
 
 $S \subseteq V$ es un conjunto independiente si y s\'olo si $V - S$ es un recubrimiento de ejes.
 
+\subsection{Matching maximal}
+
+Un \emph{``matching maximal''} $M$ en un grafo $G$ es un matching que cumple la propiedad de que si se le agrega un eje cualquiera $M$ deja de ser un matching. Es decir, pasa a existir un v\'ertice $v$ que es incidente a dos ejes de $M$, el que le agregu\'e y uno que ya estaba. 
+
+\raggedright
+\bigskip
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm,
+  edge_red/.style={draw=red, ultra thick}]
+
+\node[vertex] (n1) at (0,0)  {1};
+\node[vertex] (n2) at (1,1)  {2};
+\node[vertex] (n3) at (1,-1)  {3};
+\node[vertex] (n4) at (2.5,1)  {4};
+\node[vertex] (n5) at (2.5,-1)  {5};
+\node[vertex] (n6) at (4,1)  {6};
+
+
+\draw(n1) -- (n2);
+\draw[edge_red](n1) -- (n3);
+\draw(n2) -- (n3);
+\draw[edge_red](n2) -- (n4);
+\draw(n4) -- (n5);
+\draw(n3) -- (n5);
+\draw(n4) -- (n6);
+
+\end{tikzpicture}
+\end{center}
+\raggedright
+\bigskip
+
+
 \subsection{Matching m\'aximo}
 
-Un v\'ertice $v$ se dice \emph{``saturado''} por un matching $M$ si hay un eje de $M$ incidente a $v$. Dado un matching $M$ en $G$, un \emph{``camino alternado''} en $G$ con respecto a $M$, es un camino simple donde se alternan ejes que est\'an en $M$ con ejes que no lo est\'an.
+Un \emph{``matching m\'aximo''} es un matching que contiene la mayor cantidad posible de ejes. El \emph{``n\'umero de matching''} $\nu(G)$ de un grafo $G$ es el tama\~no de su matching m\'aximo. Todo matching m\'aximo es maximal, pero no todo matching maximal es m\'aximo, como se puede ver al comparar los dibujos de cada uno.
+
+\raggedright
+\bigskip
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm,
+  edge_red/.style={draw=red, ultra thick}]
+
+\node[vertex] (n1) at (0,0)  {1};
+\node[vertex] (n2) at (1,1)  {2};
+\node[vertex] (n3) at (1,-1)  {3};
+\node[vertex] (n4) at (2.5,1)  {4};
+\node[vertex] (n5) at (2.5,-1)  {5};
+\node[vertex] (n6) at (4,1)  {6};
+
+
+\draw[edge_red](n1) -- (n2);
+\draw(n1) -- (n3);
+\draw(n2) -- (n3);
+\draw(n2) -- (n4);
+\draw(n4) -- (n5);
+\draw[edge_red](n3) -- (n5);
+\draw[edge_red](n4) -- (n6);
+
+\end{tikzpicture}
+\end{center}
+\raggedright
+\bigskip
+
+El problema de encontrar un matching m\'aximo en un grafo arbitrario est\'a bien resuelto en $P$, con el algoritmo Blossom que tiene un costo de $O(V^{2}E)$. Como un matching m\'aximo tambi\'en es maximal, es posible encontrar en el matching maximal m\'as grande en tiempo polinomial.
+
+No obstante, todav\'ia no hay ning\'un algoritmo polinomial para encontrar el matching maximal m\'inimo, esto es, un matching maximal que contenga la menor cantidad de ejes.
+
+\newpage
+\subsection{Caminos}
+
+Dado un matching $M$ en $G$, un \emph{``camino alternado''} en $G$ con respecto a $M$, es un camino simple donde se alternan ejes que est\'an en $M$ con ejes que no lo est\'an. Para el gra\'afico anterior, un ejemplo de camino alternado es $6,4,2,1,3,5$.
 
 Dado un matching $M$ en $G$, un \emph{``camino de aumento''} en $G$ con respecto a $M$ es un camino alternado entre v\'ertices no saturados por $M$.
 
