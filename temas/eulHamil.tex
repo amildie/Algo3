@@ -81,5 +81,47 @@ Esta heur\'istica greedy es bastante r\'apida, pero no siempre obtiene el circui
 La funci\'on $aristaMasBarata()$ devuelve siempre una arista $(v,w)$ de peso m\'inimo, con $w \not\in S$. Este algoritmo puede no siempre devolver un ciclo, y si lo devuelve, puede no ser el de peso m\'inimo. Su complejidad es $O(n^2)$. Tambi\'en existe la posibilidad de correr este algoritmo una vez en cada v\'ertice, obteniendo un circuito hamiltoniano en cada ejecuci\'on, y qued\'andome con el de peso m\'inimo.
 
 \newpage
-\subsubsection*{Heur\'istica de incerci\'on}
+\subsubsection*{Heur\'istica de inserci\'on}
+
+Las heur\'isticas de inserci\'on son las que ejecutan el siguiente procedimiento:
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\State $C \gets getCircuitoLong3()$
+\State $S \gets \{ \textrm{v\'ertices de C} \}$
+\While{$S \neq V$}
+  \State \textbf{\emph{elegir}} un v\'ertice $v$ tal que $v \not\in S$
+  \State $S \gets S \cup \{ v \}$
+  \State \textbf{\emph{insertar}} $v$ en $C$
+\EndWhile
+\State \textbf{return} $C$
+\end{algorithmic}
+\end{algorithm}
+
+L\'ogicamente la particularidad de cada heur\'istica de inserci\'on depende de c\'omo se est\'a eligiendo el v\'ertice y c\'omo se lo est\'a insertando en $C$. Hay diferentes maneras de elegir el v\'ertice:
+
+\begin{itemize}
+\item Elegir $v$ al azar.
+\item Elegir el $v$ m\'as lejano a un v\'ertice que ya est\'a en $C$.
+\item Elegir el $v$ m\'as cercano a un v\'ertice que ya est\'a en $C$.
+\item Elegir el $v$ m\'as barato, es decir, que hace crecer menos la longitud de $C$.
+\end{itemize}
+
+Para insertar el nodo $v$ elegido, lo que hacemos es:
+
+\begin{enumerate}
+\item Sea $c(v_i,v_j)$ el costo de la longitud del eje $(v_i,v_j)$.
+\item Elegimos dos v\'ertices $v_i$, $v_{i+1}$ consecutivos en $C$, tales que $C(v_i$, $v_{i+1})$ sea m\'inimo.
+\item Insertamos a $v$ entre $v_i$ y $v_{i+1}$.
+\end{enumerate}
+
 \subsubsection*{Heur\'istica del \'arbol generador}
+
+Se basa en el siguiente procedimiento:
+
+\begin{enumerate}
+\item Encontrar un AGM $T$ de $G$.
+\item Duplicar los ejes de $T$.
+\item Armar un circuito euleriano $E$ con los ejes de $T$ y sus duplicados.
+\item Recorrer $E$ usando DFS y armar un circuito hamiltoniano de $G$.
+\end{enumerate}

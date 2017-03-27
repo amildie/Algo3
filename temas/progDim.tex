@@ -223,3 +223,16 @@ void knapsack(int v[], int w[], int n, int W)
 Ac\'a queda evidente que el tiempo de ejecuci\'on de la funci\'on depende de los dos ciclos anidados, donde uno va a iterar $n$ veces, siendo $n$ la cantidad de elementos y el otro va a iterar $W$ veces, siendo $W$ el peso m\'aximo de la mochila.
 
 Esto nos deja a la complejidad temporal del algoritmo como $O(nW)$. Notar que la matriz construida tiene que ser de $n$ filas por $W$ columnas, por lo que la complejidad espacial tambi\'en es de $O(nW)$. Es decir, esta soluci\'on es pseudopolinomial en tiempo y espacio.
+
+\newpage
+\subsubsection{Subconjunto de suma 0}
+
+Este problema es en realidad un caso especial del problema de la mochila:
+
+\noindent\fbox{
+\parbox{\textwidth}{
+
+Dado un array $A = \{a_1, a_2, ..., a_n\}$ de enteros, determinar si existe una subsecuencia no necesariamente continua no vac\'ia de $A$ tal que la suma de todos sus elementos sea 0.
+
+}
+}
