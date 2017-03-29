@@ -174,7 +174,7 @@ D[i][j] = min\{ D[i][j], D[i][k] + D[k][j]\}
     \ForAll{$i \textrm{ \textbf{from} } 1 \textrm{ \textbf{to} } n$}
       \ForAll{$j \textrm{ \textbf{from} } 1 \textrm{ \textbf{to} } n$}
         \State $alt \gets dist[i][k] + dist[k][j]$
-        \If{$alt > dist[i][j]$}
+        \If{$alt < dist[i][j]$}
           \State $dist[i][j] \gets alt$
           \State $next[i][j] \gets next[i][k]$
         \EndIf
