@@ -143,19 +143,38 @@ En este caso es bastante evidente que la complejidad es O(n * m), ya que vamos a
 
 Dado un grafo dirigido $G = (V, E)$ sin pesos negativos, el algoritmo de Floyd sirve para calcular el camino m\'inimo entre cada par de v\'ertices de $G$ en tiempo $O(n^3)$.
 
-Supongamos primero que los v\'ertices de $G$ est\'an numerados de $1$ a $n$, y definamos a la matriz $L$ como el peso de cada eje de $E$; siendo $L[i][i] = 0$, para todo $i \in V$. $L[i][j] \geq 0$ para todo $i \neq j$ y $L[i][j] = \infty$ para todo par de v\'ertices que no est\'an conectados.
+%Supongamos primero que los v\'ertices de $G$ est\'an numerados de $1$ a $n$, y definamos a la matriz $L$ como el peso de cada eje de $E$; siendo $L[i][i] = 0$, para todo $i \in V$. $L[i][j] \geq 0$ para todo $i \neq j$ y $L[i][j] = \infty$ para todo par de v\'ertices que no est\'an conectados.
 
-Se aplica el principio de optimalidad: Si $k$ es un v\'ertice en el camino m\'inimo desde $i$ hasta $j$, entonces los subcaminos que van desde $i$ hasta $k$ y desde $k$ hasta $j$ tambi\'en tienen que ser m\'inimos.
+Supongamos que los v\'ertices de $V$ est\'an numerados de $1$ a $n$, y definamos a la funci\'on $caminoMin(i,j,k)$ que devuelve el camino m\'inimo desde el v\'ertice $i$ hasta el $j$, usando los v\'ertices que est\'an en $\{1, 2, ..., k\}$ como posibles puntos intermedios del camino.
 
-Nos construimos una matriz $D$ que contiene las longitudes de los caminos m\'inimos entre cada par de v\'ertices, y el algoritmo la inicializa con los valores de $L$.
+Ahora bien, a partir de esa funci\'on, nuestro objetivo es el de encontrar el camino m\'inimo de $i$ hasta $j$ usando s\'olamente los v\'ertices que est\'an en $\{1, 2, ..., k, k+1\}$. Para cada par de v\'ertices $i,j$ el camino m\'inimo podr\'ia ser:
 
-El algoritmo empieza a iterar. Despu\'es de la iteraci\'on $k$, $D$ contiene las longitudes m\'inimas que s\'olo usan los v\'ertices en el conjunto $\{1, 2, ..., k\}$ como v\'ertices intermedios. Despu\'es de $n$ iteraciones $D$ contiene las longitudes m\'inimas que usan cualquiera de los $n$ v\'ertices, lo cual es el resultado que quer\'iamos.
+\begin{itemize}
+\item Un camino que s\'olamente usa los v\'ertices del conjunto $\{1, 2, ..., k\}$
+\item Un camino que va de $i$ a $k+1$, y de $k+1$ hasta $j$
+\end{itemize}
 
-En la iteraci\'on $k$, el algoritmo debe checkear para cada par de v\'ertices $i$ y $j$ si existe un camino desde $i$ hasta $j$ que pasa por el v\'ertice $k$ que tiene longitud menor que la que ya ten\'iamos calculada antes, la cual correspond\'ia al camino de $i$ a $j$ que s\'olo usaba los v\'ertices en $\{1, 2, ..., k-1\}$. Esta din\'amica se puede expresar de la siguiente manera:
+Pero nosotros sabemos que el mejor camino de $i$ a $j$ que s\'olo usa los v\'ertices del conjunto $\{1, 2, ..., k\}$ est\'a dado por la funci\'on $caminoMin(i,j,k)$, y es claro que si hubiera un mejor camino de $i$ a $j$ que pasara por $k+1$, entonces la longitud de dicho camino deber\'ia ser la concatenaci\'on del camino m\'inimo de $i$ a $k+1$ (usando los v\'ertices en $\{1, 2, ...., k\}$) y el camino m\'inimo de $k+1$ a $j$ (tambi\'en usando los v\'ertices en $\{1, 2, ...., k\}$)
+
+Si $w(i,j)$ es el peso del eje entre los v\'ertices $i$ y $j$, podemos definir a la funci\'on $caminoMin(i,j,k+1)$ con la siguiente recursividad:
 
 \[
-D[i][j] = min\{ D[i][j], D[i][k] + D[k][j]\}
+caminoMin(i,j,0) = w(i,j)
 \]
+\[
+caminoMin(i,j,k+1) = min\left\{\begin{array}{lr}
+    caminoMin(i,j,k), \\
+    caminoMin(i,k+1,k) + caminoMin(k+1, j, k)
+    \end{array}\right\}
+\]
+
+
+%Se aplica el principio de optimalidad: Si $k$ es un v\'ertice en el camino m\'inimo desde $i$ hasta $j$, entonces los subcaminos que van desde $i$ hasta $k$ y desde $k$ hasta $j$ tambi\'en tienen que ser m\'inimos.
+
+
+%\[
+%D[i][j] = min\{ D[i][j], D[i][k] + D[k][j]\}
+%\]
 
 \begin{algorithm}
 \begin{algorithmic}[1]
@@ -185,6 +204,14 @@ D[i][j] = min\{ D[i][j], D[i][k] + D[k][j]\}
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
+
+Nos construimos una matriz $D$ que contiene las longitudes de los caminos m\'inimos entre cada par de v\'ertices, y el algoritmo la inicializa con los valores de $L$.
+
+El algoritmo empieza a iterar. Despu\'es de la iteraci\'on $k$, $D$ contiene las longitudes m\'inimas que s\'olo usan los v\'ertices en el conjunto $\{1, 2, ..., k\}$ como v\'ertices intermedios. Despu\'es de $n$ iteraciones $D$ contiene las longitudes m\'inimas que usan cualquiera de los $n$ v\'ertices, lo cual es el resultado que quer\'iamos.
+
+En la iteraci\'on $k$, el algoritmo debe checkear para cada par de v\'ertices $i$ y $j$ si existe un camino desde $i$ hasta $j$ que pasa por el v\'ertice $k$ que tiene longitud menor que la que ya ten\'iamos calculada antes, la cual correspond\'ia al camino de $i$ a $j$ que s\'olo usaba los v\'ertices en $\{1, 2, ..., k-1\}$.
+
+
 
 \newpage
 \subsection{Algoritmo de Dantzig (n a m)}
