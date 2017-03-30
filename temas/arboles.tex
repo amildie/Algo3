@@ -40,39 +40,42 @@ Los nodos \emph{``internos''} de un \'arbol son aquellos que no son hojas ni ra\
 \subsection{Recorrido de \'arboles}
 \subsubsection{DFS}
 
-\emph{``Depth First Search''} es un algoritmo de b\'usqueda en grafos. Lo que hace es arrancar desde un nodo $n$ cualquiera y fijarse si dicho nodo es el que estamos buscando. Si no lo es, marcarlo como visitado, pedir el listado de todos sus vecinos y llamarse recursivamente en cada uno de ellos, empezando por el m\'as chico hasta llegar al m\'as grande.
+\emph{``Depth First Search''} es un algoritmo de b\'usqueda en grafos. Lo que hace es arrancar desde un v\'ertice $n$ cualquiera y fijarse si dicho v\'ertice es el que estamos buscando. Si no lo es, marcarlo como visitado, pedir el listado de todos sus vecinos y llamarse recursivamente ($DFSr$) en cada uno de ellos.
 \vspace{8px}
 
 \begin{algorithm}
 \begin{algorithmic}[1]
-\Function{DFS}{$G, v$}
-  \State checked $\gets \{0, 0, ..., 0\}$
-  \State \textbf{return} DFSr($G, v, 0, checked$)
+\Function{DFS}{$G = (V, E)$}
+  \ForAll{$v \in V$}
+    \State $visited_v \gets false$
+  \EndFor
+  \ForAll{$v \in V$}
+    \If{$visited_v = false$}
+      \State $DFS(v)$
+    \EndIf
+  \EndFor
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-
-
 
 \begin{algorithm}
 \begin{algorithmic}[1]
-\Function{DFSr}{$G, v, n, checked$}
-  \If{v = n}
-    \State \textbf{return} true
-  \EndIf
-  \State $checked_n \gets true$
-  \State $adyacen \gets getNeigh(n)$
-  \ForAll{$w \in adyacen$}
-    \If{$checked_w \neq true$}
-      \State DFSr($G, v, w, checked$)
+\Function{DFS}{$v$}
+  \State $visited_v \gets true$
+  \ForAll{$e = (w,u) \in E$ \textbf{where} $w = v$}
+    \If{$visited_w = false$}
+      \State $DFS(w)$
     \EndIf
   \EndFor
-  \State \textbf{return} false
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
 
-Es decir, cuando el algoritmo llega a una hoja, hace backtracking hasta el \'ultimo nodo revisado con hijos todav\'ia sin revisar. Es por eso que la complejidad temporal del mismo es $O(n)$. Tambi\'en se puede implementar de forma iterativa con una pila. Al igual que BFS, DFS s\'olo funciona en grafos conexos.
+Cuando el algoritmo llega a una hoja hace backtracking hasta el \'ultimo v\'ertice revisado con hijos todav\'ia sin revisar.
+
+La complejidad de DFS es un tema que hay que ver con cuidado. Un razonamiento inicial podr\'ia ser: \emph{``como estoy revisando cada v\'ertice de G una \'unica vez, entonces la complejidad de DFS tiene que ser O(n)''}. Este razonamiento, por m\'as intuitivo que parezca, es erroneo.
+
+
 
 \newpage
 \subsubsection{BFS}
