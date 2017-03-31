@@ -3,7 +3,7 @@
 
 \subsection{Grafos Eulerianos}
 
-Un circuito $C$ en un grafo $G$ es un \emph{``circuito euleriano''} si $C$ pasa por todos los ejes de $G$ una y s\'olo una vez. Un grafo es euleriano si tiene un circuito euleriano. Un grafo conexo es euleriano $\Leftrightarrow$ todos sus nodos son de grado par. Podemos encontrar un circuito euleriano utilizando el algoritmo de Hierholzer en $O(m)$: 
+Un circuito $C$ en un grafo $G$ es un \emph{``circuito euleriano''} si $C$ pasa por todos los ejes de $G$ una y s\'olo una vez. Un grafo es euleriano si tiene un circuito euleriano. Un circuito euleriano puede pasar varias veces por el mismo v\'ertice. Un grafo conexo es euleriano $\Leftrightarrow$ todos sus nodos son de grado par. Podemos encontrar un circuito euleriano utilizando el algoritmo de Hierholzer en $O(m)$: 
 
 \begin{algorithm}
 \begin{algorithmic}[1]
@@ -32,6 +32,10 @@ Un circuito $C$ en un grafo $G$ es un \emph{``circuito euleriano''} si $C$ pasa 
     \item [\textbf{7:}] Ahora tenemos dos ciclos eulerianos que comparten como \'unico v\'ertice a $w$. Al unirlos, es trivial ver que todav\'ia voy a seguir teniendo un ciclo euleriano.
   \end{enumerate}
 \end{enumerate}
+
+\subsubsection{Problema del Cartero Chino}
+
+El \emph{``Problema del Cartero Chino''} es el problema de encontrar, dado un grafo $G$ con pesos en sus ejes, un circuito euleriano de longitud m\'inima que pase por cada eje al menos una vez. Si $G$ es euleriano, la soluci\'on del problema es su circuito euleriano. Hay algoritmos polinomiales para resolverlo.
 
 
 \newpage

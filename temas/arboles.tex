@@ -47,10 +47,13 @@ Los nodos \emph{``internos''} de un \'arbol son aquellos que no son hojas ni ra\
 \begin{algorithmic}[1]
 \Function{DFS}{$G = (V, E)$}
   \ForAll{$v \in V$}
-    \State $visited_v \gets false$
+    \State $visitV_v \gets false$
+  \EndFor
+  \ForAll{$e \in E$}
+    \State $visitE_e \gets false$
   \EndFor
   \ForAll{$v \in V$}
-    \If{$visited_v = false$}
+    \If{$visitV_v = false$}
       \State $DFS(v)$
     \EndIf
   \EndFor
@@ -62,8 +65,8 @@ Los nodos \emph{``internos''} de un \'arbol son aquellos que no son hojas ni ra\
 \begin{algorithmic}[1]
 \Function{DFS}{$v$}
   \State $visited_v \gets true$
-  \ForAll{$e = (w,u) \in E$ \textbf{where} $w = v$}
-    \If{$visited_w = false$}
+  \ForAll{$e = (w,u) \in E$ \textbf{where} $w = v$ \textbf{and} $visitE_e = false$}
+    \If{$visitV_w = false$}
       \State $DFS(w)$
     \EndIf
   \EndFor
@@ -73,9 +76,11 @@ Los nodos \emph{``internos''} de un \'arbol son aquellos que no son hojas ni ra\
 
 Cuando el algoritmo llega a una hoja hace backtracking hasta el \'ultimo v\'ertice revisado con hijos todav\'ia sin revisar.
 
-La complejidad de DFS es un tema que hay que ver con cuidado. Un razonamiento inicial podr\'ia ser: \emph{``como estoy revisando cada v\'ertice de G una \'unica vez, entonces la complejidad de DFS tiene que ser O(n)''}. Este razonamiento, por m\'as intuitivo que parezca, es erroneo.
+Como todos los algoritmos de grafos, la complejidad depende de ciertos factores de la implementaci\'on. En la funci\'on $DFS(v)$ estoy recorriendo todos los ejes de $E$, buscando los que salen de $v$. Si hago este llamado para cada v\'ertice $v$, la complejidad del algoritmo me va a quedar $O(n * m)$.
 
+No obstante, no queremos recorrer ejes que ya sabemos que ya revisamos. Es verdad que, como mucho, podr\'iamos iterar $m$ veces en la linea $3:$, pero en una buena implementaci\'on de DFS no tendr\'iamos que nunca pasar por el mismo eje dos veces.
 
+Es decir, por cada v\'ertice, solo vamos a ver sus ejes no visitados. Si queremos revisar todos los v\'ertices y todos los ejes de cada uno, nos temina quedando una complejidad de $O(n + m)$.
 
 \newpage
 \subsubsection{BFS}
