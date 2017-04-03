@@ -1,7 +1,7 @@
 \newpage
 \section{Arboles}
 
-Un \emph{\'arbol} es un grafo conexo sin circuitos simples. Dado $G=(V,X)$ las siguientes afirmaciones son equivalentes:
+Un \emph{\'arbol} es un grafo conexo sin circuitos simples. Dado $G=(V,E)$ las siguientes afirmaciones son equivalentes:
 
 \begin{enumerate}
 \item $G$ es un \'arbol.
@@ -10,14 +10,16 @@ Un \emph{\'arbol} es un grafo conexo sin circuitos simples. Dado $G=(V,X)$ las s
 \item $G$ es conexo, pero si se le quita una cualquier arista queda disconexo.
 \end{enumerate}
 
-Sea $G=(V,X)$ un grafo conexo y $e \in X$, $G-e$ es conexo si y s\'olo si $e$ pertenece a un circuito simple de $G$. Dentro de un \'arbol, definimos como \emph{hoja} a un nodo de grado 1. Todo \'arbol no trivial tiene al menos 2 hojas.
+Sea $G=(V,E)$ un grafo conexo y $e \in E$, $G-e$ es conexo si y s\'olo si $e$ pertenece a un circuito simple de $G$. Dentro de un \'arbol, definimos como \emph{``hoja''} a un nodo de grado 1. Todo \'arbol no trivial tiene al menos 2 hojas.
 
 \subsection{Propiedades de los \'arboles}
 
+Si $G = (V,E)$ es un \'arbol, valen las siguientes propiedades:
+
 \begin{itemize}
-\item Si $G$ un \'arbol, entonces $m=n-1$.
-\item Si $G = (V,X)$ con $c$ componentes conexas, entonces $m \geq n-c$.
-\item Si $G = (V,X)$ con $c$ componentes conexas y sin circuitos simples, entonces $m=n-c$.
+\item $|E| = |V| - 1$.
+\item Si $G$ tiene $c$ componentes conexas, entonces $|E| \geq |V| - c$.
+\item Si $G$ tiene $c$ componentes conexas y no tiene circuitos simples, entonces $|E| =|V|-c$.
 \end{itemize}
 
 \subsection{Arboles enraizados}
@@ -76,52 +78,46 @@ Los nodos \emph{``internos''} de un \'arbol son aquellos que no son hojas ni ra\
 
 Cuando el algoritmo llega a una hoja hace backtracking hasta el \'ultimo v\'ertice revisado con hijos todav\'ia sin revisar.
 
-Como todos los algoritmos de grafos, la complejidad depende de ciertos factores de la implementaci\'on. En la funci\'on $DFS(v)$ estoy recorriendo todos los ejes de $E$, buscando los que salen de $v$. Si hago este llamado para cada v\'ertice $v$, la complejidad del algoritmo me va a quedar $O(n * m)$.
+Como todos los algoritmos de grafos, la complejidad depende de ciertos factores de la implementaci\'on. En la funci\'on $DFS(v)$ estoy recorriendo todos los ejes de $E$, buscando los que salen de $v$. Si hago este llamado para cada v\'ertice $v$, la complejidad del algoritmo me va a quedar $\mathcal{O}(|V| * |E|)$.
 
-No obstante, no queremos recorrer ejes que ya sabemos que ya revisamos. Es verdad que, como mucho, podr\'iamos iterar $m$ veces en la linea $3:$, pero en una buena implementaci\'on de DFS no tendr\'iamos que nunca pasar por el mismo eje dos veces.
+No obstante, no queremos recorrer ejes que ya sabemos que ya revisamos. Es verdad que, como mucho, podr\'iamos iterar $|E|$ veces en la linea \textbf{3:}, pero en una buena implementaci\'on de DFS no tendr\'iamos que nunca pasar por el mismo eje dos veces.
 
-Es decir, por cada v\'ertice, solo vamos a ver sus ejes no visitados. Si queremos revisar todos los v\'ertices y todos los ejes de cada uno, nos temina quedando una complejidad de $O(n + m)$.
+Es decir, por cada v\'ertice, solo vamos a ver sus ejes no visitados. Si queremos revisar todos los v\'ertices y todos los ejes de cada uno, nos temina quedando una complejidad de $\mathcal{O}(|V| + |E|)$.
 
 \newpage
 \subsubsection{BFS}
 
 \emph{``Bradth First Search''} es muy similar a DFS pero, en lugar de realizar backtracking poniendo todos los vecinos de cada v\'ertice en un stack, pone a todos los vecinos de cada v\'ertice en una queue.
-\vspace{8px}
 
-\begin{center}
-\begin{minipage}{0.78\textwidth}
-\begin{lstlisting}[frame=lrtb]
-void BFS(Graph &g, int n) {
-  queue<int> q;
-  bool checked[g.n];
-  memset(checked, 0, sizeof(checked));
-  q.push(0);
+BFS arranca desde un v\'ertice ra\'iz y escanea el \'arbol nivel por nivel. Cuando termina un nivel avanza al siguiente, hasta que llega al \'ultimo v\'ertice del \'ultimo nivel, donde termina el algoritmo:
 
-  while(!q.empty()) {
-    int t = q.front();
-    q.pop();
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Function{BFS}{$v$}
+  \ForAll{$v \in V$}
+    \State $visited_v \gets false$
+  \EndFor
+  \State $q.push(v_0)$
+  \While{$!q.empty()$}
+    \State $w \gets q.pop()$
+    \If{$visited_w = false$}
+      \ForAll{$e = (w,u) \in E$}
+        \If{$visited_u = false$}
+          \State $q.push(u)$
+        \EndIf
+      \EndFor
+      \State $visited_w \gets true$
+    \EndIf
+  \EndWhile
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
-    if(checked[t]) continue;
-    if(t == n) {
-      cout << "found!" << endl;
-      return;
-    }
+Inicialmente el algoritmo va a marcar a todos los v\'ertices como no visitados, para luego encolar al primer v\'ertice $V_0$ en $q$. Este proceso lleva $\mathcal{O}(|V|)$.
 
-    checked[t] = 1;
-    vector<int> neigh = g.getAdyacents(t); 
-    for(int i = 0; i < neigh.size(); ++i) {
-      if(!checked[neigh[i]]) {
-        q.push(neigh[i]);
-      }
-    }
-  }
+Luego va a ciclar hasta que $q$ est\'e vac\'ia. Va a haber una iteraci\'on del while principal por cada v\'ertice de $G$. Para cada v\'ertice que va desencolando, va a recorrer todos sus ejes incidentes, encolando a todos sus hijos.
 
-}
-\end{lstlisting}
-\end{minipage}
-\end{center}
-
-Al igual que con DFS, BFS s\'olo tiene sentido en grafos conexos y tiene complejidad $O(n)$.
+Como no se repiten ejes, es sencillo ver que el ciclo de \textbf{8:} va iterar una vez por cada eje en $E$. Esto nos deja la complejidad total del algoritmo como $\mathcal{O}(|V| + |E|)$.
 
 \newpage
 \subsection{Arbol generador}
@@ -220,9 +216,9 @@ El algoritmo de Kruskal es un algoritmo greedy que lo que hace es ir seleccionan
 
 \subsubsection*{Complejidad}
 
-En cada iteraci\'on del algoritmo (5:) necesitamos poder obtener el eje no todav\'ia insertado en el AGM en O(1). Esto se puede lograr f\'acilmente ordenando todos los $m$ ejes por peso ascendentemente usando alg\'un sort por comparaci\'on, lo cual se puede hacer en O(m log m) (4:).
+En cada iteraci\'on del algoritmo (5:) necesitamos poder obtener el eje no todav\'ia insertado en el AGM en $\mathcal{O}(1)$. Esto se puede lograr f\'acilmente ordenando todos los $m$ ejes por peso ascendentemente usando alg\'un sort por comparaci\'on, lo cual se puede hacer en $\mathcal{O}(|E| \hspace{2px}\log{}|E|)$ (4:).
 
-Los pasos 6: y 8: (find y union) se pueden hacer en O(log m). Como los estoy haciendo en cada iteraci\'on del algoritmo, y como voy a iterar n-1 veces, la complejidad del mismo termina siendo O(n (2 log m)) = O(n log m).
+Los pasos 6: y 8: (find y union) se pueden hacer en $\mathcal{O}(\log{} |E|)$. Como los estoy haciendo en cada iteraci\'on del algoritmo, y como voy a iterar $|V|-1$ veces, la complejidad del mismo termina siendo $\mathcal{O}(|V| 2 \hspace{2px}\log{}|E|) = \mathcal{O}(|V| \hspace{2px}\log{}|E|)$.
 
 \newpage
 \subsubsection{Algoritmo de Prim}
@@ -263,6 +259,6 @@ A diferencia del anterior, el algoritmo de Pimm hace crecer al AGM desde un v\'e
 
 \subsubsection*{Complejidad}
 
-L\'ogicamente toda la complejidad del algoritmo est\'a en la funci\'on buscarEje, la cual hace que el algoritmo sea greddy. La complejidad del mismo depende de las estructura utilizada para implementar la funci\'on buscarEje.
+L\'ogicamente toda la complejidad del algoritmo est\'a en la funci\'on $buscarEje$, la cual hace que el algoritmo sea greddy. La complejidad del mismo depende de las estructura utilizada para implementar la funci\'on $buscarEje$.
 
-Si utilizo una cola de prioridad implementada sobre un min-heap binario esta funci\'on cuesta O(log m). Como este paso se va a tener que realizar n veces ya que est\'a adentro del while, el costo total del algoritmo es de O(n log m).
+Si utilizo una cola de prioridad implementada sobre un min-heap binario esta funci\'on cuesta $\mathcal{O}(\log{}|E|)$. Como este paso se va a tener que realizar n veces ya que est\'a adentro del while, el costo total del algoritmo es de $\mathcal{O}(|V|\hspace{2px}\log{}|E|)$.
