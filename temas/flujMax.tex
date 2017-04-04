@@ -3,19 +3,19 @@
 
 Una \emph{``red''} $N = (V, E)$ es un grafo orientado conexo que tiene dos nodos distinguidos: una \emph{``fuente''} $s$, con un grado de salida positivo y un \emph{``sumidero''} $t$ con un grado de entrada positivo.
 
-Una \emph{``funci\'on de capacidades en la red''} es una funci\'on $c : E \rightarrow {\rm I\!R^{\geq 0}}$
+Una \emph{``funci\'on de capacidades en la red''} es una funci\'on $c : E \rightarrow {\rm I\!R^{\geq 0}}$. La funci\'on de capacidad determina, para cada eje del grafo, la capacidad de transportar flujo que posee.
 
 Un \emph{``flujo factible''} en una red $N = (V, E)$ con funci\'on de capacidad $c$ es una funci\'on $f : E \rightarrow {\rm I\!R^{\geq 0}}$ que verifica:
 
 \begin{itemize}
-\item $0 \leq f(e) \leq c(e)$ para todo eje $e \in E$.
-\item La \emph{``Ley de conservaci\'on de Flujo''}:
+\item $0 \leq f(e) \leq c(e)$ para todo eje $e \in E$. Es decir, el flujo factible de un eje no puede ser superior a su capacidad.
+\item La \emph{``Ley de conservaci\'on de Flujo''}, que dice que dado un v\'ertice $v$, la suma de los flujos de los ejes que llegan a \'el es la misma que la suma de los flujos de los v\'ertices que salen de \'el. Formalmente:
 
 \[
-\sum_{e \in in(v)} f(e) = \sum_{e \in out(v)} f(e)
+\forall v \in V - \{ s, t \} \textrm{ se cumple que} \sum_{e \in in(v)} f(e) = \sum_{e \in out(v)} f(e)
 \]
 
-para todo v\'ertice $v \in V - \{ s, t \}$, donde
+donde:
 
 \[
 in(v) = \{ e \in E, e = (w \rightarrow v), w \in V \}
@@ -24,13 +24,58 @@ in(v) = \{ e \in E, e = (w \rightarrow v), w \in V \}
 out(v) = \{ e \in E, e = (v \rightarrow w), w \in V \}
 \]
 
-Es decir, la cantidad de flujo que entra a un v\'ertice es la misma que la que sale.
 
 \end{itemize}
 
-El \emph{``valor del flujo''} es $F = 3$
+El \emph{``valor del flujo''} es:
 
+\[
+F = \sum_{e \in in(t)} f(e) - \sum_{e \in out(s)} f(e)
+\]
+
+%\textbf{PREGUNTAR SI ESTO ESTA BIEN}.
+
+El problema m\'as com\'un cuando hablamos de flujo es el de encontrar un flujo m\'aximo. Esto es, encontrar un F m\'aximo en una red con una \'unica fuente y un \'unico sumidero. Este problema est\'a en P.
+
+
+\raggedright
+  \bigskip
+  \begin{center}
+\begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm,
+   node_style/.style={circle},
+   edge_style/.style={draw=black},
+   edge_styly/.style={->,> = latex'}]
+
+\node[vertex] (S) at (0,0)  {s};
+\node[vertex] (n1) at (3,2)  {1};
+\node[vertex] (n2) at (6,2)  {2};
+\node[vertex] (T) at (9,0)  {t};
+\node[vertex] (n3) at (3,-2)  {3};
+\node[vertex] (n4) at (6,-2)  {4};
+
+    
+\draw[edge_style]  (S) edge node{4} (n1);
+\draw[edge_style]  (S) edge node{4} (n3);
+
+\draw[edge_style]  (n1) edge node{4} (n3);
+\draw[edge_style]  (n1) edge node{4} (n3);
+
+\draw[edge_style]  (n1) edge node{4} (n2);
+\draw[edge_style]  (n3) edge node{4} (n4);
+\draw[edge_style]  (n2) edge node{4} (n4);
+
+\draw[edge_style]  (n2) edge node{4} (T);
+\draw[edge_styly]  (n4) edge node{4} (T);
+
+
+
+\end{tikzpicture}
+\end{center}
+
+\newpage
 \subsection{Cortes}
+
+
 \subsection{Camino de Aumento}
 \subsection{Algoritmo de Ford-Fulkerson}
 \subsection{Algoritmo de Edmonds-Karp}
