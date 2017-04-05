@@ -35,7 +35,7 @@ F = \sum_{e \in in(t)} f(e) - \sum_{e \in out(s)} f(e)
 
 %\textbf{PREGUNTAR SI ESTO ESTA BIEN}.
 
-El problema m\'as com\'un cuando hablamos de flujo es el de encontrar un flujo m\'aximo. Esto es, encontrar un F m\'aximo en una red con una \'unica fuente y un \'unico sumidero. Este problema est\'a en P.
+El problema m\'as com\'un cuando hablamos de flujo es el de encontrar un flujo m\'aximo. Esto es, encontrar un F m\'aximo en una red con una \'unica fuente y un \'unico sumidero.
 
 
 \raggedright
@@ -43,8 +43,7 @@ El problema m\'as com\'un cuando hablamos de flujo es el de encontrar un flujo m
   \begin{center}
 \begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm,
    node_style/.style={circle},
-   edge_style/.style={draw=black},
-   edge_styly/.style={->,> = latex'}]
+   edge_style/.style={draw=black}]
 
 \node[vertex] (S) at (0,0)  {s};
 \node[vertex] (n1) at (3,2)  {1};
@@ -54,27 +53,40 @@ El problema m\'as com\'un cuando hablamos de flujo es el de encontrar un flujo m
 \node[vertex] (n4) at (6,-2)  {4};
 
     
-\draw[edge_style]  (S) edge node{4} (n1);
-\draw[edge_style]  (S) edge node{4} (n3);
+\draw[edge_style]  (S) edge node{3/\textbf{3}} (n1);
 
-\draw[edge_style]  (n1) edge node{4} (n3);
-\draw[edge_style]  (n1) edge node{4} (n3);
+\draw[edge_style]  (S) edge node{2/\textbf{3}} (n3);
 
-\draw[edge_style]  (n1) edge node{4} (n2);
-\draw[edge_style]  (n3) edge node{4} (n4);
-\draw[edge_style]  (n2) edge node{4} (n4);
+\draw[edge_style]  (n1) edge node{0/\textbf{2}} (n3);
 
-\draw[edge_style]  (n2) edge node{4} (T);
-\draw[edge_styly]  (n4) edge node{4} (T);
+\draw[edge_style]  (n1) edge node{3/\textbf{3}} (n2);
+\draw[edge_style]  (n3) edge node{2/\textbf{2}} (n4);
+\draw[edge_style]  (n2) edge node{1/\textbf{4}} (n4);
+
+\draw[edge_style]  (n2) edge node{2/\textbf{2}} (T);
+\draw[edge_style]  (n4) edge node{3/\textbf{3}} (T);
 
 
 
 \end{tikzpicture}
 \end{center}
 
+Este problema est\'a en P. Notar que un flujo m\'aximo no requiere que todos los ejes est\'en transportando su m\'axima capacidad (ver $(s,3)$). No obstante, la suma de los flujos de $t$ es m\'axima.
+
 \newpage
 \subsection{Cortes}
 
+Un \emph{``corte''} en una red $N = (V, E)$ es un subconjunto $S \subseteq V - {t}$ tal que $s \in S$. Es decir, un subconjunto de v\'ertices de la red en los que est\'a la fuente pero no el sumidero.
+
+Dados dos cortes $S$ y $T$, $ST = \{ (v \rightarrow w) \in E \textrm{ tales que } v \in S \textrm{ y } w \in T \}$. Es decir, $ST$ es el conjunto de arcos para los cuales el v\'ertice de salida est\'a en $S$ y el de llegada est\'a en $T$.
+
+Sea $f$ un flujo definido en una red $N = (V, E)$, sea $S$ un corte y sea $\bar{S} = V - S$; entonces:
+
+\[
+F = \sum_{e \in S\bar{S}} f(e) - \sum_{e \in \bar{S}S} f(e)
+\]
+
+%Es decir, el valor del flujo de la red va a ser igual al fujo saliente de un corte menos el flujo entrante al corte?
 
 \subsection{Camino de Aumento}
 \subsection{Algoritmo de Ford-Fulkerson}
