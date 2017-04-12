@@ -188,11 +188,48 @@ No obstante, todav\'ia no hay ning\'un algoritmo polinomial para encontrar el ma
 \newpage
 \subsection{Caminos}
 
-Dado un matching $M$ en $G$, un \emph{``camino alternado''} en $G$ con respecto a $M$, es un camino simple donde se alternan ejes que est\'an en $M$ con ejes que no lo est\'an. Para el gra\'afico anterior, un ejemplo de camino alternado es $6,4,2,1,3,5$.
+Dado un matching $M$ en $G$, definimos:
 
-Dado un matching $M$ en $G$, un \emph{``camino de aumento''} en $G$ con respecto a $M$ es un camino alternado entre v\'ertices no saturados por $M$.
+\begin{itemize}
+\item Un \textbf{\emph{``camino alternado''}} en $G$ con respecto a $M$, como un camino simple donde se alternan ejes que est\'an en $M$ con ejes que no lo est\'an. Para el gra\'afico anterior, un ejemplo de camino alternado es $6,4,2,1,3,5$.
+\item Un \textbf{\emph{``camino de aumento''}} en $G$ con respecto a $M$, como un camino alternado entre v\'ertices no saturados por $M$. Es decir, es un camino entre v\'ertices que si y que no tocan ejes de $M$. Por ejemplo, el camino $3,5,4,6$ en el siguiente matching:
 
-Sean $M_0$ y $M_1$ dos matchings en $G$, y sea $G' = (V, E')$ con $E' = (M_0 - M_1) \cup (M_1 - M_0)$, entonces las componentes conexas de $G'$ son de alguno de los siguientes tipos:
+\raggedright
+\bigskip
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm,
+  edge_red/.style={draw=red, ultra thick}]
+
+\node[vertex] (n1) at (0,0)  {1};
+\node[vertex] (n2) at (1,1)  {2};
+\node[vertex] (n3) at (1,-1)  {3};
+\node[vertex] (n4) at (2.5,1)  {4};
+\node[vertex] (n5) at (2.5,-1)  {5};
+\node[vertex] (n6) at (4,1)  {6};
+
+
+\draw(n1) -- (n2);
+\draw[edge_red](n1) -- (n3);
+\draw(n2) -- (n3);
+\draw[edge_red](n2) -- (n4);
+\draw(n4) -- (n5);
+\draw(n3) -- (n5);
+\draw(n4) -- (n6);
+
+\end{tikzpicture}
+\end{center}
+\raggedright
+\bigskip
+
+\end{itemize}
+
+\subsection{Propiedades}
+
+\begin{itemize}
+\item $M$ es un matching m\'aximo de $G$ $\Leftrightarrow$ no existe un camino de aumento en $G$ con respecto a $M$.
+\item Dado un grafo $G$ sin v\'ertices aislados, si $M$ es un matching m\'aximo de $G$ y $R_e$ un recubrimiento m\'inimo de los v\'ertices de $G$ $\Rightarrow$ $|M| + |R_e| = n$.
+\item Dado un grafo $G$, si $I$ es un conjunto independiente m\'aximo de $G$ y $R_n$ un recubrimiento m\'inimo de los ejes de $G$ $\Rightarrow$ $|I| + |R_n| = n$.
+\item Sean $M_0$ y $M_1$ dos matchings en $G$, y sea $G' = (V, E')$ con $E' = (M_0 - M_1) \cup (M_1 - M_0)$ $\Rightarrow$ las componentes conexas de $G'$ son de alguno de los siguientes tipos:
 
 \begin{itemize}
 \item V\'ertice aislado
@@ -200,8 +237,6 @@ Sean $M_0$ y $M_1$ dos matchings en $G$, y sea $G' = (V, E')$ con $E' = (M_0 - M
 \item Camino simple con ejes alternadamente entre $M_0$ y $M_1$.
 \end{itemize}
 
-\textbf{Teorema:} $M$ es un matching m\'aximo de $G$ si y s\'olo si no existe un camino de aumento en $G$ con respecto a $M$.
+\end{itemize}
 
-\textbf{Teorema:} Dado un grafo $G$ sin v\'ertices aislados, si $M$ es un matching m\'aximo de $G$ y $R_e$ un recubrimiento m\'inimo de los v\'ertices de $G$, entonces $|M| + |R_e| = n$.
 
-\textbf{Teorema:} Dado un grafo $G$, si $I$ es un conjunto independiente m\'aximo de $G$ y $R_n$ un recubrimiento m\'inimo de los ejes de $G$, entonces $|I| + |R_n| = n$.
