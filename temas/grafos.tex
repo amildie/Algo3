@@ -1,14 +1,14 @@
 \newpage
 \section{Grafos}
 
-Un \emph{``grafo''} $G = (V, X)$ es un par de conjuntos. $V$ es un conjunto de \emph{``v\'ertices''} y $X$ es un conjunto de \emph{``ejes''}, que a su vez son pares no ordenados de los elementos de $V$. Vamos a definir a $n = |V|$ y a $m = |X|$.
+Un \emph{``grafo''} $G = (V, E)$ es un par de conjuntos. $V$ es un conjunto de \emph{``v\'ertices''} y $X$ es un conjunto de \emph{``ejes''}, que a su vez son pares no ordenados de los elementos de $V$.
 
-Dados dos v\'ertices $v, w \in V$ se dice que $v$ y $w$ son \emph{``adyacentes''} si $\exists$  $e \in X$ tal que $e = (v, w)$. Un \emph{``multigrafo''} es un grafo en el que pueden haber varios ejes entre el mismo par de v\'ertices. Un \emph{``seudografo''} es un multigrafo donde pueden haber ejes que unan a un v\'ertice con si mismo.
+Dados dos v\'ertices $v, w \in V$ se dice que $v$ y $w$ son \emph{``adyacentes''} si $\exists$  $e \in E$ tal que $e = (v, w)$. Un \emph{``multigrafo''} es un grafo en el que pueden haber varios ejes entre el mismo par de v\'ertices. Un \emph{``seudografo''} es un multigrafo donde pueden haber ejes que unan a un v\'ertice con si mismo.
 
 El \emph{``grado''} de un v\'ertice $v$ es la cantidad de ejes incidentes a \'el. Se nota con $d(v)$ y da lugar a la siguiente propiedad: 
 
 \begin{figure}[h]
-\[ \sum_{i=1}^{n} d(v_i) = 2m \]
+\[ \sum_{i=1}^{|V|} d(v_i) = 2 * |E| \]
 \caption{La suma de los grados de todos los v\'ertices de un grafo es igual a dos veces el n\'umero de aristas.}
 \end{figure}
 
@@ -30,19 +30,19 @@ Notar que si $P$ es un camino entre $u$ y $v$ de longitud $d(u,v)$ y tenemos los
 
 \subsection{Subgrafos y biparticidad}
 
-Dado un grafo $G = (V,X)$, un \emph{``subgrafo''} del mismo es un grafo $H = (V',X')$ que cumple que $V' \subseteq V$ y que $X' \subseteq X \cap (V' \times V')$. Si se cumple que para todo $u,v \in V', (u,v) \in X \Longleftrightarrow (u,v) \in X'$ entonces $H$ es un subgrafo \emph{``inducido''}. Es decir, para cada par de v\'ertices de $H$, se preservan los mismos ejes que ten\'ian en $G$.
+Dado un grafo $G = (V,E)$, un \emph{``subgrafo''} del mismo es un grafo $H = (V',E')$ que cumple que $V' \subseteq V$ y que $E' \subseteq E \cap (V' \times V')$. Si se cumple que para todo $u,v \in V', (u,v) \in E \Longleftrightarrow (u,v) \in E'$ entonces $H$ es un subgrafo \emph{``inducido''}. Es decir, para cada par de v\'ertices de $H$, se preservan los mismos ejes que ten\'ian en $G$.
 
 
 Un grafo se dice \emph{``conexo''} si existe un camino que conecta cada par de v\'ertices. Una \emph{``componente conexa''} de un grafo $G$ es un subgrafo conexo maximal de $G$.
 
-Un grafo $G = (X, V)$ se dice \emph{``bipartito''} si existe una partici\'on $V_1,V_2$ de $V$ tal que todos los ejes de $G$ tienen un extremo en $V_1$ y otro en $V_2$. Si todo v\'ertice de $V_1$ es adyacente a todo v\'ertice de $V_2$ entonces el $G$ es \emph{``bipartito completo''}. Un grafo es bipartito si y s\'olo si no tiene circuitos simples de longitud impar.
+Un grafo $G = (V, E)$ se dice \emph{``bipartito''} si existe una partici\'on $V_1,V_2$ de $V$ tal que todos los ejes de $G$ tienen un extremo en $V_1$ y otro en $V_2$. Si todo v\'ertice de $V_1$ es adyacente a todo v\'ertice de $V_2$ entonces el $G$ es \emph{``bipartito completo''}. Un grafo es bipartito si y s\'olo si no tiene circuitos simples de longitud impar.
 
 \subsection{Isomorfismo}
 
-Dos grafos $G = (V,X)$ y $G' = (V',X')$ se dicen \emph{``isomorfos''} si existe una funci\'on biyectiva $f:V\rightarrow V'$ tal que para todo $v,w \in V$:
+Dos grafos $G = (V,E)$ y $G' = (V',E')$ se dicen \emph{``isomorfos''} si existe una funci\'on biyectiva $f:V\rightarrow V'$ tal que para todo $v,w \in V$:
 
 \begin{figure}[h]
-\[ (v,w) \in X \Longleftrightarrow (f(v), f(w)) \in X' \]
+\[ (v,w) \in E \Longleftrightarrow (f(v), f(w)) \in E' \]
 \end{figure}
 
 Si dos grafos son isomorfos, entonces:
@@ -60,7 +60,7 @@ No se conoce un algoritmo de tiempo polinomial para detectar si dos grafos son i
 \newpage
 \subsection{Digrafos}
 
-Un \emph{``grafo orientado''} (o \emph{``digrafo''}) es un grafo $G=(V,X)$ en el cual los ejes de $X$ tienen una direcci\'on. Para cada v\'ertice $v$ se define a su \emph{``grado de entrada''} ($d_{in}(v)$) como a la cantidad de ejes en $X$ que llegan a $v$. Es decir, que lo tienen como segundo elemento. El \emph{``grado de salida''} es lo mismo, pero con las aristas que salen del mismo.
+Un \emph{``grafo orientado''} (o \emph{``digrafo''}) es un grafo $G=(V,E)$ en el cual los ejes de $E$ tienen una direcci\'on. Para cada v\'ertice $v$ se define a su \emph{``grado de entrada''} ($d_{in}(v)$) como a la cantidad de ejes en $E$ que llegan a $v$. Es decir, que lo tienen como segundo elemento. El \emph{``grado de salida''} es lo mismo, pero con las aristas que salen del mismo.
 
 Un \emph{``camino orientado''} es un digrafo es una sucesi\'on de ejes $e_1, e_2, ..., e_k$ ta que el primer elemento del par $e_i$ coincide con el segundo de $e_{i-1}$ y el segundo elemento de $e_i$ coincide con el primero de $e_{i+1}$, para todo $i = 2, ..., k-1$.
 

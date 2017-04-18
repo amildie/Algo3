@@ -1,11 +1,11 @@
 \newpage
 \section{Flujo en Redes}
 
-Una \emph{``red''} $N = (V, E)$ es un grafo orientado conexo que tiene dos nodos distinguidos: una \emph{``fuente''} $s$, con un grado de salida positivo y un \emph{``sumidero''} $t$ con un grado de entrada positivo.
+Una \emph{``red''} $G = (V, E)$ es un grafo orientado conexo que tiene dos v\'ertices distinguidos: una \emph{``fuente''} $s$, con un grado de salida positivo y un \emph{``sumidero''} $t$ con un grado de entrada positivo.
 
 Una \emph{``funci\'on de capacidades en la red''} es una funci\'on $c : E \rightarrow {\rm I\!R^{\geq 0}}$. La funci\'on de capacidad determina, para cada eje del grafo, la capacidad de transportar flujo que posee.
 
-Un \emph{``flujo factible''} en una red $N = (V, E)$ con funci\'on de capacidad $c$ es una funci\'on $f : E \rightarrow {\rm I\!R^{\geq 0}}$ que verifica:
+Un \emph{``flujo factible''} en una red $G = (V, E)$ con funci\'on de capacidad $c$ es una funci\'on $f : E \rightarrow {\rm I\!R^{\geq 0}}$ que verifica:
 
 \begin{itemize}
 \item $0 \leq f(e) \leq c(e)$ para todo eje $e \in E$. Es decir, el flujo factible de un eje no puede ser superior a su capacidad.
@@ -76,9 +76,9 @@ Este problema est\'a en P. Notar que un flujo m\'aximo no requiere que todos los
 \newpage
 \subsection{Cortes}
 
-Un \emph{``corte''} en una red $N = (V, E)$ es un subconjunto $S \subseteq V - {t}$ tal que $s \in S$. Es decir, un subconjunto de v\'ertices de la red en los que est\'a la fuente pero no el sumidero.
+Un \emph{``corte''} en una red $G = (V, E)$ es un subconjunto $S \subseteq V - {t}$ tal que $s \in S$. Es decir, un subconjunto de v\'ertices de la red en los que est\'a la fuente pero no el sumidero.
 
-Dados dos cortes $S$ y $T$, $ST = \{ (v \rightarrow w) \in E \textrm{ tales que } v \in S \textrm{ y } w \in T \}$. Es decir, $ST$ es el conjunto de arcos para los cuales el v\'ertice de salida est\'a en $S$ y el de llegada est\'a en $T$.
+Dados dos cortes $S$ y $T$, $ST = \{ (v \rightarrow w) \in E \textrm{ tales que } v \in S \textrm{ y } w \in T \}$. Es decir, $ST$ es el conjunto de ejes para los cuales el v\'ertice de salida est\'a en $S$ y el de llegada est\'a en $T$.
 
 Sea $f$ un flujo definido en una red $N = (V, E)$, sea $S$ un corte y sea $\bar{S} = V - S$; entonces:
 
@@ -88,6 +88,36 @@ F = \sum_{e \in S\bar{S}} f(e) - \sum_{e \in \bar{S}S} f(e)
 
 %Es decir, el valor del flujo de la red va a ser igual al fujo saliente de un corte menos el flujo entrante al corte?
 
+\subsection{Red Residual}
+
+La \emph{``capacidad residual''} de un eje $e$ respecto de un flujo factible $f$ es la diferencia entre la capacidad de $e$ y su flujo. Es decir: $c_f(e) = c(e) - f(e)$.
+
+Dada una red $G = (V, E)$ con una funci\'on de capacidad $c$ y un flujo factible $f$, definimos a la \emph{``red residual''} $G_f = (V, E_{R})$, como la red que modela la capacidad disponible de $G$. Es decir, $e \in E_{R} \Longleftrightarrow c_f(e) > 0$. 
+
 \subsection{Camino de Aumento}
+
+Un \emph{``camino de aumento''} es un camino orientado $P$ de $s$ a $t$ en $G_f$. Dada una red $G$, esta se encuentra en su flujo m\'aximo si y s\'olo si no hay camino de aumento en $G_f$.
+
 \subsection{Algoritmo de Ford-Fulkerson}
-\subsection{Algoritmo de Edmonds-Karp}
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Function{FordFulkerson}{$G = (V, E), c: E \rightarrow {\rm I\!R^{\geq 0}}$}
+  \ForAll{$e \in E$}
+    \State $f(e) \gets 0$
+  \EndFor
+  \State $G_f \gets calcularRedResidual(G)$
+  \While{$p \gets obtenerCaminoDeAumento(G_f)$}
+    \State $c_{min} \gets min\{c_f(e) \textrm{ tal que } e \in p\}$
+    \ForAll{$(v,w) \in p$}
+        \State $f(v,w) \gets f(v,w) + c_{min}$
+        \State $f(w,v) \gets f(w,v) - c_{min}$ 
+    \EndFor
+  \EndWhile
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Algoritmo de Edmonds-Karp}
+
+Este algoritmo es en realidad una implementaci\'on de Ford Fulkerson que usa espec\'ificamente BFS para encontrar el camino de aumento $p$ en la funci\'on $obtenerCaminoDeAumento(G_f)$. Esto mejora la complejidad, dej\'andola en $\mathcal{O}(|V|^2 * |E|)$.
