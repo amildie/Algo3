@@ -100,13 +100,15 @@ Un \emph{``camino de aumento''} es un camino orientado $P$ de $s$ a $t$ en $G_f$
 
 \subsection{Algoritmo de Ford-Fulkerson}
 
+La idea del algoritmo es sencilla: mientras exista un camino en $G$ desde $s$ hasta $t$ que pueda transportar m\'as flujo, mandale m\'as flujo. Este camino existe si y s\'olo si hay un camino de aumento en $G_f$.
+
 \begin{algorithm}
 \begin{algorithmic}[1]
 \Function{FordFulkerson}{$G = (V, E), c: E \rightarrow {\rm I\!R^{\geq 0}}$}
   \ForAll{$e \in E$}
     \State $f(e) \gets 0$
   \EndFor
-  \State $G_f \gets calcularRedResidual(G)$
+  \State $G_f \gets calcularRedResidual(G, c, f)$
   \While{$p \gets obtenerCaminoDeAumento(G_f)$}
     \State $c_{min} \gets min\{c_f(e) \textrm{ tal que } e \in p\}$
     \ForAll{$(v,w) \in p$}
@@ -117,6 +119,24 @@ Un \emph{``camino de aumento''} es un camino orientado $P$ de $s$ a $t$ en $G_f$
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
+
+\subsubsection*{Explicaci\'on}
+
+El algoritmo utiliza fuertemente la propiedad de que, mientras exista un camino de aumento en $G_f$, $f$ no va a ser un flujo m\'aximo. 
+
+\begin{enumerate}
+\item [2: y 3:] Inicialmente el algoritmo genera un flujo factible $f$, donde todos los flujos para todos los ejes son $0$.
+\item [4:] Luego calcula la red residual $G_f$, utilizando la red original $G$, el flujo factible $f$ y la funci\'on de capacidad $c$.
+\item [5:] Ac\'a comienza la iteraci\'on principal del algoritmo. Mientras pueda encontrar un camino de aumento para asign\'arselo a $p$, el flujo $f$ no es m\'aximo y va a poder ser mejorado haciendo lo siguiente:
+  \begin{enumerate}
+  \item [6:] Dado el camino $p$ que encontr\'e, busco el eje de menor capacidad residual del mismo. Esta capacidad residual se llama $c_{min}$.
+  \item [7:] Empiezo a recorrer todos los ejes del camino $p$, y a cada eje:
+    \begin{enumerate}
+      \item [8:] Le sumo a su flujo la capacidad residual m\'inima del camino. Esto va a aumentar el flujo total que se mueve por el camino $p$.
+      \item [9:] Pero a su vez
+    \end{enumerate}
+  \end{enumerate}
+\end{enumerate}
 
 \subsubsection{Algoritmo de Edmonds-Karp}
 
