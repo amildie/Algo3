@@ -26,6 +26,8 @@
 \usepackage[parfill]{parskip}
 \usepackage{listings}
 \usepackage{tikz}
+\usetikzlibrary{arrows}
+
 \lstset
 {
     language=C++,
@@ -86,19 +88,6 @@
 \input{temas/matching.tex}
 \input{temas/flujMax.tex}
 \input{temas/NP.tex}
-
-\newpage
-\section{Preguntas}
-\begin{enumerate}
-\item [Camino m\'inimo] C\'omo justificar la complejidad del algoritmo de Dijkstra?
-\item [Camino m\'inimo] C\'omo se aplica el principio del optimalidad en el algoritmo de Floyd?
-\item [Camino m\'inimo] Si usando un Fibonacci heap puedo hacer que el algoritmo de Dijkstra resuelva el problema de camino m\'inimo en $O(m + n log n)$, que es mejor que $O(n^2)$, no es m\'as r\'apido aplicar $n$ veces el algoritmo de Dijkstra en lugar de Floyd? Me terminar\'ia quedando una complejidad de $O(n(m + n log n)) = $$O(n*m + n^2 log n)$, que es mejor que $O(n^3)$.
-\item [Camino m\'inimo] C\'omo funciona el algoritmo de Dantzig?
-\item [Planaridad] Definimos a la \textbf{\emph{``parte $p$ de $G$ relativa a $R$''}} como un eje $e = (u, v)$ de $G - R$ con $u,v \in R$, pero entonces ni $u$ ni $v$ van a estar en $G - R$, por lo que $e = (u, v)$ no estar\'ia bien definido.
-\item [Planaridad] Si $R$ es una regi\'on, qu\'e significa hacer $G - R$?
-\item [Complejidad] Si un problema $\Pi$ es NP-Hard entonces eso significa que todo problema de $NP$ puede ser reducible polinomialmente a $\Pi$. Como $P$ est\'a en $NP$, cualquier problema de $P$ es reducible polinomialmente al halting problem. Eso significa que, dado un \'arbol en un grafo conexo, decidir si dicho \'arbol es un AGM es reducible polinomialmente al halting problem.
-\item [Complejidad] Encontrar un problema de NP que no est\'e en P ni tampoco en NP-Completo.
-\end{enumerate}
 
 \end{document}
 

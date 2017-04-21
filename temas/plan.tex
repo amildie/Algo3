@@ -15,6 +15,18 @@ La \emph{``frontera''} de una regi\'on es el circuito que rodea a la regi\'on, y
 \textbf{Propiedad:} Si un grafo $G$ contiene sun subgrafo $G'$ no planar, entonces $G$ tampoco es planar.
 \end{badidea}
 
+\subsubsection{Teorema de Euler}
+
+Si $G$ es un grafo conexo planar entonces cualquier representaci\'on planar de $G$ determina $r = m - n + 2$ regiones en el plano.
+
+\begin{badidea}
+\textbf{Colorario 1:} Si $G$ es conexo y planar con $|V| \geq 3$ $\Rightarrow |E| \leq 3 * |V| - 6$.
+\end{badidea}
+
+\begin{badidea}
+\textbf{Colorario 2:} Si $G$ es conexo, planar y bipartito con $|V| \geq 3$ \\ $\Rightarrow$ $|E| \leq 2 * |V| - 4$.
+\end{badidea}
+
 \subsection{Subdivisiones y Homeomorfismo}
 
 Subdividir un eje $e = (v,w)$ de un grafo $G$ consiste en agregar un v\'ertice nuevo $u \not\in V$ a $G$ y reemplazar al eje $e$ por dos ejes $e' = (v, u)$ y $e'' = (u, w)$. Un grafo $G'$ es una subdivisi\'on de otro grafo $G$ si $G'$ se puede obtener mediante sucesivas operaciones de subdivisi\'on sobre $G$. Dos grafos $G$ y $H$ se dicen \emph{``homeomorfos''} si hay un isomorfismo entre una subdivisi\'on de $G$ y una de $H$.
@@ -41,39 +53,49 @@ La operaci\'on de \emph{``contracci\'on''} de un eje $e = (v, w)$ consiste en el
 
 Un grafo $G'$ es una contracci\'on de otro grafo $G$ si se puede obtener a partir de $G$ por sucesivas operaciones de contracci\'on. Se dice que \emph{``$G$ es contraible a $G'$''}.
 
-\newpage
 \subsubsection{Teorema de Whitney}
 
 $G$ es planar si y s\'olo si no contiene ning\'un subgrafo contraible a $K_{5}$ o a $K_{33}$.
 
-\subsubsection{Teorema de Euler}
-
-Si $G$ es un grafo conexo planar entonces cualquier representaci\'on planar de $G$ determina $r = m - n + 2$ regiones en el plano.
-
-\begin{badidea}
-\textbf{Colorario 1:} Si $G$ es conexo y planar con $n \geq 3$, entonces $m \leq 3n - 6$.
-\end{badidea}
-
-\begin{badidea}
-\textbf{Colorario 2:} Si $G$ es conexo, planar y bipartito con $n \geq 3$, entonces $m \leq 2n - 4$.
-\end{badidea}
-
 \subsection{Algoritmo de Demoucron}
 
-El siguiente algoritmo encuentra una represetaci\'on planar si existe, y si $G$ es no planar lo reconoce correctamente. El tiempo de ejecuci\'on es de $O(n^2)$, pero existen algoritmos que pueden determinar planaridad en tiempo lineal. Esto significa que el problema de decidir si un grafo es o no planar est\'a en $P$. Pero antes de exponer el algoritmo hay que hacer las siguientes definiciones:
+El siguiente algoritmo encuentra una represetaci\'on planar si existe, y si $G$ es no planar lo reconoce correctamente. El tiempo de ejecuci\'on es de $O(n^2)$, pero existen algoritmos que pueden determinar planaridad en tiempo lineal. Esto significa que el problema de decidir si un grafo es o no planar est\'a en P.
+
+La idea del algoritmo es partir de una representaci\'on planar $R$ de un subgrafo $S$ de $G$, y empezar a expandirala iterativamente hasta obtener una representaci\'on planar de todo $G$ o hasta concluir que dicha representaci\'on no existe.
+
+\subsubsection{Definiciones\footnote{A partir de ahora van a empezar a aparecer unas operaciones que pierden completamente el hilo de coherencia de las diapositivas. Especialmente la operaci\'on $G - R$, que vendr\'ia a ser algo como \emph{``restarle una representaci\'on planar a un grafo''}, lo cual adolece completamente de cualquier significado formal. Quien haya llegado hasta ac\'a va a tener que valerse m\'as de la intuici\'on para poder comprender las intenciones de quien hizo su mejor esfuerzo por armar las diapositivas. Tener especial cuidado con el concepto de \emph{``v\'ertice de contacto''}, el cual pertenece a una representaci\'on planar $R$ a veces y a una parte $p$ otras veces.}}
+
 
 \begin{itemize}
-\item Una \textbf{\emph{``parte $p$ de $G$ relativa a $R$''}} puede ser alguna de las siguientes cosas:
+\item Llamamos \textbf{\emph{``parte $p$ de $G$ relativa a $R$''}} a:
     \begin{itemize}
-    \item una componente conexa de $G - R$ junto con los ejes que la conectan a todos los nodos de $R$ (ejes colgantes).
-    \item un eje $e = (v, w)$ de $G - R$ con $v,w \in R$.
+    \item Una componente conexa de $G - R$ junto con los ejes que la conectan a v\'ertices de $R$ (ejes colgantes). Notar que $R$ es una representaci\'on de un subgrafo $S$ de $G$.
+    \item Un eje $e = (v,w)$ de $G - R$, con $v,w \in R$. Es decir, un eje suelto sin v\'ertices. 
     \end{itemize}
-\item Dada una parte $p$ de $G$ relativa a $R$, un \textbf{\emph{``nodo de contacto''}} es un nodo $R$ incidente a un eje colgante de $p$.
-\item Decimos que $R$ \textbf{\emph{``es extensible a una representaci\'on planar de $G$''}} si se puede obtener una representaci\'on planar de $G$ a partir de $R$.
-\item Una parte $p$ es \textbf{\empg{``dibujable en una regi\'on $f$ de $R$''}} si existe una extensi\'on planar de $R$ en la que $p$ queda en $f$.
-\item Una parte $p$ es \textbf{\empg{``potencialmente dibujable en una regi\'on $f$ de $R$''}} si todo nodo de contacto de $p$ pertenece a la frontera de $f$.
-\item Llamamos \textbf{$F(p)$} al conjunto de regiones de $R$ donde $p$ es potencialmente dibujable.
+
+    Es decir, una parte es \emph{lo que queda} de un grafo al que le sacamos la representaci\'on planar de un subgrafo. Esta parte puede tener ejes colgantes que no est\'an conectados con ning\'un v\'ertice, e incluso una parte puede ser un eje suelto volando por ah\'i. Sep.
+
+\item Dada una parte $p$ de $G$ relativa a $R$, llamamos \textbf{\emph{``v\'ertice de contacto''}} a un v\'ertice de $R$ incidente a un eje colgante de $p$.
+\item Decimos que la representaci\'on $R$ es \textbf{\emph{``extensible''}} a una representaci\'on planar de $G$ si se puede obtener una representaci\'on planar de $G$ a partir de $R$. \emph{Extender} ac\'a es el proceso de ir agregandole cosas a una representaci\'on planar.
+\item Una parte $p$ es \textbf{\emph{``dibujable''}} en una regi\'on $f$ de $R$ si existe una extensi\'on planar de $R$ en la que $p$ queda en $f$.
+\item Una parte $p$ es \textbf{\emph{``potencialmente dibujable''}} en una regi\'on $f$ de $R$ si todo v\'ertice de contacto de $p$ pertenece a la frontera de $f$.
+\item Llamamos $F(p)$ al conjunto de regiones de $R$ donde $p$ es potencialmente dibujable.
 \end{itemize}
+
+\subsubsection{Pseudoc\'odigo}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \begin{algorithm}
 \begin{algorithmic}[1]

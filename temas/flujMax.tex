@@ -92,7 +92,36 @@ F = \sum_{e \in S\bar{S}} f(e) - \sum_{e \in \bar{S}S} f(e)
 
 La \emph{``capacidad residual''} de un eje $e$ respecto de un flujo factible $f$ es la diferencia entre la capacidad de $e$ y su flujo. Es decir: $c_f(e) = c(e) - f(e)$.
 
-Dada una red $G = (V, E)$ con una funci\'on de capacidad $c$ y un flujo factible $f$, definimos a la \emph{``red residual''} $G_f = (V, E_{R})$, como la red que modela la capacidad disponible de $G$. Es decir, $e \in E_{R} \Longleftrightarrow c_f(e) > 0$. 
+Dada una red $G = (V, E)$ con una funci\'on de capacidad $c$ y un flujo factible $f$, definimos a la red que modela la capacidad disponible de $G$ como la \emph{``red residual''} $G_f = (V, E_{R})$, donde para todo $(v \rightarrow w) \in E$:
+
+\begin{itemize}
+\item $(v \rightarrow w) \in E_R \Longleftrightarrow f((v \rightarrow w)) < c((v \rightarrow w))$. Es decir, el eje $(v \rightarrow w)$ va a estar en la red residual si su flujo es menor a su capacidad.
+\item $(w \rightarrow v) \in E_R \Longleftrightarrow f((v \rightarrow w)) > 0$.
+\end{itemize}
+
+De esta manera es trivial ver que en $G_f$ pueden haber ejes que no est\'an en $G$. Por ejemplo, miremos el siguiente grafo y su red residual:
+
+\raggedright
+  \bigskip
+  \begin{center}
+  \begin{tikzpicture}
+
+  \node[vertex] (n1) at (-9,0)  {s};
+  \node[vertex] (n2) at (-6,1)  {1};
+  \node[vertex] (n3) at (-6,-1)  {2};
+  \node[vertex] (n5) at (-3,0)  {t};
+  
+
+  \draw(n1) edge node{3/4} (n2);
+  
+  
+  \end{tikzpicture}
+  \end{center}
+
+
+  \raggedright
+  \bigskip
+
 
 \subsection{Camino de Aumento}
 

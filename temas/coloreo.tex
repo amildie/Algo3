@@ -58,12 +58,12 @@ Algunos ejemplos:
 \newpage
 \subsection{Algoritmos para coloreo de grafos}
 
-Dado un grafo $G$ de $n$ v\'ertices y un entero $k$, el problema de decisi\'on que consiste en determinar si existe un $k$-coloreo para $G$ es NP-completo, y su complejidad es $O(2^n * n)$.
+Dado un grafo $G$ de $|V|$ v\'ertices y un entero $k$, el problema de decisi\'on que consiste en determinar si existe un $k$-coloreo para $G$ es NP-completo, y su complejidad es  $\mathcal{O}(2^{|V|} * |V|)$.
 
 Dado un grafo $G$ de $n$ v\'ertices y un entero $k$, el problema de decisi\'on que consiste en determinar si $\chi(G) = k$ es NP-Hard.
 
 \begin{itemize}
-\item \textbf{Heur\'istica secuencial (S)}: Dado un orden $v_1, v_2, ..., v_n$ de $V$, asignar en el paso $i$ el menor color posible a $v_i$. Es decir, el color m\'as chico que no est\'a siendo usado por los vecinos de $v_i$ (greedy). Puede devolver resultados bastante malos en algunos grafos.
+\item \textbf{Heur\'istica secuencial (S)}: Dado un orden $v_1, v_2, ..., v_{|V|}$ de $V$, asignar en el paso $i$ el menor color posible a $v_i$. Es decir, el color m\'as chico que no est\'a siendo usado por los vecinos de $v_i$ (greedy). Puede devolver resultados bastante malos en algunos grafos.
 \item \textbf{Algoritmo secuencial con backtracking (exacto)}: La idea es ir asignado colores uno por uno a los diferentes v\'ertices, arrancando desde el v\'ertice 0. Antes de asignar un color, miramos los colores de los vecinos de dicho v\'ertice. Si encontramos un color apropiado, se lo ponemos al v\'ertice en cuesti\'on. Si no es posible encontrar un color apropiado, volvemos hacia atr\'as y probamos con otro color en alg\'un v\'ertice anterior.
 \end{itemize}
 
