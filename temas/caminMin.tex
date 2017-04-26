@@ -1,13 +1,13 @@
 \newpage
 \section{Camino M\'inimo}
 
-Sea $G = (V, E)$ un grafo y $l: E \rightarrow {\rm I\!R}$ una funci\'on de peso para los ejes de $G$, definimos como el \emph{``peso''} de un camino $C$ entre dos nodos $v$ y $w$ como la suma de los pesos de los ejes del camino:
+Dado un grafo $G$, definimos como el \emph{``peso''} de un camino $C$ entre dos nodos $v$ y $w$ como la suma de los pesos de los pesos de los ejes del camino:
 
 \begin{equation}
 l(C) = \sum_{e \in C} l(e)
 \end{equation}
 
-Un \emph{``camino minimo''} $C^0$ entre $v$ y $w$ es un camino tal que $l(C^0) = min \{ l(C), \forall \textrm{$ C$ camino entre $v$ y $w$}  \}$. Esto significa que no necesariamente tiene que ser \'unico. Dado un grafo $G$, se pueden definir 3 variantes de problemas sobre caminos m\'inimos:
+Un \emph{``camino minimo''} $C^0$ entre $v$ y $w$ es un camino que cumple que $l(C^0) = min \{ l(C), \forall \textrm{$ C$ camino entre $v$ y $w$}  \}$. Esto significa que no necesariamente tiene que ser \'unico. Dado un grafo $G$, se pueden definir 3 variantes de problemas sobre caminos m\'inimos:
 
 \begin{enumerate}
 \item \textbf{Unico origen - \'unico destino}: determinar un camino m\'inimo entre dos v\'ertices $v$ y $w$.
@@ -216,8 +216,6 @@ El algoritmo empieza a iterar. Despu\'es de la iteraci\'on $k$, $D$ contiene las
 En la iteraci\'on $k$, el algoritmo debe checkear para cada par de v\'ertices $i$ y $j$ si existe un camino desde $i$ hasta $j$ que pasa por el v\'ertice $k$ que tiene longitud menor que la que ya ten\'iamos calculada antes, la cual correspond\'ia al camino de $i$ a $j$ que s\'olo usaba los v\'ertices en $\{1, 2, ..., k-1\}$.
 
 
-
-\newpage
 \subsection{Algoritmo de Dantzig (n a m)}
 
 Al finalizar la iteraci\'on $k-1$, el algoritmo de Dantzig gener\'o una matriz $k x k$ de caminos m\'inimos en el subgrafo inducido por los v\'ertices $\{v_1, ..., v_k\}$. Asumimos que el grafo es orientado. El algoritmo detecta si hay circuitos de longitud negativa.
