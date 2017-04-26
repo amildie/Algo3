@@ -75,13 +75,117 @@ La idea del algoritmo es partir de una representaci\'on planar $R$ de un subgraf
 
     Es decir, una parte es \emph{lo que queda} de un grafo al que le sacamos la representaci\'on planar de un subgrafo. Esta parte puede tener ejes colgantes que no est\'an conectados con ning\'un v\'ertice, e incluso una parte puede ser un eje suelto volando por ah\'i.
 
-\item Dada una parte $p$ de $G$ relativa a $R$, llamamos \textbf{\emph{``v\'ertice de contacto''}} a un v\'ertice de $R$ incidente a un eje colgante de $p$.
+\raggedright
+\bigskip
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm,
+  edge_b/.style={draw=blue, ultra thick},
+  vertex_b/.style={draw=blue, circle, ultra thick}]
+
+\node[vertex_b] (n1) at (0,0)    {1};
+\node[vertex_b] (n2) at (2,0)    {2};
+\node[vertex] (n3) at (4,0)    {3};
+\node[vertex_b] (n4) at (0,-2)    {4};
+\node[vertex_b] (n6) at (2,-2)    {5};
+\node[vertex] (n7) at (4,-2)    {6};
+
+\draw[edge_b](n1) -- (n2);
+\draw(n2) -- (n3);
+\draw[edge_b](n1) -- (n4);
+\draw[edge_b](n4) -- (n6);
+\draw(n4) -- (n2);
+\draw[edge_b](n2) -- (n6);
+\draw(n6) -- (n7);
+\draw(n3) -- (n7);
+%\draw[edge_red](n1) -- (n3);
+%\draw[edge_red](n1) -- (n2);
+%\draw(n3) -- (n5);
+%\draw(n3) -- (n4);
+%\draw[edge_red](n5) -- (n4);
+
+\end{tikzpicture}
+\end{center}
+\raggedright
+\bigskip
+
+Por ejemplo, el grafico anterior usa como $R$ al ciclo $1,2,5,4$, por lo que las dos partes que nos quedan son:
+
+\raggedright
+\bigskip
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm,
+  edge_b/.style={draw=white, ultra thick},
+  vertex_b/.style={draw=white, circle, ultra thick}]
+
+\node[vertex_b] (n1) at (0,0)    {};
+\node[vertex_b] (n2) at (2,0)    {};
+\node[vertex] (n3) at (4,0)    {3};
+\node[vertex_b] (n4) at (0,-2)    {};
+\node[vertex_b] (n6) at (2,-2)    {};
+\node[vertex] (n7) at (4,-2)    {6};
+
+\draw[edge_b](n1) -- (n2);
+\draw(n2) -- (n3);
+\draw[edge_b](n1) -- (n4);
+\draw[edge_b](n4) -- (n6);
+\draw(n4) -- (n2);
+\draw[edge_b](n2) -- (n6);
+\draw(n6) -- (n7);
+\draw(n3) -- (n7);
+%\draw[edge_red](n1) -- (n3);
+%\draw[edge_red](n1) -- (n2);
+%\draw(n3) -- (n5);
+%\draw(n3) -- (n4);
+%\draw[edge_red](n5) -- (n4);
+
+\end{tikzpicture}
+\end{center}
+\raggedright
+\bigskip
+
+\item Dada una parte $p$ de $G$ relativa a $R$, llamamos \textbf{\emph{``v\'ertice de contacto''}} a un v\'ertice de $R$ incidente a un eje colgante de $p$:
+
+\raggedright
+\bigskip
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt, auto, node distance=3cm,
+  edge_b/.style={draw=blue, ultra thick},
+  vertex_b/.style={draw=blue, circle, ultra thick},
+  vertex_g/.style={draw=green, circle, ultra thick}]
+
+\node[vertex_b] (n1) at (0,0)    {1};
+\node[vertex_g] (n2) at (2,0)    {2};
+\node[vertex] (n3) at (4,0)    {3};
+\node[vertex_g] (n4) at (0,-2)    {4};
+\node[vertex_g] (n6) at (2,-2)    {5};
+\node[vertex] (n7) at (4,-2)    {6};
+
+\draw[edge_b](n1) -- (n2);
+\draw(n2) -- (n3);
+\draw[edge_b](n1) -- (n4);
+\draw[edge_b](n4) -- (n6);
+\draw(n4) -- (n2);
+\draw[edge_b](n2) -- (n6);
+\draw(n6) -- (n7);
+\draw(n3) -- (n7);
+%\draw[edge_red](n1) -- (n3);
+%\draw[edge_red](n1) -- (n2);
+%\draw(n3) -- (n5);
+%\draw(n3) -- (n4);
+%\draw[edge_red](n5) -- (n4);
+
+\end{tikzpicture}
+\end{center}
+\raggedright
+\bigskip
+
 \item Decimos que la representaci\'on $R$ es \textbf{\emph{``extensible''}} a una representaci\'on planar de $G$ si se puede obtener una representaci\'on planar de $G$ a partir de $R$. \emph{Extender} ac\'a es el proceso de ir agregandole cosas a una representaci\'on planar.
 \item Una parte $p$ es \textbf{\emph{``dibujable''}} en una regi\'on $f$ de $R$ si existe una extensi\'on planar de $R$ en la que $p$ queda en $f$.
 \item Una parte $p$ es \textbf{\emph{``potencialmente dibujable''}} en una regi\'on $f$ de $R$ si todo v\'ertice de contacto de $p$ pertenece a la frontera de $f$.
 \item Llamamos $F(p)$ al conjunto de regiones de $R$ donde $p$ es potencialmente dibujable.
 \end{itemize}
 
+\newpage
 \subsubsection{Pseudoc\'odigo}
 
 \begin{algorithm}
@@ -114,9 +218,14 @@ La idea del algoritmo es partir de una representaci\'on planar $R$ de un subgraf
 \item [\textbf{2:}] El algoritmo empieza definiendo una representaci\'on base $R$, que inicialmente puede ser de cualquier ciclo de $G$. 
 \item [\textbf{3:}] Luego va a ciclar hasta que $R$ sea una representaci\'on de todo $G$ o hasta determinar que $G$ no es planar.
     \begin{enumerate}
-    \item [\textbf{4:}] Empezamos calculanedo $F(p)$ para todas las partes $p$ de $G$ relativas a $R$.
-    \item [\textbf{5 y 6:}] Si existe un $p$ tal que $F(p)$ es vac\'io, significa que no existen regiones de $R$ donde $p$ sea potencialmente dibujable, por lo que $G$ no es planar.
-    \item [\textbf{7 y 8:}] Si existe un $p$ tal que $F(p)$ es igual a una \'unica region $f$, entonces no me queda m\'as opci\'on que seleccionar esa regi\'on $f$ para dibujar a $p$.
-    \item [\textbf{9 y 10:}] Si no se cumpli\'o ninguna de las dos condiciones, elijo cualquier $p$ y cualquier region $f$ en la que $p$ sea potencialmente dibujable.
+    \item [\textbf{4:}] Empezamos calculanedo $F(p)$ para todas las partes $p$ de $G$ relativas a $R$. Esto significa que para cada parte $p_1, p_2, ..., p_k$, vamos a tener los conjuntos $F(p_1), F(p_2), ..., F(p_k)$; donde $F(p_i)$ es el conjunto de regiones en las que $p_i$ es potencialmente dibujable.
+    \item [\textbf{5 y 6:}] Si existe un $p_i$ tal que $F(p_i) = \emptyset$ significa que no existen regiones de $R$ donde $p_i$ sea potencialmente dibujable, por lo que $G$ no es planar.
+    \item [\textbf{7 y 8:}] Si existe un $p_i$ tal que $F(p_i)$ es igual a una \'unica region $f$, solo puedo seleccionar esa regi\'on $f$ para dibujar a $p_i$.
+    \item [\textbf{9 y 10:}] Si no se cumpli\'o ninguna de las dos condiciones, elijo cualquier $p_i$ y cualquier region $f_k \in F(p_i)$ en la que $p_i$ sea potencialmente dibujable.
+    \item [\textbf{11 a 13:}] Voy a buscar un camino o circuito $q$ en $p_i$ que empieza y termina en dos ejes colgantes diferentes si es posible. Si no es posible, $q$ es el camino formado por el \'unico eje colgante.
+
+    Notar que no necesariamente tienen que estar todos los v\'ertices de $p_i$ en $q$. Pueden faltar algunos, lo que importa es que estamos agregando un circuito o un eje, por lo que se preserva la planaridad al extender $R$. Si faltan v\'ertices, se van a resolver en las pr\'oximas iteraciones al recalcular las partes con el nuevo $R$.
+
+    \item [\textbf{14:}] Le agrego $q$ a $R$.
     \end{enumerate}
 \end{enumerate}
