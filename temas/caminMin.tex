@@ -21,7 +21,11 @@ Un camino m\'inimo no puede contener circuitos. Tambi\'en es importante notar qu
 
 \subsection{BFS}
 
-Cuando el grafo no tiene pesos.
+Como vimos anteriormente, BFS es una estrategia para recorrer un grafo. No obstante, puede usarse para encontrar el camino m\'inimo en un grafo $G$ que no tiene pesos asociados a sus ejes\footnote{O en el que todos los pesos son id\'enticos}.
+
+Si BFS arranca de un v\'ertice $v$ en particular la longitud del camino m\'inimo de $v$ a un v\'ertice destino $w$ es la cantidad de v\'ertices que los separan. Es decir, el nivel de $w$ en el \'arbol enraizado en $v$.
+
+Si modificamos el algoritmo para que vaya completando un array de predecesores podemos resolver el problema del camino m\'inimo de $1$ a $n$ en tiempo $\mathcal{O}(|V| + |E|)$.
 
 \newpage
 \subsection{Algoritmo de Dijkstra (1 a n)}
@@ -84,7 +88,7 @@ Este algoritmo toma un grafo $G$ y devuelve un array de v\'ertices llamado $prev
 
 La complejidad del algoritmo est\'a dada por el ciclo principal del mismo que empieza en la l\'inea 9. Vamos a tener que iterar tantas veces como elementos haya en $pq$, donde inicialmente van a haber $n$ elementos.
 
-En cada iteraci\'on vamos a tener que obtener el v\'ertice m\'as cercano a $A$ (10:), lo cual puede hacerse en O(log n) usando una cola de prioridad basada en un min-heap.
+En cada iteraci\'on vamos a tener que obtener el v\'ertice m\'as cercano a $A$ (10:), lo cual puede hacerse en $\mathcal{O}(\log{} |V|)$ usando una cola de prioridad basada en un min-heap.
 
 
 \newpage
@@ -140,12 +144,12 @@ Mientras Dijkstra obtiene el v\'ertice no visitado de menor peso en cada iteraci
 
 \subsubsection*{Complejidad}
 
-En este caso es bastante evidente que la complejidad es O(n * m), ya que vamos a ciclar a lo sumo $n-1$ veces y, en cada uno de estos ciclos, vamos a relajar, como mucho, los $m$ ejes de $G$.
+En este caso es bastante evidente que la complejidad es $\mathcal{O}(|V| * |E|)$, ya que vamos a ciclar a lo sumo $|V|-1$ veces y, en cada uno de estos ciclos, vamos a relajar, como mucho, los $|E|$ ejes de $G$.
 
 \newpage
 \subsection{Algoritmo de Floyd-Warshall (n a m)}
 
-Dado un grafo dirigido $G = (V, E)$ sin pesos negativos, el algoritmo de Floyd sirve para calcular el camino m\'inimo entre cada par de v\'ertices de $G$ en tiempo $O(n^3)$.
+Dado un grafo dirigido $G = (V, E)$ sin pesos negativos, el algoritmo de Floyd sirve para calcular el camino m\'inimo entre cada par de v\'ertices de $G$ en tiempo $\mathcal{O}(|V|^3)$.
 
 %Supongamos primero que los v\'ertices de $G$ est\'an numerados de $1$ a $n$, y definamos a la matriz $L$ como el peso de cada eje de $E$; siendo $L[i][i] = 0$, para todo $i \in V$. $L[i][j] \geq 0$ para todo $i \neq j$ y $L[i][j] = \infty$ para todo par de v\'ertices que no est\'an conectados.
 
