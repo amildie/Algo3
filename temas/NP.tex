@@ -64,10 +64,17 @@ Similarmente a la clase NP-Completo, un problema de decisi\'on $\Pi$ es \emph{``
 
 Todos los problemas NP-Completos son NP-Hard, pero no todos los problemas NP-Hard son NP-Completos, por ejemplo, el Halting Problem.
 
+Hasta el d\'ia de la fecha no se pudo demostrar que P $\neq$ NP, pero se sospecha fuertemente que este es el caso. De serlo as\'i, el siguiente diagrama ilustra las relaciones entre las clases de problemas descriptas anteriormente:
+
+\begin{figure}[htb]
+    \centering
+    \input{np.pdf_tex}
+\end{figure}
+
 \subsection{Algoritmos Pseudopolinomiales}
 
 Decimos que un algoritmo corre en tiempo \emph{``pseudopolinomial''} si la complejidad del mismo es del orden polinomial en el valor num\'erico de la entrada, en lugar de la cantidad de bits necesaria para representarla.
 
 Un ejemplo de esto es el algoritmo que determina si un n\'umero cualquiera $n$ es o no primo, y para esto se fija si dicho n\'umero tiene alg\'un divisor en el intervalo $[2, .., n]$.
 
-Este algoritmo va a iterar $n$ veces, y en cada iteraci\'on va a calcular $n \textrm{ mod } i$. Si hacer la operaci\'on de m\'odulo costara $O(n^3)$, el algoritmo corre en $O(n^4)$.
+Este algoritmo va a iterar $n$ veces, y en cada iteraci\'on va a calcular $n \textrm{ mod } i$. Si hacer la operaci\'on de m\'odulo costara $\mathcal{O}(n^3)$, el algoritmo corre en $\mathcal{O}(n^4)$.
