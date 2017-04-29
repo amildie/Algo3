@@ -101,26 +101,10 @@ Dada una red $G = (V, E)$ con una funci\'on de capacidad $c$ y un flujo factible
 
 De esta manera es trivial ver que en $G_f$ pueden haber ejes que no est\'an en $G$. Por ejemplo, miremos el siguiente grafo y su red residual:
 
-\raggedright
-  \bigskip
-  \begin{center}
-  \begin{tikzpicture}
-
-  \node[vertex] (n1) at (-9,0)  {s};
-  \node[vertex] (n2) at (-6,1)  {1};
-  \node[vertex] (n3) at (-6,-1)  {2};
-  \node[vertex] (n5) at (-3,0)  {t};
-  
-
-  \draw(n1) edge node{3/4} (n2);
-  
-  
-  \end{tikzpicture}
-  \end{center}
-
-
-  \raggedright
-  \bigskip
+\begin{figure}[htb]
+    \centering
+    \input{fluj1.pdf_tex}
+\end{figure}
 
 
 \subsection{Camino de Aumento}

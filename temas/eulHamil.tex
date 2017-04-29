@@ -3,7 +3,7 @@
 
 \subsection{Grafos Eulerianos}
 
-Un circuito $C$ en un grafo $G$ es un \emph{``circuito euleriano''} si $C$ pasa por todos los ejes de $G$ una y s\'olo una vez. Un grafo es euleriano si tiene un circuito euleriano. Un circuito euleriano puede pasar varias veces por el mismo v\'ertice. Un grafo conexo es euleriano $\Leftrightarrow$ todos sus nodos son de grado par. Podemos encontrar un circuito euleriano utilizando el algoritmo de Hierholzer en $O(m)$: 
+Un circuito $C$ en un grafo $G$ es un \emph{``circuito euleriano''} si $C$ pasa por todos los ejes de $G$ una y s\'olo una vez. Un grafo es euleriano si tiene un circuito euleriano. Un circuito euleriano puede pasar varias veces por el mismo v\'ertice. Un grafo conexo es euleriano $\Leftrightarrow$ todos sus nodos son de grado par. Podemos encontrar un circuito euleriano utilizando el algoritmo de Hierholzer en $\mathcal{O}(|E|)$: 
 
 \begin{algorithm}
 \begin{algorithmic}[1]
@@ -82,7 +82,7 @@ Esta heur\'istica greedy es bastante r\'apida, pero no siempre obtiene el circui
 \end{algorithmic}
 \end{algorithm}
 
-La funci\'on $aristaMasBarata()$ devuelve siempre una arista $(v,w)$ de peso m\'inimo, con $w \not\in S$. Este algoritmo puede no siempre devolver un ciclo, y si lo devuelve, puede no ser el de peso m\'inimo. Su complejidad es $O(n^2)$. Tambi\'en existe la posibilidad de correr este algoritmo una vez en cada v\'ertice, obteniendo un circuito hamiltoniano en cada ejecuci\'on, y qued\'andome con el de peso m\'inimo.
+La funci\'on $aristaMasBarata()$ devuelve siempre una arista $(v,w)$ de peso m\'inimo, con $w \not\in S$. Este algoritmo puede no siempre devolver un ciclo, y si lo devuelve, puede no ser el de peso m\'inimo. Su complejidad es $\mathcal{O}(n^2)$. Tambi\'en existe la posibilidad de correr este algoritmo una vez en cada v\'ertice, obteniendo un circuito hamiltoniano en cada ejecuci\'on, y qued\'andome con el de peso m\'inimo.
 
 \newpage
 \subsubsection*{Heur\'istica de inserci\'on}

@@ -1,7 +1,7 @@
 \newpage
 \section{Complejidad Computacional}
 
-Dada una funci\'on $g(n)$, denominamos como $O(g(n))$ al conjunto de funciones $f(n)$ que cumplen que:
+Dada una funci\'on $g(n)$, denominamos como $\mathcal{O}(g(n)})$ al conjunto de funciones $f(n)$ que cumplen que:
 
 \begin{center}
 $\exists$ $c, n_0$ tal que $0 \leq f(n) \leq c * g(n)$, $\forall n \geq n_0$  
@@ -12,10 +12,10 @@ $\exists$ $c, n_0$ tal que $0 \leq f(n) \leq c * g(n)$, $\forall n \geq n_0$
     \input{complej.pdf_tex}
 \end{figure}
 
-Es decir $O(g(n))$ es un conjunto de funciones $f(n)$ que, a partir de cierto valor $n_0$, van a estar acotadas superiormente por $c * g(n)$. O, dicho de otra manera:
+Es decir $\mathcal{O}(g(n)})$ es un conjunto de funciones $f(n)$ que, a partir de cierto valor $n_0$, van a estar acotadas superiormente por $c * g(n)$. M\'as formalmente:
 
 \begin{center}
-$f(n) \in O(g(n)) \iff \exists$ $c, n_0$ tal que $0 \leq f(n) \leq c * g(n)$, $\forall n \geq n_0$  
+$f(n) \in \mathcal{O}(g(n)}) \iff \exists$ $c, n_0$ tal que $0 \leq f(n) \leq c * g(n)$, $\forall n \geq n_0$  
 \end{center}
 
-Por ejemplo, si $f(n) = n^2 + n + 1$ y $g(n) = n^2$ podemos decir que $f(n) \in O(g(n))$, ya que si $c = 10^{999}$ y $n_0 = 10^{20}$ es f\'acil ver que se cumple que $0 \leq n^2 + n + 1 \leq 10^{999} * n^{2}$, $\forall n \geq 10^{20}$. Generalmente esto se describe diciendo que \emph{``f es $n^{2}$''}.
+Por ejemplo, si $f(n) = n^2 + n + 1$ y $g(n) = n^2$ podemos decir que $f(n) \in \mathcal{O}(g(n)})$, ya que si $c = 10^{999}$ y $n_0 = 10^{20}$ es f\'acil ver que se cumple que $0 \leq n^2 + n + 1 \leq 10^{999} * n^{2}$, $\forall n \geq 10^{20}$. Generalmente esto se describe diciendo que \emph{``f es $n^{2}$''}.
