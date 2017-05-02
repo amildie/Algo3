@@ -36,7 +36,7 @@
   }%
   \providecommand\rotatebox[2]{#2}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{113.48864746bp}%
+    \setlength{\unitlength}{253.04279785bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -48,16 +48,27 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.89065332)%
+  \begin{picture}(1,0.40372081)%
     \put(0,0){\includegraphics[width=\unitlength]{fluj1.pdf}}%
-    \put(0.0543815,0.45206376){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{s}}}%
-    \put(0.9200548,0.45206527){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{t}}}%
-    \put(0.47660116,0.80362981){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1}}}%
-    \put(0.47660116,0.04080958){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{2}}}%
-    \put(0.14601836,0.65960018){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{3/4}}}%
-    \put(0.15105741,0.18803616){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{2/2}}}%
-    \put(0.33732512,0.44130222){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{2/3}}}%
-    \put(0.70958065,0.65529492){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{5/5}}}%
-    \put(0.70771166,0.19262173){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{0/1}}}%
+    \put(0.02438989,0.2070152){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{s}}}%
+    \put(0.41264078,0.20701588){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{t}}}%
+    \put(0.21375366,0.36469112){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1}}}%
+    \put(0.21375366,0.02256941){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{2}}}%
+    \put(0.06548864,0.30009443){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{3/4}}}%
+    \put(0.06774863,0.08859992){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{2/2}}}%
+    \put(0.15128893,0.20218869){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{2/3}}}%
+    \put(0.318244,0.29816353){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{5/5}}}%
+    \put(0.31740576,0.09065652){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{0/1}}}%
+    \put(0.57589403,0.20274877){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{s}}}%
+    \put(0.96414492,0.20274945){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{t}}}%
+    \put(0.7652578,0.36042469){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1}}}%
+    \put(0.7652578,0.01830297){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{2}}}%
+    \put(0.64892903,0.29103757){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1}}}%
+    \put(0.84827781,0.12190027){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1}}}%
+    \put(0.74288846,0.19375656){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{1}}}%
+    \put(0.6311118,0.0692055){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\textcolor{red}{2}}}}%
+    \put(0.90277352,0.31007356){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\textcolor{red}{5}}}}%
+    \put(0.70573171,0.24240855){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\textcolor{red}{3}}}}%
+    \put(0.80173917,0.19297669){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{\textcolor{red}{2}}}}%
   \end{picture}%
 \endgroup%

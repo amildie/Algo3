@@ -95,9 +95,11 @@ La \emph{``capacidad residual''} de un eje $e$ respecto de un flujo factible $f$
 Dada una red $G = (V, E)$ con una funci\'on de capacidad $c$ y un flujo factible $f$, definimos a la red que modela la capacidad disponible de $G$ como la \emph{``red residual''} $G_f = (V, E_{R})$, donde para todo $(v \rightarrow w) \in E$:
 
 \begin{itemize}
-\item $(v \rightarrow w) \in E_R \Longleftrightarrow f((v \rightarrow w)) < c((v \rightarrow w))$. Es decir, el eje $(v \rightarrow w)$ va a estar en la red residual si su flujo es menor a su capacidad.
-\item $(w \rightarrow v) \in E_R \Longleftrightarrow f((v \rightarrow w)) > 0$.
+\item $(v \rightarrow w) \in E_R \Longleftrightarrow f((v \rightarrow w)) < c((v \rightarrow w))$. Es decir, el eje $e$ va a estar en la red residual si su flujo es menor a su capacidad. El peso de $e$ es $c(e) - f(e)$.
+\item $(w \rightarrow v) \in E_R \Longleftrightarrow f((v \rightarrow w)) > 0$. Es decir, todos los ejes con flujo mayor a $0$ van a tener un eje contrario, y el peso de $e$ va a ser igual a $f(e)$.
 \end{itemize}
+
+
 
 De esta manera es trivial ver que en $G_f$ pueden haber ejes que no est\'an en $G$. Por ejemplo, miremos el siguiente grafo y su red residual:
 
@@ -107,14 +109,40 @@ De esta manera es trivial ver que en $G_f$ pueden haber ejes que no est\'an en $
 \end{figure}
 
 
+\newpage
 \subsection{Camino de Aumento}
 
-Un \emph{``camino de aumento''} es un camino orientado $P$ de $s$ a $t$ en $G_f$. Dada una red $G$, esta se encuentra en su flujo m\'aximo si y s\'olo si no hay camino de aumento en $G_f$.
+Un \emph{``camino de aumento''} es un camino orientado $P$ de $s$ a $t$ en $G_f$. Dada una red $G$, esta se encuentra en su flujo m\'aximo si y s\'olo si no hay camino de aumento en $G_f$. Para el ejemplo anterior tenemos el siguiente camino de aumento:
+
+\begin{figure}[htb]
+    \centering
+    \input{fluj2.pdf_tex}
+\end{figure}
+
+Por lo que es evidente que el flujo $f$ no es m\'aximo. Para encontrar el flujo m\'aximo podemos utilizar el...
 
 \subsection{Algoritmo de Ford-Fulkerson}
 
-La idea del algoritmo es sencilla: mientras exista un camino en $G$ desde $s$ hasta $t$ que pueda transportar m\'as flujo, mandale m\'as flujo. Este camino existe si y s\'olo si hay un camino de aumento en $G_f$.
+La idea del algoritmo es sencilla: mientras exista un camino de aumento, mejorarlo. Viendo el grafo anterior, podemos ver que el camino de aumento $s,1,2,t$ tiene un par de cuellos de botella:
 
+\begin{figure}[htb]
+    \centering
+    \input{fluj3.pdf_tex}
+\end{figure}
+
+Notar que interpretamos como \emph{``camino''} un conjunto de ejes dirigidos que pueden no tener las direcciones necesarias para llegar de $s$ a $t$. 
+
+Luego buscamos la magnitud m\'inima ($1$), se la sumamos a todos los ejes que van en nuestra direcci\'on y se la restamos a los que van en contra:
+
+%Lo que hacemos es buscar la magnitud m\'inima en la que puedo incrementar a alguno de los ejes que van hacia $t$, que en este caso es $1$. Luego le sumo $1$ a todos los ejes que van para mi lado y le resto $1$ a todos los ejes que van en contramano, por lo que el flujo me queda as\'i:
+
+\begin{figure}[htb]
+    \centering
+    \input{fluj4.pdf_tex}
+\end{figure}
+
+\newpage
+\subsubsection*{Pseudoc\'odigo}
 \begin{algorithm}
 \begin{algorithmic}[1]
 \Function{FordFulkerson}{$G = (V, E), c: E \rightarrow {\rm I\!R^{\geq 0}}$}
@@ -143,10 +171,10 @@ El algoritmo utiliza fuertemente la propiedad de que, mientras exista un camino 
 \item [5:] Ac\'a comienza la iteraci\'on principal del algoritmo. Mientras pueda encontrar un camino de aumento para asign\'arselo a $p$, el flujo $f$ no es m\'aximo y va a poder ser mejorado haciendo lo siguiente:
   \begin{enumerate}
   \item [6:] Dado el camino $p$ que encontr\'e, busco el eje de menor capacidad residual del mismo. Esta capacidad residual se llama $c_{min}$.
-  \item [7:] Empiezo a recorrer todos los ejes del camino $p$, y a cada eje:
+  \item [7:] Empiezo a recorrer todos los ejes del camino $p$, y:
     \begin{enumerate}
-      \item [8:] Le sumo a su flujo la capacidad residual m\'inima del camino. Esto va a aumentar el flujo total que se mueve por el camino $p$.
-      \item [9:] Pero a su vez
+      \item [8:] A los ejes que van para mi lado, le sumo $c_{min}$.
+      \item [9:] A los que van para el otro lado, les resto $c_{min}$.
     \end{enumerate}
   \end{enumerate}
 \end{enumerate}
