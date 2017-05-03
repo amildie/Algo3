@@ -78,15 +78,43 @@ Este problema est\'a en P. Notar que un flujo m\'aximo no requiere que todos los
 
 Un \emph{``corte''} en una red $G = (V, E)$ es un subconjunto $S \subseteq V - {t}$ tal que $s \in S$. Es decir, un subconjunto de v\'ertices de la red en los que est\'a la fuente pero no el sumidero.
 
-Dados dos cortes $S$ y $T$, $ST = \{ (v \rightarrow w) \in E \textrm{ tales que } v \in S \textrm{ y } w \in T \}$. Es decir, $ST$ es el conjunto de ejes para los cuales el v\'ertice de salida est\'a en $S$ y el de llegada est\'a en $T$.
+Dados dos cortes $S$ y $T$, $ST = \{ (v \rightarrow w) \in E \textrm{ tales que } v \in S \textrm{ y } w \in T \}$. Es decir, $ST$ es el conjunto de ejes para los cuales el v\'ertice de salida est\'a en $S$ y el de llegada est\'a en $T$. Notar que $t \in T$. 
 
-Sea $f$ un flujo definido en una red $N = (V, E)$, sea $S$ un corte y sea $\bar{S} = V - S$; entonces:
+Sea $f$ un flujo definido en una red $G = (V, E)$, sea $S$ un corte y sea $\bar{S} = V - S$; entonces:
 
 \[
 F = \sum_{e \in S\bar{S}} f(e) - \sum_{e \in \bar{S}S} f(e)
 \]
 
-%Es decir, el valor del flujo de la red va a ser igual al fujo saliente de un corte menos el flujo entrante al corte?
+Es decir, el valor del flujo de la red va a ser igual al fujo saliente de un corte menos el flujo entrante al corte. Veamos esto con un ejemplo sencillo, supongamos que tenemos la siguiente red:
+
+\begin{figure}[htb]
+    \centering
+    \input{cort1.pdf_tex}
+\end{figure}
+
+Es trivial ver que $F = 5$. Pero ahora miremos que pasa cuando seleccionamos los v\'ertices $s$ y $1$ para nuestro corte:
+
+\begin{figure}[htb]
+    \centering
+    \input{cort2.pdf_tex}
+\end{figure}
+
+Vemos que la suma de los flujos que van de $S$ a $\bar{S}$ es de $5 + 2$, mientras que los flujos que van de $\bar{S}$ a $S$ suman $2$. Luego $F = 5 + 2 - 2 = 5$, que era lo que quer\'iamos ver.
+
+Notar tambi\'en que esto pasa cuando $S = {s, 1, 2}$, ya que en ese caso $\sum_{e \in S\bar{S}} f(e) = 5$ y $\sum_{e \in \bar{S}S} f(e) = 0$, teniendo como resultado el mismo $F = 5$ de antes.
+
+Tambi\'en se puede ver que, en el caso de que $S$ fuera simplemente el v\'ertice $s$, $F = 3+2$.
+
+\subsubsection{Capacidad de un corte}
+
+Cuando hablamos de un corte $S$, llamamos \emph{``capacidad''} del mismo a la capacidad de todos los ejes que salen de un v\'ertice de $S$ y terminan en un v\'ertice de $\bar{S}$. Dicho formalmente:
+
+\[
+c(S) = \sum_{e \in S\bar{S}} c(e)
+\]
+
+El \emph{``problema del corte m\'inimo''} consiste en encontrar un corte $S$ que cumple que $c(s)$ es m\'inima.
 
 \subsection{Red Residual}
 
@@ -94,10 +122,10 @@ La \emph{``capacidad residual''} de un eje $e$ respecto de un flujo factible $f$
 
 Dada una red $G = (V, E)$ con una funci\'on de capacidad $c$ y un flujo factible $f$, definimos a la red que modela la capacidad disponible de $G$ como la \emph{``red residual''} $G_f = (V, E_{R})$, donde para todo $(v \rightarrow w) \in E$:
 
-\begin{itemize}
+\begin{enumerate}
 \item $(v \rightarrow w) \in E_R \Longleftrightarrow f((v \rightarrow w)) < c((v \rightarrow w))$. Es decir, el eje $e$ va a estar en la red residual si su flujo es menor a su capacidad. El peso de $e$ es $c(e) - f(e)$.
 \item $(w \rightarrow v) \in E_R \Longleftrightarrow f((v \rightarrow w)) > 0$. Es decir, todos los ejes con flujo mayor a $0$ van a tener un eje contrario, y el peso de $e$ va a ser igual a $f(e)$.
-\end{itemize}
+\end{enumerate}
 
 
 
@@ -107,6 +135,8 @@ De esta manera es trivial ver que en $G_f$ pueden haber ejes que no est\'an en $
     \centering
     \input{fluj1.pdf_tex}
 \end{figure}
+
+Los ejes que ten\'ian su m\'axima capacidad saturada desaparecieron por no cumplir con $1.$, mientras que el resto de los ejes se preservaron, y ahora tienen como peso el valor de su capacidad previa. Notar tambi\'en que todos los ejes con un flujo $>0$ generaron ejes inversos (en rojo).
 
 
 \newpage
@@ -178,6 +208,8 @@ El algoritmo utiliza fuertemente la propiedad de que, mientras exista un camino 
     \end{enumerate}
   \end{enumerate}
 \end{enumerate}
+
+Si los valores del flujo inicial y las capacidades de los ejes son enteros este algoritmo realiza a lo sumo $|V| * U$ iteraciones, siendo entonces su complejidad del orden de $\mathcal{O}(|E| * |V| * U)$, con $U$ siendo una cota superior finita para el valor de las capacidades.
 
 \subsubsection{Algoritmo de Edmonds-Karp}
 
