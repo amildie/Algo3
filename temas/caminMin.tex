@@ -68,7 +68,7 @@ Este algoritmo toma un grafo $G$ y devuelve un array de v\'ertices llamado $prev
 \item [3:] L\'ogicamente la distancia m\'inima de $A$ hacia $A$ es 0. Esto se asume porque $G$ no tiene ciclos negativos.
 \item [4:] Declaramos como $pq$ a una cola de prioridad. Ac\'a vamos a guardar tuplas $<d, w>$, donde $d$ es la distancia m\'inima desde el v\'ertice $A$ hasta el v\'ertice $w$. Hacemos esto para poder obtener el v\'ertice de menor distancia a $A$ en O(log n). Ac\'a hay informaci\'on redundante (las distancias m\'inimas ya se est\'an guardando en $dist$) pero es beneficiosa para la complejidad del algoritmo.
 \item [5 a 8:] Luego vamos a empezar a iterar todos los v\'ertices de $G$ seteando la informaci\'on necesaria para cada uno. Esto significa setear su v\'ertice previo en $-1$ y su distancia m\'inima hacia $A$ en infinito. Este proceso es O(n).
-\item [9:] Ahora comienza el ciclo principal del algoritmo. En cada iteraci\'on del while vamos a visitar el v\'ertice de menor distancia hacia $A$ que encontremos en $pq$. El algoritmo termina cuando $pq$ est\'a vac\'ia, es decir, visitamos a todos los v\'ertices. Vale destacar que el primer v\'ertice que visitamos es $A$.
+\item [9:] Ahora comienza el ciclo principal del algoritmo. En cada iteraci\'on del while vamos a visitar de forma greedy el v\'ertice de menor distancia hacia $A$ que encontremos en $pq$. El algoritmo termina cuando $pq$ est\'a vac\'ia, es decir, visitamos a todos los v\'ertices. Vale destacar que el primer v\'ertice que visitamos es $A$.
     \begin{enumerate}
     \item [10:] Guardamos en una tupla $t$ al v\'ertice que sacamos de $pq$. Hay que tener en cuenta que en $t.first$ vamos a tener la distancia m\'inima del v\'ertice que est\'a en $t.second$ hasta $A$.
     \item [11:] Vamos a iterar a todos los vecinos $w$ de $t.second$.
@@ -86,10 +86,21 @@ Este algoritmo toma un grafo $G$ y devuelve un array de v\'ertices llamado $prev
 
 \subsubsection*{Complejidad}
 
-La complejidad del algoritmo est\'a dada por el ciclo principal del mismo que empieza en la l\'inea 9. Vamos a tener que iterar tantas veces como elementos haya en $pq$, donde inicialmente van a haber $n$ elementos.
+La complejidad del algoritmo depende del costo de las operaciones $pop()$ y $decreaseKey()$.
 
-En cada iteraci\'on vamos a tener que obtener el v\'ertice m\'as cercano a $A$ (10:), lo cual puede hacerse en $\mathcal{O}(\log{} |V|)$ usando una cola de prioridad basada en un min-heap.
+La operaci\'on $pop()$ va a extraer el v\'ertice m\'as cercano a $A$ de $pq$ hasta que $pq$ no tenga mas v\'ertices, por lo que van a haber $|V|$ llamados a $pop()$. A su vez, en el peor caso la operaci\'on $decreaseKey()$ se va a ejecutar una vez por cada eje de $E$, por lo que vamos a tener $|E|$ llamados a $decreaseKey()$.
 
+Si llamamos $T_p$ y $T_d$ a los costos de ambas operaciones respectivamente, vamos a tener que la complejidad final para el algoritmo es de $\mathcal{O}(|V| * T_p + |E| * T_d)$.
+
+Si implementamos a $pq$ sobre un \'arbol del Fibonacci las operaciones $pop()$ y $decreaseKey()$ van a tener costos en los \'ordenes de $\mathcal{O}(\log{} |V|)$ y $\mathcal{O}(1)$ respectivamente, lo que nos deja la complejidad concreta de la implementaci\'on en $\mathcal{O}(|V| * \log{} |V| + |E| * 1) = \mathcal{O}(|V| * \log{} |V| + |E|)$.
+
+\subsubsection*{Pesos negativos}
+
+Este algoritmo no funciona bien cuando $G$ tiene ejes con pesos negativos porque asume que los caminos s\'olo pueden volverse m\'as pesados.
+
+Cuando el algortimo se para en un v\'ertice $v$ y relaja a todos sus vecinos no va a volver a pararse en $v$ nuevamente, ya mejor\'o las distancias a sus vecinos lo m\'as posible pasando por $v$.
+
+Cuando hay pesos negativos puede ser que aparezcan distancias previas m\'as chicas que \emph{``mejoran''} otras distancias previamente calculadas\footnote{stackoverflow.com/questions/6799172/negative-weights-using-dijkstras-algorithm}.
 
 \newpage
 \subsection{Algoritmo de Bellman-Ford (1 a n)}
