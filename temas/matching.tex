@@ -116,7 +116,7 @@ Dado un grafo $G = (V, E)$ tenemos las siguientes definiciones:
 
 \end{itemize}
 
-$S \subseteq V$ es un conjunto independiente si y s\'olo si $V - S$ es un recubrimiento de ejes.
+
 
 \subsection{Matching maximal}
 
@@ -227,8 +227,18 @@ Dado un matching $M$ en $G$, definimos:
 
 \begin{itemize}
 \item $M$ es un matching m\'aximo de $G$ $\Leftrightarrow$ no existe un camino de aumento en $G$ con respecto a $M$.
+\item $S \subseteq V$ es un conjunto independiente $\Leftrightarrow$ $V - S$ es un recubrimiento de ejes.
+
+Es decir, si $S$ es un conjunto de v\'ertices para los cuales todo eje es incidente con como mucho uno de esos v\'ertices entonces, al sacarle ese conjunto a $G$, los v\'ertices que nos quedan cumplen la propiedad de que saturan todos los ejes
+
+Notar que un v\'ertice solo cumple la propiedad de ser un conjunto independiente y al sac\'arselo a $G$, l\'ogicamente va a pasar que todos los otros v\'ertices saturan el resto de los ejes de $G$.
+
+Tambi\'en es trivial ver como vale que si $S$ \textbf{no} es un conjunto independiente entonces $V - S$ no es un recubrimiento de ejes. Por ejemplo, si $S$ tiene dos v\'ertices $v,w$ tales que son adyacentes, al sac\'arselos a $G$ el eje $(v,w)$ no va a estar saturado, por lo que $V - S$ no es un recubrimiento de ejes.
+
 \item Dado un grafo $G$ sin v\'ertices aislados, si $M$ es un matching m\'aximo de $G$ y $R_e$ un recubrimiento m\'inimo de los v\'ertices de $G$ $\Rightarrow$ $|M| + |R_e| = n$.
 \item Dado un grafo $G$, si $I$ es un conjunto independiente m\'aximo de $G$ y $R_n$ un recubrimiento m\'inimo de los ejes de $G$ $\Rightarrow$ $|I| + |R_n| = n$.
+
+\newpage
 \item Sean $M_0$ y $M_1$ dos matchings en $G$, y sea $G' = (V, E')$ con $E' = (M_0 - M_1) \cup (M_1 - M_0)$ $\Rightarrow$ las componentes conexas de $G'$ son de alguno de los siguientes tipos:
 
 \begin{itemize}
@@ -236,6 +246,11 @@ Dado un matching $M$ en $G$, definimos:
 \item Circuito simple con ejes alternadamente entre $M_0$ y $M_1$.
 \item Camino simple con ejes alternadamente entre $M_0$ y $M_1$.
 \end{itemize}
+
+\begin{figure}[htb]
+    \centering
+    \input{match1.pdf_tex}
+\end{figure}
 
 \end{itemize}
 
