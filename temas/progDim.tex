@@ -232,7 +232,45 @@ Este problema es en realidad un caso especial del problema de la mochila:
 \noindent\fbox{
 \parbox{\textwidth}{
 
-Dado un array $A = \{a_1, a_2, ..., a_n\}$ de enteros, determinar si existe una subsecuencia no necesariamente continua no vac\'ia de $A$ tal que la suma de todos sus elementos sea 0.
+Dado un array $X = \{a_1, a_2, ..., a_n\}$ determinar si existe una subsecuencia no necesariamente continua de $A$ tal que la suma de todos sus elementos sea 0.
 
 }
 }
+
+Por ejemplo, si $X = \{−7, 5, −2, 8, -3\}$ la respuesta es \emph{``s\'i''} ya que $5 - 2 - 3 = 0$.
+
+Este problema lo podemos resolver de manera similar al de la mochila mediante memoization.
+
+Primero ordenamos el array de forma ascendente: $X = \{−7, -3, −2, 5, 8\}$. Luego definimos una matriz booleana $Q$, donde $Q[i][s]$ es verdadero o falso si hay un subconjunto no vac\'io de $x_1$ hasta $x_i$ que suma $s$. Entonces para obtener una soluci\'on del problema tenemos que ver cu\'anto vale $Q[n][0]$.
+
+Luego definimos a $A$ como la suma de todos los valores negativos de $X$ y a $B$ como la suma de todos los positivos. Claramente $Q[i][s]$ es falso si $s < A$ o si $s > B$. Simplemente no se pueden alcanzar esos valores, por lo que los valores de $i$ y de $s$ que nos interesan dentro del problema son $1 \leq i \leq n$ y $A \leq s \leq B$. Vamos a completar $Q$:
+
+Primero seteamos el caso base: Cuando $i = 1$ el valor de $Q[i][s]$ es true s\'olo cuando el \'unico elemento que podemos agarrar es efectivamente igual a $s$:
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\For{$A \leq s \leq B$}
+  \If{$x_1 == s$}
+    \State $Q[1][s] \gets true$
+  \Else
+    \State $Q[1][s] \gets false$
+  \EndIf
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+Luego completamos el resto de la tabla:
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\For{$2 \leq i \leq n$}
+  \For{$A \leq s \leq B$}
+    \If{$x_1 == s$}
+      \State $Q(1,s) \gets true$
+    \Else
+      \State $Q(1,s) \gets false$
+    \EndIf
+  \EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
