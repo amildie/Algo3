@@ -237,15 +237,26 @@ Dado un array $X = \{a_1, a_2, ..., a_n\}$ determinar si existe una subsecuencia
 }
 }
 
-Por ejemplo, si $X = \{−7, 5, −2, 8, -3\}$ la respuesta es \emph{``s\'i''} ya que $5 - 2 - 3 = 0$.
+Por ejemplo, si $X = \{1, -3, 2, 4\}$ la respuesta es \emph{``s\'i''} ya que $1 - 3 + 2 = 0$.
 
 Este problema lo podemos resolver de manera similar al de la mochila mediante memoization.
 
-Primero ordenamos el array de forma ascendente: $X = \{−7, -3, −2, 5, 8\}$. Luego definimos una matriz booleana $Q$, donde $Q[i][s]$ es verdadero o falso si hay un subconjunto no vac\'io de $x_1$ hasta $x_i$ que suma $s$. Entonces para obtener una soluci\'on del problema tenemos que ver cu\'anto vale $Q[n][0]$.
+Vamos a empezar definiendo una matriz booleana $Q$, donde $Q[i][s]$ es verdadero o falso si hay un subconjunto no vac\'io de $x_1$ hasta $x_i$ que suma $s$. Entonces para obtener una soluci\'on del problema tenemos que ver cu\'anto vale $Q[n][0]$.
 
-Luego definimos a $A$ como la suma de todos los valores negativos de $X$ y a $B$ como la suma de todos los positivos. Claramente $Q[i][s]$ es falso si $s < A$ o si $s > B$. Simplemente no se pueden alcanzar esos valores, por lo que los valores de $i$ y de $s$ que nos interesan dentro del problema son $1 \leq i \leq n$ y $A \leq s \leq B$. Vamos a completar $Q$:
+Luego definimos a $A$ como la suma de todos los valores negativos de $X$ y  ($-3$)a $B$ como la suma de todos los positivos (7). Claramente $Q[i][s]$ es falso si $s < A$ o si $s > B$. Simplemente no se pueden alcanzar esos valores, por lo que los valores de $i$ y de $s$ que nos interesan dentro del problema son $1 \leq i \leq n$ y $A \leq s \leq B$. Vamos a completar $Q$, que inicialmente est\'a vac\'ia:
 
-Primero seteamos el caso base: Cuando $i = 1$ el valor de $Q[i][s]$ es true s\'olo cuando el \'unico elemento que podemos agarrar es efectivamente igual a $s$:
+\begin{center}
+  \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | }
+    \hline
+      & -3 & -2 & -1 & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
+    0 &    &    &    &   &   &   &   &   &   &   &   \\ \hline
+    1 &    &    &    &   &   &   &   &   &   &   &   \\ \hline
+    2 &    &    &    &   &   &   &   &   &   &   &   \\ \hline
+    3 &    &    &    &   &   &   &   &   &   &   &   \\ \hline
+  \end{tabular}
+\end{center}
+
+Luego seteamos el caso base: indexando \'unicamente hasta el primer elemento. Es decir, usando s\'olamente el $1$. Si s\'olo podemos agarrar el primer elemento de $X$, entonces la \'unica manera en la que podemos sumar $s$ es cuando ese elemento es igual a $s$:
 
 \begin{algorithm}
 \begin{algorithmic}[1]
@@ -259,18 +270,62 @@ Primero seteamos el caso base: Cuando $i = 1$ el valor de $Q[i][s]$ es true s\'o
 \end{algorithmic}
 \end{algorithm}
 
-Luego completamos el resto de la tabla:
+Lo que nos deja la tabla de la siguiente manera:
+
+\begin{center}
+  \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | }
+    \hline
+      & -3 & -2 & -1 & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
+    0 &  F & F  &  F & F & \textbf{T}  & F  &  F & F  & F  & F  & F  \\ \hline
+    1 &    &    &    &   &   &   &   &   &   &   &   \\ \hline
+    2 &    &    &    &   &   &   &   &   &   &   &   \\ \hline
+    3 &    &    &    &   &   &   &   &   &   &   &   \\ \hline
+  \end{tabular}
+\end{center}
+
+\newpage
+Ahora es cuando la cosa se pone m\'as interesante. Tenemos que completar el resto de la tabla hasta llegar a $Q[3][0]$. Al ver $Q[i][s]$ pueden pasar cuatro cosas:
+
+\begin{itemize}
+\item Que $x_i$ sea igual a $s$: estamos indexando hasta $x_i$, pero si este $x_i$ es $s$, entonces encontramos un subconjunto que cumple lo pedido: $[x_i]$. Le ponemos \textbf{T}, obviamente.
+\item Que ya hayamos encontrado un subconjunto anterior que lo cumple. Si $Q[i-1][s]$ es true, significa que ya existe un subconjunto que suma $s$ y que usa hasta el elemento con \'indice $i-1$. Le ponemos \textbf{T} a la $Q[i][s]$, ya que esto significa que \emph{s\'i} hay un subconjunto que suma $s$ y que usa los n\'umeros disponibles hasta $x_i$.
+\item Que usando los elementos hasta el anterior a $x_i$ pueda sumar $s-x_i$. Esto significa que agregando a $x_i$ llego a sumar exactamente $s$, por lo que le ponemos \textbf{T}.
+\item Que no se cumplan ninguna de las anteriores, le ponemos F.
+\end{itemize}
+
+Dicho m\'as formalmente:
 
 \begin{algorithm}
 \begin{algorithmic}[1]
-\For{$2 \leq i \leq n$}
+\For{$1 \leq i < n$}
   \For{$A \leq s \leq B$}
-    \If{$x_1 == s$}
-      \State $Q(1,s) \gets true$
+    \If{$x_i == s$}
+      \State $Q[i][s] \gets true$
+    \ElsIf{$Q[i-1][s] == true$}
+      \State $Q[i][s] \gets true$
+    \ElsIf{$Q[i-1][s-x_i] == true$}
+      \State $Q[i][s] \gets true$
     \Else
-      \State $Q(1,s) \gets false$
+      \State $Q[i][s] \gets false$
     \EndIf
   \EndFor
 \EndFor
 \end{algorithmic}
 \end{algorithm}
+
+Siguiendo esta din\'amica la tabla nos queda:
+
+\begin{center}
+  \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | }
+    \hline
+      & -3 & -2 & -1 & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
+    0 &  F & F  &  F & F & \textbf{T}  & F  &  F & F  & F  & F  & F  \\ \hline
+    1 &    &    &    &   &   &   &   &   &   &   &   \\ \hline
+    2 &    &    &    &   &   &   &   &   &   &   &   \\ \hline
+    3 &    &    &    &   &   &   &   &   &   &   &   \\ \hline
+  \end{tabular}
+\end{center}
+
+Efectivamente mostrando la soluci\'on que est\'abamos buscando.
+
+Tambi\'en queda en evidencia que la complejidad del algoritmo es pseudopolinomial en el orden de $\mathcal{O}(s*N)$, donde $s$ es la suma que queremos encontrar y $N$ la cantidad de elementos de $X$.
