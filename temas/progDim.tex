@@ -1,28 +1,26 @@
 \newpage
 \section{Programaci\'on Din\'amica}
 
-\subsection{Subestructura Optima}
+La \emph{``programaci\'on din\'amica''} es una t\'ecnica de desarrollo de algoritmos que es \'util para encarar problemas que exhiben simult\'aneamente dos caracter\'isticas particualres:
 
-La \emph{``subestructura \'optima''} es una propiedad que pueden exhibir algunos problemas. Se dice que un problema tiene subestructura \'optima si el mismo cumple que una soluci\'on \'optima del mismo puede ser construida a partir de soluciones \'optimas de sus subproblemas.
+\begin{enumerate}
+\item \textbf{Subestructura \'optima:} La \emph{``subestructura \'optima''} es una propiedad que pueden exhibir algunos problemas. Se dice que un problema tiene subestructura \'optima si el mismo cumple que una soluci\'on \'optima del mismo puede ser construida a partir de soluciones \'optimas de sus subproblemas.
 
-Un ejemplo de esto es el problema del camino m\'as corto. Supongamos dos puntos $A$ y $B$, y un camino $w$ que es el m\'as corto entre ellos. Para cualquier par de puntos $A'$  y $B'$ dentro de $w$, el camino m\'as corto $w'$ entre ellos est\'a necesariamente contenido adentro de $w$.
+Un ejemplo de esto es el problema del camino m\'inimo. Supongamos dos puntos $A$ y $B$, y un camino $c$ que es el m\'as corto entre ellos. Para cualquier par de puntos $A'$  y $B'$ dentro de $c$, el camino m\'as corto $c'$ entre ellos est\'a necesariamente contenido adentro de $c$.
 
-\subsection{Soluciones Sobrepuestas}
-
-Al igual que la subestructura \'optima, un problema tiene esta caracter\'istica cuando sub subproblemas comparten soluciones entre ellos. Un ejemplo cl\'asico de este fen\'omeno es el problema de calcular el $n$-\'esimo n\'umero de Fibonacci.
+\item \textbf{Soluciones Sobrepuestas:} Al igual que la subestructura \'optima, un problema tiene esta caracter\'istica cuando sub subproblemas comparten soluciones entre ellos. Un ejemplo cl\'asico de este fen\'omeno es el problema de calcular el $n$-\'esimo n\'umero de Fibonacci.
 
 La ecuaci\'on recursiva para calcularlo es $f(n) = f(n-1) + f(n-2)$. Supongamos entonces que queremos calcular $f(5)$. Voy a tener que calcular $f(4)$ y $f(3)$. Pero para calcular $f(4)$ voy a tener que calcular $f(3)$ y $f(2)$. Es decir, voy a tener que calcular $f(3)$ m\'as de una vez.
 
-Uno podr\'ia pensar que ser\'ia una buena idea cachear cada n\'umero de fibonacci calculado para no tener que recalcularlo m\'as de una vez. Esta t\'ecnica se llama \emph{``memoization''}\footnote{S\'i, \emph{memoization}, sin r.}.  
+Uno podr\'ia pensar que ser\'ia una buena idea cachear cada n\'umero de fibonacci calculado para no tener que recalcularlo m\'as de una vez. Esta t\'ecnica se llama \emph{``memoization''} y la manera en la que la voy a implementar a lo largo de los ejemplos es mediante un array llamado $\textbf{S}$.
+\end{enumerate}
 
-\subsection{Programaci\'on Din\'amica}
+Es intuitivo notar que los algoritmos de programaci\'on din\'amica que implementan memoization est\'an haciendo un trade off entre complejidad temporal y complejidad espacial, disminuyendo la primera al aumentar la segunda.
 
-Cuando un problema exhibe tanto subestructura \'optima como soluciones sobrepuestas, es candidato a poseer un algoritmo para solucionarlo que emplee una t\'ecnica de desarrollo de algoritmos llamada \emph{``programaci\'on din\'amica''}.
-
-Si un problema puede ser solucionado combinando soluciones no sobrepuestas de sus subproblemas, esta estrategia se llama \emph{``divide \& conquer''}. Es por eso que mergesort, por ejemplo, no es un problema de programaci\'on din\'amica.
+Cuando un problema puede ser solucionado combinando soluciones no sobrepuestas de sus subproblemas, esta estrategia se llama \emph{``divide \& conquer''}. Es por eso que mergesort, por ejemplo, no es un problema de programaci\'on din\'amica.
 
 \newpage
-\subsection{Ejemplos}
+\subsection{Problemas cl\'asicos}
 
 \subsubsection{Subsecuencia continua de suma m\'axima}
 
@@ -73,8 +71,7 @@ int sum(int* a, unsigned int n) {
 \end{minipage}
 \end{center}
 
-
-
+\newpage
 \subsubsection{Subsecuencia no-continua estrictamente creciente m\'as larga}
 
 \noindent\fbox{%
@@ -136,6 +133,46 @@ vector<int> lis(int* a, unsigned int n) {
 \end{lstlisting}
 \end{minipage}
 \end{center}
+
+
+\newpage
+\subsubsection{Longitud de la subsecuencia no-continua com\'un m\'as larga}
+
+\noindent\fbox{
+\parbox{\textwidth}{
+
+Dadas dos strings $A$ y $B$, encontrar la longitud de la sub secuencia no necesariamente continua m\'as larga que tengan en com\'un. 
+
+}
+}
+
+Por ejemplo, dadas $A = ABC$ y $B = ACB$, la respu\'esta del problema es $2$, ya que tanto $AB$ como $AC$ tienen longitud m\'axima.
+
+Para resolver este problema vamos a definir el concepto de \emph{``prefijo''}. Un prefijo de una secuencia $s$ es una subsecuencia continua de $s$ que llega hasta el caracter $i$. Usando a $A$ como ejemplo, $A_1 = AB$. La idea de la soluci\'on es computar la subsecuencia no-continua com\'un m\'as larga entre $A$ y $B$ para todo par de prefijos posibles. 
+
+Para esto vamos a definir una matriz de enteros $c$, donde $c[i][j]$ contiene el valor de la longitud de la subsecuencia com\'un m\'as larga entre $A_i$ y $B_j$. Si $A$ tiene longitud $n$ y $B$ tiene longitud $m$, el valor de la matriz que resuelve nuestro problema es $c[n][m]$.
+
+Es evidente que para computar el valor de $c[i][j]$ vamos a necesitar saber lo valores de $c[i'][j']$, para todo $i' \leq i$ y $j' \leq j$, pero l\'ogicamente sin tener $i = i'$ ni $j = j'$ al mismo tiempo.
+
+Primero vamos a observar el caso base: $c[i][0] = c[0][j] = 0$. Es decir, si alguna de las dos secuencias est\'a vac\'ia la longitud final es $0$. Formalmente:
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\For{$0 \leq i \leq m$}
+  \State $c[i][0] \gets 0$
+\EndFor
+\For{$0 \leq j \leq n$}
+  \State $c[0][j] \gets 0$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+Luego vamos a calcular el resto de los valores. Al querer calcular $c[i][j]$ pueden pasar dos cosas:
+
+\begin{itemize}
+\item \textbf{Que $X_i$ y $Y_i$ sean iguales:} Como los \'ultimos
+\item \textbf{Que $X_i$ y $Y_i$ sean distintos:} Como los \'ultimos
+\end{itemize}
 
 
 \newpage
@@ -287,10 +324,10 @@ Lo que nos deja la tabla de la siguiente manera:
 Ahora es cuando la cosa se pone m\'as interesante. Tenemos que completar el resto de la tabla hasta llegar a $Q[3][0]$. Al ver $Q[i][s]$ pueden pasar cuatro cosas:
 
 \begin{itemize}
-\item Que $x_i$ sea igual a $s$: estamos indexando hasta $x_i$, pero si este $x_i$ es $s$, entonces encontramos un subconjunto que cumple lo pedido: $[x_i]$. Le ponemos \textbf{T}, obviamente.
-\item Que ya hayamos encontrado un subconjunto anterior que lo cumple. Si $Q[i-1][s]$ es true, significa que ya existe un subconjunto que suma $s$ y que usa hasta el elemento con \'indice $i-1$. Le ponemos \textbf{T} a la $Q[i][s]$, ya que esto significa que \emph{s\'i} hay un subconjunto que suma $s$ y que usa los n\'umeros disponibles hasta $x_i$.
-\item Que usando los elementos hasta el anterior a $x_i$ pueda sumar $s-x_i$. Esto significa que agregando a $x_i$ llego a sumar exactamente $s$, por lo que le ponemos \textbf{T}.
-\item Que no se cumplan ninguna de las anteriores, le ponemos F.
+\item \textbf{Que $x_i$ sea igual a $s$.} estamos indexando hasta $x_i$, pero si este $x_i$ es $s$, entonces encontramos un subconjunto que cumple lo pedido: $[x_i]$. Le ponemos \textbf{T}, obviamente.
+\item \textbf{Que ya hayamos encontrado un subconjunto anterior que lo cumple.} Si $Q[i-1][s]$ es true, significa que ya existe un subconjunto que suma $s$ y que usa hasta el elemento con \'indice $i-1$. Le ponemos \textbf{T} a la $Q[i][s]$, ya que esto significa que \emph{s\'i} hay un subconjunto que suma $s$ y que usa los n\'umeros disponibles hasta $x_i$.
+\item \textbf{Que usando los elementos hasta el anterior a $x_i$ pueda sumar $s-x_i$.} Esto significa que agregando a $x_i$ llego a sumar exactamente $s$, por lo que le ponemos \textbf{T}.
+\item \textbf{Que no se cumplan ninguna de las anteriores.} Le ponemos F.
 \end{itemize}
 
 Dicho m\'as formalmente:
@@ -320,7 +357,7 @@ Siguiendo esta din\'amica la tabla nos queda:
     \hline
       & -3 & -2 & -1 & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
     0 &  F & F  &  F & F & \textbf{T}  & F  &  F & F  & F  & F  & F  \\ \hline
-    1 &    &    &    &   &   &   &   &   &   &   &   \\ \hline
+    1 &  F & F  &  F &   &   &   &   &   &   &   &   \\ \hline
     2 &    &    &    &   &   &   &   &   &   &   &   \\ \hline
     3 &    &    &    &   &   &   &   &   &   &   &   \\ \hline
   \end{tabular}
