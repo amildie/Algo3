@@ -154,7 +154,7 @@ Para esto vamos a definir una matriz de enteros $c$, donde $c[i][j]$ contiene el
 
 Es evidente que para computar el valor de $c[i][j]$ vamos a necesitar saber lo valores de $c[i'][j']$, para todo $i' \leq i$ y $j' \leq j$, pero l\'ogicamente sin tener $i = i'$ ni $j = j'$ al mismo tiempo.
 
-Primero vamos a observar el caso base: $c[i][0] = c[0][j] = 0$. Es decir, si alguna de las dos secuencias est\'a vac\'ia la longitud final es $0$. Formalmente:
+Primero vamos a observar el caso base: $c[i][0] = c[0][j] = 0$. Es decir, si alguna de las dos secuencias est\'a vac\'ia la longitud final de la LCS es $0$. Formalmente:
 
 \begin{algorithm}
 \begin{algorithmic}[1]
@@ -170,10 +170,53 @@ Primero vamos a observar el caso base: $c[i][0] = c[0][j] = 0$. Es decir, si alg
 Luego vamos a calcular el resto de los valores. Al querer calcular $c[i][j]$ pueden pasar dos cosas:
 
 \begin{itemize}
-\item \textbf{Que $X_i$ y $Y_i$ sean iguales:} Como los \'ultimos
-\item \textbf{Que $X_i$ y $Y_i$ sean distintos:} Como los \'ultimos
+\item \textbf{Que $x_i$ y $y_i$ sean iguales:} Por ejemplo, $X_i = ABCA$ y $Y_j = DACA$. Como ambas terminan en $A$, la LCS tiene que tambi\'en terminar en $A$. Como $A$ es parte de la LCS, podemos encontrar la LCS final sacando a $A$ de ambas secuencias y buscando la LCS de $X_{i-1}$ ($ABC$) y $Y_{j-1}$ ($DAC$), la cual es $AC$. Luego, agregar a $A$ al final nos deja con $ACA$, que es efectivamente la LCS. Luego, $c[i][j] = c[i-1][j-1] + 1$.
+\item \textbf{Que $x_i$ y $y_i$ no sean iguales:} En este caso $x_i$ y $x_j$ no puden ser ambos parte de la LCS (ya que deber\'ian ser el \'ultimo caracter de la misma). Esto significa que pueden pasar dos cosas:
+  \begin{itemize}
+  \item \textbf{$x_i$ no es parte de la LCS:} lo que significa que la LCS entre $X_i$ y $Y_j$ es la LCS entre $X_{i-1}$ y $Y_j$, lo cual ya tenemos calculado en $c[i-1][j]$.
+  \item \textbf{$y_j$ no es parte de la LCS:} lo que significa que la LCS entre $X_i$ y $Y_j$ es la LCS entre $X_i$ y $Y_{j-1}$, lo cual ya tenemos calculado en $c[i][j-1]$.
+  \end{itemize}
+
+L\'ogicamente la LCS va a se la que tenga mayor longitud en ambos casos, por lo que $c[i][j] = max\{c[i-1][j],c[i][j-1]\}$.
 \end{itemize}
 
+\newpage
+
+Escribiendo la anterior din\'amica m\'as formalmente:
+
+\[
+c[i][j] = \left\{\begin{array}{lr}
+    0 & \textnormal{si } i = 0 \textnormal{ o } j = 0\\
+    c[i-1][j-1] + 1 & \textnormal{si } i,j > 0 \textnormal{ y } x_i = y_j\\
+    max\{c[i-1][j],c[i][j-1]\} & \textnormal{si } i,j > 0 \textnormal{ y } x_i \neq y_j\\
+    \end{array}\right
+\]
+
+Lo que se traduce en el siguiente algoritmo:
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\For{$0 \leq i \leq m$}
+  \State $c[i][0] \gets 0$
+\EndFor
+\For{$0 \leq j \leq n$}
+  \State $c[0][j] \gets 0$
+\EndFor
+
+\For{$1 \leq i \leq m$}
+  \For{$1 \leq j \leq n$}
+    \If{$x_i = y_i$}
+      \State $c[i][j] \gets c[i-1][j-1]+1$
+    \Else
+      \State $c[i][j] \gets max(c[i-1][j], c[i][j-1])$
+    \EndIf
+  \EndFor
+\EndFor
+
+\State \texbf{return} $c[m][n]$
+
+\end{algorithmic}
+\end{algorithm}
 
 \newpage
 \subsubsection{El problema de la mochila}
