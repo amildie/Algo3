@@ -67,6 +67,9 @@ Dado un grafo $G$ de $n$ v\'ertices y un entero $k$, el problema de decisi\'on q
 \item \textbf{Algoritmo secuencial con backtracking (exacto)}: La idea es ir asignado colores uno por uno a los diferentes v\'ertices, arrancando desde el v\'ertice 0. Antes de asignar un color, miramos los colores de los vecinos de dicho v\'ertice. Si encontramos un color apropiado, se lo ponemos al v\'ertice en cuesti\'on. Si no es posible encontrar un color apropiado, volvemos hacia atr\'as y probamos con otro color en alg\'un v\'ertice anterior.
 \end{itemize}
 
+\subsection{Polinomio crom\'atico}
+
+Dado un grafo $G$, su \emph{``polinomio crom\'atico''} cuenta las maneras en las cuales puedo colorear a $G$ usando un n\'umero $n$ de colores. Por ejemplo, el polinomio crom\'atico de $K_3$ es $n(n-1)(n-2)$, lo cual significa que si tengo $4$ colores puedo colorear a $K_3$ de $4*3*2=24$ maneras distintas.
 
 \subsection{Grafos perfectos}
 

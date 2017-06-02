@@ -1,7 +1,7 @@
 \newpage
 \section{Camino M\'inimo}
 
-Dado un grafo $G$, definimos como el \emph{``peso''} de un camino $C$ entre dos nodos $v$ y $w$ como la suma de los pesos de los pesos de los ejes del camino:
+Dado un grafo $G$, definimos como el \emph{``peso''} de un camino $C$ entre dos v\'ertices $v$ y $w$ como la suma de los pesos de los pesos de los ejes del camino:
 
 \begin{equation}
 l(C) = \sum_{e \in C} l(e)
@@ -66,8 +66,8 @@ Este algoritmo toma un grafo $G$ y devuelve un array de v\'ertices llamado $prev
 \begin{enumerate}
 \item [2:] Seteamos al v\'ertice previo de $A$ como $-1$, ya que es el v\'ertice por el que comienzan todos los caminos m\'inimos.
 \item [3:] L\'ogicamente la distancia m\'inima de $A$ hacia $A$ es 0. Esto se asume porque $G$ no tiene ciclos negativos.
-\item [4:] Declaramos como $pq$ a una cola de prioridad. Ac\'a vamos a guardar tuplas $<d, w>$, donde $d$ es la distancia m\'inima desde el v\'ertice $A$ hasta el v\'ertice $w$. Hacemos esto para poder obtener el v\'ertice de menor distancia a $A$ en O(log n). Ac\'a hay informaci\'on redundante (las distancias m\'inimas ya se est\'an guardando en $dist$) pero es beneficiosa para la complejidad del algoritmo.
-\item [5 a 8:] Luego vamos a empezar a iterar todos los v\'ertices de $G$ seteando la informaci\'on necesaria para cada uno. Esto significa setear su v\'ertice previo en $-1$ y su distancia m\'inima hacia $A$ en infinito. Este proceso es O(n).
+\item [4:] Declaramos como $pq$ a una cola de prioridad. Ac\'a vamos a guardar tuplas $<d, w>$, donde $d$ es la distancia m\'inima desde el v\'ertice $A$ hasta el v\'ertice $w$. Hacemos esto para poder obtener el v\'ertice de menor distancia a $A$ en $\mathcal{O}(\log{}|V|)$. Ac\'a hay informaci\'on redundante (las distancias m\'inimas ya se est\'an guardando en $dist$) pero es beneficiosa para la complejidad del algoritmo.
+\item [5 a 8:] Luego vamos a empezar a iterar todos los v\'ertices de $G$ seteando la informaci\'on necesaria para cada uno. Esto significa setear su v\'ertice previo en $-1$ y su distancia m\'inima hacia $A$ en infinito. Este proceso es  $\mathcal{O}(|V|)$.
 \item [9:] Ahora comienza el ciclo principal del algoritmo. En cada iteraci\'on del while vamos a visitar de forma greedy el v\'ertice de menor distancia hacia $A$ que encontremos en $pq$. El algoritmo termina cuando $pq$ est\'a vac\'ia, es decir, visitamos a todos los v\'ertices. Vale destacar que el primer v\'ertice que visitamos es $A$.
     \begin{enumerate}
     \item [10:] Guardamos en una tupla $t$ al v\'ertice que sacamos de $pq$. Hay que tener en cuenta que en $t.first$ vamos a tener la distancia m\'inima del v\'ertice que est\'a en $t.second$ hasta $A$.

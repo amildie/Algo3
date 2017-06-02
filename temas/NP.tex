@@ -9,6 +9,13 @@ La clase P es donde viven los problemas cuyas soluciones tienen complejidad \emp
 
 Un algoritmo \emph{``eficiente''} es un algoritmo de complejidad polinomial, y decimos que un problema est\'a \emph{``bien resuelto''} si se conocen algoritmos eficientes para resolverlo. Por ejemplo, el problema $\Pi$ de determinar si el v\'ertice $v$ se encuentra en un grafo $G$ puede resolverse en tiempo $\mathcal{O}(|V|+|E|)$ usando DFS, por lo que $\Pi \in$ P.
 
+\subsubsection{Algoritmos Pseudopolinomiales}
+
+Decimos que un algoritmo corre en tiempo \emph{``pseudopolinomial''} si la complejidad del mismo es del orden polinomial en el valor num\'erico de la entrada, en lugar de la cantidad de bits necesaria para representarla.
+
+Un ejemplo de esto es el algoritmo que determina si un n\'umero cualquiera $n$ es o no primo, y para esto se fija si dicho n\'umero tiene alg\'un divisor en el intervalo $[2, .., n]$.
+
+Este algoritmo va a iterar $n$ veces, y en cada iteraci\'on va a calcular $n \textrm{ mod } i$. Si hacer la operaci\'on de m\'odulo costara $\mathcal{O}(n^3)$, el algoritmo corre en $\mathcal{O}(n^4)$.
 \subsection{La clase NP}
 
 Un problema de decisi\'on $\Pi$ pertenece a la clase NP (no-det\'erministico polinomial) si dada cualquier instancia del mismo para las cuales la respuesta es \emph{s\'i} y un \emph{``certificado''}, podemos chequear que dicho certificado es correcto usando un algoritmo de tiempo polinomial.
@@ -50,14 +57,13 @@ El Teorema de Cook dice que SAT es NP-Completo. Es decir, que todo problema en N
 
 Una consecuencia importante de este problema es que si existe un algoritmo de tiempo polinomial para resolver SAT, entonces existe un algoritmo polinomial para todos los problemas de NP, lo que demostrar\'ia que P = NP.
 
-
+\newpage
 \subsection{La clase NP-Intermedio}
 
 Esta es la clase de problemas de NP que no est\'an ni en P ni en NP-Completo. El Teorema de Ladner dice que, si P $\neq$ NP, entonces NP-i no es vac\'io. Es decir, P = NP si y s\'olo si NP-i es vac\'io.
 
 Hasta ahora no se conoce ning\'un problema de NP-i. De existir uno, implicar\'ia que P $\neq$ NP, lo cual no se sabe, pero se sospecha ampliamente. Un ejemplo de un problema que se sospecha que podr\'ia estar en NP-i es el de la factorizaci\'on de n\'umeros naturales.
 
-\newpage
 \subsection{La clase NP-Hard}
 
 Similarmente a la clase NP-Completo, un problema de decisi\'on $\Pi$ es \emph{``NP-hard''} si todo problema de NP se puede reducir polinomialmente a $\Pi$, \textbf{pero $\Pi$ no tiene que necesariamente estar en NP}.Es decir, la clase NP-Completo est\'a contenida dentro de la clase NP-Hard. 
@@ -71,10 +77,4 @@ Hasta el d\'ia de la fecha no se pudo demostrar que P $\neq$ NP, pero se sospech
     \input{np.pdf_tex}
 \end{figure}
 
-\subsection{Algoritmos Pseudopolinomiales}
 
-Decimos que un algoritmo corre en tiempo \emph{``pseudopolinomial''} si la complejidad del mismo es del orden polinomial en el valor num\'erico de la entrada, en lugar de la cantidad de bits necesaria para representarla.
-
-Un ejemplo de esto es el algoritmo que determina si un n\'umero cualquiera $n$ es o no primo, y para esto se fija si dicho n\'umero tiene alg\'un divisor en el intervalo $[2, .., n]$.
-
-Este algoritmo va a iterar $n$ veces, y en cada iteraci\'on va a calcular $n \textrm{ mod } i$. Si hacer la operaci\'on de m\'odulo costara $\mathcal{O}(n^3)$, el algoritmo corre en $\mathcal{O}(n^4)$.

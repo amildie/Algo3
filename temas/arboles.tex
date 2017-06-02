@@ -6,11 +6,11 @@ Un \emph{\'arbol} es un grafo conexo sin circuitos simples. Dado $G=(V,E)$ las s
 \begin{enumerate}
 \item $G$ es un \'arbol.
 \item $G$ es un grafo sin circuitos simples, pero si se le agrega una arista $e$ a $G$ tenemos un grafo con exactamente un circuito simple, y ese circuito contiene a $e$.
-\item Existe exactamente un camino simple entre todo par de nodos.
+\item Existe exactamente un camino simple entre todo par de v\'ertices.
 \item $G$ es conexo, pero si se le quita una cualquier arista queda disconexo.
 \end{enumerate}
 
-Sea $G=(V,E)$ un grafo conexo y $e \in E$, $G-e$ es conexo si y s\'olo si $e$ pertenece a un circuito simple de $G$. Dentro de un \'arbol, definimos como \emph{``hoja''} a un nodo de grado 1. Todo \'arbol no trivial tiene al menos 2 hojas.
+Sea $G=(V,E)$ un grafo conexo y $e \in E$, $G-e$ es conexo si y s\'olo si $e$ pertenece a un circuito simple de $G$. Dentro de un \'arbol, definimos como \emph{``hoja''} a un v\'ertice de grado 1. Todo \'arbol no trivial tiene al menos 2 hojas.
 
 \subsection{Propiedades de los \'arboles}
 
@@ -24,13 +24,13 @@ Si $G = (V,E)$ es un \'arbol, valen las siguientes propiedades:
 
 \subsection{Arboles enraizados}
 
-En un \'arbol no dirigido podemos definir un nodo cualquiera como ra\'iz. El \emph{nivel} de un v\'ertice de un \'arbol es la distancia de ese v\'ertice a la raiz. La \emph{altura} $h$ de un \'arbol es la longitud desde la raiz hasta el v\'ertice m\'as lejano. 
+En un \'arbol no dirigido podemos definir un v\'ertice cualquiera como ra\'iz. El \emph{nivel} de un v\'ertice de un \'arbol es la distancia de ese v\'ertice a la raiz. La \emph{altura} $h$ de un \'arbol es la longitud desde la raiz hasta el v\'ertice m\'as lejano. 
 
 Un \'arbol se dice \emph{``$m$-ario''} (con $m \geq 2$) si todos sus v\'ertices salvo las hojas y la raiz tienen grado a lo sumo $m+1$ y la raiz a lo sumo $m$.
 
 Un \'arbol se dice \emph{``balanceado''} si todas sus hojas est\'an a nivel $h$ o $h-1$. Si todas est\'an a nivel $h$, se dice que es \emph{``balanceado completo''}.
 
-Los nodos \emph{``internos''} de un \'arbol son aquellos que no son hojas ni ra\'iz.
+Los v\'ertices \emph{``internos''} de un \'arbol son aquellos que no son hojas ni ra\'iz.
 
 \begin{itemize}
 \item Un \'arbol $m$-ario de altura $h$ tiene a lo sumo $m^h$ hojas. 
@@ -122,7 +122,7 @@ Como no se repiten ejes, es sencillo ver que el ciclo de \textbf{8:} va iterar u
 \newpage
 \subsection{Arbol generador}
 
-Dado un grafo conexo $G$, un \emph{``\'arbol generador''} de $G$ es un subgrafo de $G$ que es un \'arbol y tiene el mismo conjunto de v\'ertices. Si los ejes del grafo tienen peso, entonces cada \'arbol generador va a tener una determinada \emph{``longitud''}, que se define como la suma de todos los pesos de sus ejes. Cuando dicha longitud es m\'inima, decimos que tenemos un \emph{``\'arbol generador m\'inimo''}.
+Dado un grafo honexo $G$, un \emph{``\'arbol generador''} de $G$ es un subgrafo de $G$ que es un \'arbol y tiene el mismo conjunto de v\'ertices. Si los ejes del grafo tienen peso, entonces cada \'arbol generador va a tener una determinada \emph{``longitud''}, que se define como la suma de todos los pesos de sus ejes. 
 
 \raggedright
   \bigskip
@@ -131,10 +131,6 @@ Dado un grafo conexo $G$, un \emph{``\'arbol generador''} de $G$ es un subgrafo 
    node_style/.style={circle},
    edge_style/.style={draw=black},
    edge_styly/.style={draw=green, ultra thick}]
-
-
-
-
 \node[vertex] (n2) at (3,4)  {B};
 \node[vertex] (n3) at (5,4)  {C};
 \node[vertex] (n4) at (7,4)  {D};
@@ -174,6 +170,8 @@ Dado un grafo conexo $G$, un \emph{``\'arbol generador''} de $G$ es un subgrafo 
 
   \end{tikzpicture}
   \end{center}
+
+Cuando dicha longitud es m\'inima, decimos que tenemos un \emph{``\'arbol generador m\'inimo''}. Notar que pueden haber varios AGMs para un mismo grafo, por ejemplo cuando todos los ejes tienen el mismo peso.
 
 \newpage
 \subsubsection{Algoritmo de Kruskal}
@@ -218,7 +216,7 @@ El algoritmo de Kruskal es un algoritmo greedy que lo que hace es ir seleccionan
 
 En cada iteraci\'on del algoritmo (5:) necesitamos poder obtener el eje no todav\'ia insertado en el AGM en $\mathcal{O}(1)$. Esto se puede lograr f\'acilmente ordenando todos los $m$ ejes por peso ascendentemente usando alg\'un sort por comparaci\'on, lo cual se puede hacer en $\mathcal{O}(|E| \hspace{2px}\log{}|E|)$ (4:).
 
-Los pasos 6: y 8: (find y union) se pueden hacer en $\mathcal{O}(\log{} |E|)$. Como los estoy haciendo en cada iteraci\'on del algoritmo, y como voy a iterar $|V|-1$ veces, la complejidad del mismo termina siendo $\mathcal{O}(|V| 2 \hspace{2px}\log{}|E|) = \mathcal{O}(|V| \hspace{2px}\log{}|E|)$.
+Los pasos 6: y 8: (find y union) se pueden hacer en $\mathcal{O}(\log{} |E|)$. Como los estoy haciendo en cada iteraci\'on del algoritmo, y como voy a iterar $|E|$ veces, la complejidad del mismo termina siendo $\mathcal{O}(|E| 2 \hspace{2px}\log{}|E|) = \mathcal{O}(|E| \hspace{2px}\log{}|E|)$.
 
 \newpage
 \subsubsection{Algoritmo de Prim}
@@ -259,6 +257,6 @@ A diferencia del anterior, el algoritmo de Pimm hace crecer al AGM desde un v\'e
 
 \subsubsection*{Complejidad}
 
-L\'ogicamente toda la complejidad del algoritmo est\'a en la funci\'on $buscarEje$, la cual hace que el algoritmo sea greddy. La complejidad del mismo depende de las estructura utilizada para implementar la funci\'on $buscarEje$.
+La complejidad del algoritmo est\'a en la funci\'on $buscarEje$, la cual hace que el algoritmo sea greddy debido a que siempre busca el eje de menor peso que est\'a ``saliendo'' del AGM que va armando. La complejidad del mismo depende de las estructura utilizada para implementar la funci\'on $buscarEje$.
 
 Si utilizo una cola de prioridad implementada sobre un min-heap binario esta funci\'on cuesta $\mathcal{O}(\log{}|E|)$. Como este paso se va a tener que realizar n veces ya que est\'a adentro del while, el costo total del algoritmo es de $\mathcal{O}(|V|\hspace{2px}\log{}|E|)$.

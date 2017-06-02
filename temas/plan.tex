@@ -8,6 +8,10 @@ Dada una representaci\'on planar de un grafo, llamamos \emph{``regi\'on''} al co
 La \emph{``frontera''} de una regi\'on es el circuito que rodea a la regi\'on, y el \emph{``grado''} de la regi\'on es el n\'umero de ejes que tiene su frontera.
 
 \begin{badidea}
+\textbf{Propiedad:} Todo grafo con $|V| < 5$ es planar.
+\end{badidea}
+
+\begin{badidea}
 \textbf{Propiedad:} $K_5$ es el grafo no-planar con el menor n\'umero de v\'ertices, y $K_{33}$ el que tiene el menor n\'umero de ejes.
 \end{badidea}
 
@@ -59,18 +63,11 @@ $G$ es planar si y s\'olo si no contiene ning\'un subgrafo contraible a $K_{5}$ 
 
 \subsection{Algoritmo de Demoucron}
 
-El siguiente algoritmo encuentra una represetaci\'on planar si existe, y si $G$ es no planar lo reconoce correctamente. El tiempo de ejecuci\'on es de $O(n^2)$, pero existen algoritmos que pueden determinar planaridad en tiempo lineal. Esto significa que el problema de decidir si un grafo es o no planar est\'a en P.
+El siguiente algoritmo encuentra una represetaci\'on planar si existe, y si $G$ es no planar lo reconoce correctamente. El tiempo de ejecuci\'on es de $\mathcal{O}(|V|^2)$, pero existen algoritmos que pueden determinar planaridad en tiempo lineal. Esto significa que el problema de decidir si un grafo es o no planar est\'a en P.
 
 La idea del algoritmo es partir de una representaci\'on planar $R$ de un subgrafo $S$ de $G$, y empezar a expandirala iterativamente hasta obtener una representaci\'on planar de todo $G$ o hasta concluir que dicha representaci\'on no existe.
 
 \subsubsection{Definiciones}
-
-A partir de ahora van a empezar a aparecer unas operaciones que pierden completamente el hilo de coherencia de las diapositivas. Especialmente la operaci\'on $G - R$, que vendr\'ia a ser algo como \emph{``restarle una representaci\'on planar a un grafo''}, lo cual adolece completamente de cualquier significado formal.
-
-Quien haya llegado hasta ac\'a va a tener que valerse m\'as de la intuici\'on para poder comprender las intenciones de quien hizo su mejor esfuerzo por armar las diapositivas.
-
-Tener especial cuidado con el concepto de \emph{``v\'ertice de contacto''}, el cual pertenece a una representaci\'on planar $R$ a veces y a una parte $p$ otras veces.
-
 
 \begin{itemize}
 \item Llamamos \textbf{\emph{``parte $p$ de $G$ relativa a $R$''}} a:
